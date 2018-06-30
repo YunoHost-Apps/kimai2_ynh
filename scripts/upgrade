@@ -20,7 +20,6 @@ path_url=$(ynh_app_setting_get $app path)
 admin=$(ynh_app_setting_get $app admin)
 is_public=$(ynh_app_setting_get $app is_public)
 final_path=$(ynh_app_setting_get $app final_path)
-db_name=$(ynh_app_setting_get $app db_name)
 random_key=$(ynh_app_setting_get $app random_key)
 
 #=================================================
@@ -36,11 +35,6 @@ elif [ "$is_public" = "No" ]; then
 	is_public=0
 fi
 
-# If db_name doesn't exist, create it
-if [ -z $db_name ]; then
-	db_name=$(ynh_sanitize_dbid $app)
-	ynh_app_setting_set $app db_name $db_name
-fi
 
 # If final_path doesn't exist, create it
 if [ -z $final_path ]; then
