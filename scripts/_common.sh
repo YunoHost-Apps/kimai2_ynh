@@ -79,7 +79,7 @@ exec_composer() {
 
   COMPOSER_HOME="${WORKDIR}/.composer" \
     sudo /usr/bin/php7.1 "${WORKDIR}/composer.phar" $@ \
-      -d "${WORKDIR}" --quiet --no-interaction
+      -d "${WORKDIR}"  
 }
 
 # Install and initialize Composer in the given directory
