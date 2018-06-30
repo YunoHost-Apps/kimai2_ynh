@@ -88,8 +88,8 @@ chown -R $app: $final_path
 # RESTORE THE PHP-FPM CONFIGURATION
 #=================================================
 
-ynh_restore_file "/etc/php/7.1/fpm/pool.d/$app.conf"
-ynh_restore_file "/etc/php/7.1/fpm/conf.d/20-$app.ini"
+ynh_restore_file "/etc/php/7.2/fpm/pool.d/$app.conf"
+ynh_restore_file "/etc/php/7.2/fpm/conf.d/20-$app.ini"
 
 #=================================================
 # SPECIFIC RESTORATION
@@ -103,7 +103,7 @@ ynh_restore_file "/etc/php/7.1/fpm/conf.d/20-$app.ini"
 # RELOAD NGINX AND PHP-FPM
 #=================================================
 
-systemctl reload php7.1-fpm
+systemctl reload php7.2-fpm
 systemctl reload nginx
 # Set default php to php5 or php7.0
 if [ "$(lsb_release --codename --short)" == "jessie" ]; then

@@ -110,11 +110,11 @@ ynh_store_file_checksum "/etc/nginx/conf.d/$domain.d/$app.conf"
 ynh_system_user_create $app
 
 #=================================================
-# PHP-FPM 7.1 CONFIGURATION
+# PHP-FPM 7.2 CONFIGURATION
 #=================================================
 
-# Create a dedicated php-fpm7.1 config
-ynh_add_fpm7.1_config
+# Create a dedicated php-fpm7.2 config
+ynh_add_fpm7.2_config
 
 #=================================================
 # SPECIFIC SETUP
@@ -171,7 +171,7 @@ fi
 #=================================================
 # RELOAD NGINX
 #=================================================
-systemctl reload php7.1-fpm
+systemctl reload php7.2-fpm
 systemctl reload nginx
 # Set default php to php5 or php7.0
 if [ "$(lsb_release --codename --short)" == "jessie" ]; then
