@@ -7,6 +7,10 @@ Shipped Version: **v0.2 (pre-release)**
 
 **Please note that this app will install PHP 7.2**
 
+- [YunoHost project](https://yunohost.org)
+- [Kimai 2](https://v2.kimai.org)
+- [Kimai 2 source code at Github](https://github.com/kevinpapst/kimai2)
+
 ## Introduction
 
 This is the reloaded version of the open source timetracker Kimai. Right now its in an early development phase, its usable but some advanced features from Kimai v1 are missing by now.
