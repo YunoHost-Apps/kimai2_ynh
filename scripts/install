@@ -127,6 +127,7 @@ init_composer $final_path
 cd $final_path && sudo /usr/bin/php7.2 bin/console doctrine:schema:create
 cd $final_path && sudo /usr/bin/php7.2 bin/console cache:warmup --env=prod
 cd $final_path && sudo /usr/bin/php7.2 bin/console kimai:create-user "$admin" "$email" ROLE_SUPER_ADMIN "$admin_pass"
+cd $final_path && sudo /usr/bin/php7.2 bin/console doctrine:migrations:version --add --all
 
 #=================================================
 # SETUP APPLICATION 
