@@ -116,7 +116,7 @@ init_composer_update() {
     || ynh_die "Unable to install Composer"
 
   # update dependencies to create composer.lock
-  exec_composer "$DESTDIR" update symfony/flex --no-plugins
+  exec_composer "$DESTDIR" update symfony/flex --no-plugins --no-scripts
   exec_composer "$DESTDIR" install  --no-dev --optimize-autoloader \
     || ynh_die "Unable to update Kimai2 core dependencies"
 }
