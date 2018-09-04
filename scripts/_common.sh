@@ -95,8 +95,7 @@ init_composer() {
     || ynh_die "Unable to install Composer"
 
   # update dependencies to create composer.lock
-  exec_composer "$DESTDIR" update symfony/flex --no-plugins --no-scripts
-  exec_composer "$DESTDIR" install  --no-dev --prefer-dist --no-scripts \
+  exec_composer "$DESTDIR" install  --no-dev --optimize-autoloader \
     || ynh_die "Unable to update Kimai2 core dependencies"
 }
 
@@ -104,6 +103,27 @@ sudo_path () {
 	sudo env "PATH=$PATH" $@
 }
 
+# Install and initialize Composer for upgrade script in the given directory
+# usage: init_composer DESTDIR [AS_USER]
+init_composer_update() {
+  local DESTDIR=$1
+  local AS_USER=${2:-admin}
+
+  # install composer for upgrade script
+  curl -sS https://getcomposer.org/installer \
+    | COMPOSER_HOME="${DESTDIR}/.composer" \
+        sudo /usr/bin/php7.2 -- --install-dir="$DESTDIR" \
+    || ynh_die "Unable to install Composer"
+
+  # update dependencies to create composer.lock
+  exec_composer "$DESTDIR" update symfony/flex --no-plugins
+  exec_composer "$DESTDIR" install  --no-dev --optimize-autoloader \
+    || ynh_die "Unable to update Kimai2 core dependencies"
+}
+
+sudo_path () {
+	sudo env "PATH=$PATH" $@
+}
 #
 # php7.2 helpers
 #
