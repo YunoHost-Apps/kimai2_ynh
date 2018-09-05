@@ -74,13 +74,25 @@ ynh_install_php7
 # DOWNLOAD, CHECK AND UNPACK SOURCE
 #=================================================
 
-# Download, check integrity, uncompress and patch the source from app.src
+# Download, check integrity, uncompress and patch the source from app.src and do required installation for update
+
+#version check for 0.3
+version = sed -n 's/^future-release=//p' $final_path/.github_changelog_generator
+
+# Uncompress latest sources
 ynh_setup_source "$final_path"
-init_composer_update $final_path
+
+# If the version is 0.3, symfony update is required
+if [ "$version" = "0.3" ]
+then
+	init_symfony_update $final_path
+fi
+
+init_composer $final_path
 (
 cd $final_path && sudo /usr/bin/php7.2  bin/console cache:clear --env=prod
 cd $final_path && sudo /usr/bin/php7.2  bin/console cache:warmup --env=prod
-cd $final_path && sudo /usr/bin/php7.2 bin/console doctrine:migrations:migrate
+cd $final_path && sudo /usr/bin/php7.2  bin/console doctrine:migrations:migrate -n
 )
 #=================================================
 # NGINX CONFIGURATION
