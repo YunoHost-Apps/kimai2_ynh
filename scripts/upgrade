@@ -77,7 +77,7 @@ ynh_install_php7
 # Download, check integrity, uncompress and patch the source from app.src and do required installation for update
 
 #version check for 0.3
-version = sed -n 's/^future-release=//p' $final_path/.github_changelog_generator
+version=`sed -n 's/^future-release=//p' /var/www/kimai2/.github_changelog_generator`
 
 # Uncompress latest sources
 ynh_setup_source "$final_path"
