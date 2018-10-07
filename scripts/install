@@ -121,12 +121,12 @@ email=$(ynh_user_get_info $admin 'mail')
 # COPY LOCAL.YAML
 sudo  cp ../conf/local.yaml $final_path/config/packages/local.yaml
 
-if [ "$registration" = "Yes"  ]; then
+if [ $registration -eq 1  ]; then
 
 # MODIFY LOCAL.YAML
 	ynh_replace_string "__REGISTRATION__" "true" "$final_path/config/packages/local.yaml"
 
-elif [ "$registration" = "No" ]; then
+elif [ $registration -eq 0 ]; then
 # MODIFY LOCAL.YAML
 	ynh_replace_string "__REGISTRATION__" "false" "$final_path/config/packages/local.yaml"
 
@@ -214,7 +214,7 @@ fi
 systemctl reload php7.2-fpm
 systemctl reload nginx
 # Set default php to php5 or php7.0
-if [ "$(lsb_release --codename --short)" == "jessie" ]; then
+if [ "$(lsb_release --codename --short)" = "jessie" ]; then
 	update-alternatives --set php /usr/bin/php5
 else
     update-alternatives --set php /usr/bin/php7.0
