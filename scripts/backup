@@ -51,7 +51,7 @@ ynh_backup "/etc/nginx/conf.d/$domain.d/$app.conf"
 
 ynh_backup "/etc/php/7.2/fpm/pool.d/$app.conf"
 
-if [ "$database" == "mysql" ]; then
+if [ "$database" = "mysql" ]; then
 	db_name=$(ynh_app_setting_get $app db_name)
 #=================================================
 # BACKUP THE MYSQL DATABASE

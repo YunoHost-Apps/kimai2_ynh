@@ -121,17 +121,17 @@ email=$(ynh_user_get_info $admin 'mail')
 # COPY LOCAL.YAML
 sudo  cp ../conf/local.yaml $final_path/config/packages/local.yaml
 
-if [ "$registration" = "1" ]; then
+if [ "$registration" = "Yes"  ]; then
 
 # MODIFY LOCAL.YAML
 	ynh_replace_string "__REGISTRATION__" "true" "$final_path/config/packages/local.yaml"
 
-elif [ "$registration" = "0" ]; then
+elif [ "$registration" = "No" ]; then
 # MODIFY LOCAL.YAML
 	ynh_replace_string "__REGISTRATION__" "false" "$final_path/config/packages/local.yaml"
 
 # CHECK WHICH DATABASE TO USE
-if [ "$database" == "mysql" ]; then
+if [ "$database" = "mysql" ]; then
 	# setup application config
 	sudo  cp ../conf/.env $final_path/.env
 #=================================================

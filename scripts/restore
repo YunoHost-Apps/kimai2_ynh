@@ -62,7 +62,7 @@ ynh_restore_file "/etc/nginx/conf.d/$domain.d/$app.conf"
 
 ynh_restore_file "$final_path"
 
-if [ "$database" == "mysql" ]; then
+if [ "$database" = "mysql" ]; then
 #=================================================
 # RESTORE THE MYSQL DATABASE
 #=================================================
