@@ -121,7 +121,9 @@ sudo  cp ../conf/.env $final_path/.env
 #=================================================
 # MODIFY A CONFIG FILE
 #=================================================
-ynh_replace_string "random_key"  "$random_key" "$final_path/.env"
+ynh_replace_string "__RANDOM_KEY__"  "$random_key" "$final_path/.env"
+ynh_replace_string "__DOMAIN__"      "$domain"     "$final_path/.env"
+
 
 init_composer $final_path
 cd $final_path && sudo /usr/bin/php7.2 bin/console doctrine:schema:create
