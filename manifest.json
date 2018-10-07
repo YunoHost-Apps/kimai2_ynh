@@ -47,6 +47,22 @@
                 "example": "johndoe"
             },
             {
+                "name": "database",
+                "ask": {
+                    "en": "Choose the database to use (If you are not sure choose mysql)"
+                },
+                "choices": ["mysql","sqlite"],
+                "default": "mysql"
+			},
+             {
+                "name": "registration",
+                "type": "boolean",
+                "ask": {
+                    "en": "Are new users allowed to register ?"
+                },
+                "default": false
+            },
+            {
                 "name": "is_public",
                 "type": "boolean",
                 "ask": {

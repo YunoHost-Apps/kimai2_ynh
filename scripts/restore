@@ -30,7 +30,7 @@ app=$YNH_APP_INSTANCE_NAME
 domain=$(ynh_app_setting_get $app domain)
 path_url=$(ynh_app_setting_get $app path)
 final_path=$(ynh_app_setting_get $app final_path)
-db_name=$(ynh_app_setting_get $app db_name)
+database=$(ynh_app_setting_get $app database)
 
 #=================================================
 # CHECK IF THE APP CAN BE RESTORED
@@ -62,13 +62,16 @@ ynh_restore_file "/etc/nginx/conf.d/$domain.d/$app.conf"
 
 ynh_restore_file "$final_path"
 
+if [ "$database" == "mysql" ]; then
 #=================================================
 # RESTORE THE MYSQL DATABASE
 #=================================================
 
-db_pwd=$(ynh_app_setting_get $app mysqlpwd)
-ynh_mysql_setup_db $db_name $db_name $db_pwd
-ynh_mysql_connect_as $db_name $db_pwd $db_name < ./db.sql
+	db_pwd=$(ynh_app_setting_get $app mysqlpwd)
+	db_name=$(ynh_app_setting_get $app db_name)
+	ynh_mysql_setup_db $db_name $db_name $db_pwd
+	ynh_mysql_connect_as $db_name $db_pwd $db_name < ./db.sql
+if
 
 #=================================================
 # RECREATE THE DEDICATED USER
