@@ -21,6 +21,9 @@ admin=$(ynh_app_setting_get $app admin)
 is_public=$(ynh_app_setting_get $app is_public)
 final_path=$(ynh_app_setting_get $app final_path)
 random_key=$(ynh_app_setting_get $app random_key)
+db_name=$(ynh_app_setting_get $app db_name)
+db_pwd=$(ynh_app_setting_get $app mysqlpwd)
+
 
 #=================================================
 # ENSURE DOWNWARD COMPATIBILITY
@@ -119,6 +122,9 @@ sudo  cp ../conf/.env $final_path/.env
 #=================================================
 ynh_replace_string "__RANDOM_KEY__"  "$random_key" "$final_path/.env"
 ynh_replace_string "__DOMAIN__"      "$domain"     "$final_path/.env"
+ynh_replace_string "__DB_PASSWORD__" "$db_pwd"     "$final_path/.env"
+ynh_replace_string "__DB_USER__"     "$db_name"    "$final_path/.env"
+ynh_replace_string "__DB_NAME__"     "$db_name"    "$final_path/.env"
 
 init_composer $final_path
 (
