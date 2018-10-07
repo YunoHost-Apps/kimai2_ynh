@@ -26,8 +26,8 @@ admin=$YNH_APP_ARG_ADMIN
 is_public=$YNH_APP_ARG_IS_PUBLIC
 admin_pass=$(ynh_string_random 24)
 random_key=$(ynh_string_random 32)
-registration=$(YNH_APP_ARG_REGISTRATION)
-database=$(YNH_APP_ARG_DATABASE)
+registration=$YNH_APP_ARG_REGISTRATION
+database=$YNH_APP_ARG_DATABASE
 
 # This is a multi-instance app, meaning it can be installed several times independently
 # The id of the app as stated in the manifest is available as $YNH_APP_ID
@@ -129,7 +129,6 @@ if [ "$registration" = "1" ]; then
 elif [ "$registration" = "0" ]; then
 # MODIFY LOCAL.YAML
 	ynh_replace_string "__REGISTRATION__" "false" "$final_path/config/packages/local.yaml"
-fi
 
 # CHECK WHICH DATABASE TO USE
 if [ "$database" == "mysql" ]; then
