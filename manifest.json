@@ -7,7 +7,7 @@
         "fr": "Kimai2 de package d’application pour YunoHost.",
         "de": "Kimai 2 Paket für YunoHost."
     },
-    "version": "0.4",
+    "version": "0.5",
     "url": "https://v2.kimai.org",
     "license": "free",
     "maintainer": {
@@ -45,6 +45,22 @@
                     "de": "Wählen Sie einen Admin Benutzer (sollte ein registrierter YunoHost Benutzer sein)."
                 },
                 "example": "johndoe"
+            },
+            {
+                "name": "database",
+                "ask": {
+                    "en": "Choose the database to use (If you are not sure choose mysql)"
+                },
+                "choices": ["mysql","sqlite"],
+                "default": "mysql"
+			},
+             {
+                "name": "registration",
+                "type": "boolean",
+                "ask": {
+                    "en": "Are new users allowed to register ?"
+                },
+                "default": false
             },
             {
                 "name": "is_public",

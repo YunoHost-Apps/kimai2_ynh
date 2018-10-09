@@ -22,6 +22,7 @@ is_public=$(ynh_app_setting_get $app is_public)
 final_path=$(ynh_app_setting_get $app final_path)
 random_key=$(ynh_app_setting_get $app random_key)
 
+
 #=================================================
 # ENSURE DOWNWARD COMPATIBILITY
 #=================================================
@@ -89,7 +90,11 @@ fi
 if [ -d $final_path/var/invoices ]; then
 	cp -af "$final_path/var/invoices" "$tmpdir/."
 fi
-cp -a "$final_path/var/data/kimai.sqlite" "$tmpdir/."
+if [ -f $final_path/var/data/kimai.sqlite ]; then
+	cp -a "$final_path/var/data/kimai.sqlite" "$tmpdir/."
+	ynh_app_setting_set $app database "sqlite"
+fi
+
 
 ynh_setup_source "$final_path"
 
@@ -108,18 +113,40 @@ fi
 if [ -d $tmpdir/invoices ]; then
 	cp -af "$tmpdir/invoices" "$final_path/var/."
 fi
+if [ -f $tmpdir/kimai.sqlite ]; then
 sudo cp -af "$tmpdir/kimai.sqlite" "$final_path/var/data/."
-sudo rm -Rf "$tmpdir"
+fi
 
+sudo rm -Rf "$tmpdir"
+database=$(ynh_app_setting_get $app database)
+if [ "$database" = "mysql" ]; then
 # setup application config
-sudo  cp ../conf/.env $final_path/.env
+	sudo  cp ../conf/.env $final_path/.env
+
+# GET DATABASE SETTINGS
+	db_name=$(ynh_app_setting_get $app db_name)
+	db_pwd=$(ynh_app_setting_get $app mysqlpwd)
+#=================================================
+# MODIFY A CONFIG FILE
+#=================================================
+	ynh_replace_string "__RANDOM_KEY__"  "$random_key" "$final_path/.env"
+	ynh_replace_string "__DOMAIN__"      "$domain"     "$final_path/.env"
+	ynh_replace_string "__DB_PASSWORD__" "$db_pwd"     "$final_path/.env"
+	ynh_replace_string "__DB_USER__"     "$db_name"    "$final_path/.env"
+	ynh_replace_string "__DB_NAME__"     "$db_name"    "$final_path/.env"
+else
+	# setup application config
+	sudo  cp ../conf/.env.sqlite $final_path/.env
 
 #=================================================
 # MODIFY A CONFIG FILE
 #=================================================
-ynh_replace_string "__RANDOM_KEY__"  "$random_key" "$final_path/.env"
-ynh_replace_string "__DOMAIN__"      "$domain"     "$final_path/.env"
+	ynh_replace_string "__RANDOM_KEY__"  "$random_key" "$final_path/.env"
+	ynh_replace_string "__DOMAIN__"      "$domain"     "$final_path/.env"
 
+fi
+
+# COMPOSR AND SPECIFIC INSTALL FOR THE APP
 init_composer $final_path
 (
 cd $final_path && sudo /usr/bin/php7.2  bin/console cache:clear --env=prod

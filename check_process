@@ -7,6 +7,8 @@
 	; Manifest
 		domain="domain.tld"	(DOMAIN)
 		admin="john"	(USER)
+		database="mysql"
+		registration=1
 		is_public=1	(PUBLIC|public=1|private=0)
 	; Checks
 		pkg_linter=1
