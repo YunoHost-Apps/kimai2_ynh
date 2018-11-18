@@ -3,13 +3,13 @@
     "id": "kimai2",
     "packaging_format": 1,
     "description": {
-        "en": "Kimai2 package for YunoHost.",
+        "en": "Kimai v2 is web based Timetracker: multi-user application for time-tracking",
         "fr": "Kimai2 de package d’application pour YunoHost.",
         "de": "Kimai 2 Paket für YunoHost."
     },
-    "version": "0.5",
+    "version": "0.6",
     "url": "https://v2.kimai.org",
-    "license": "free",
+    "license": "MIT",
     "maintainer": {
         "name": "Anmol Sharma",
         "email": "anmol@datamol.org",
