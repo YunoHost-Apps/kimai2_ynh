@@ -7,7 +7,7 @@
         "fr": "Kimai2 de package d’application pour YunoHost.",
         "de": "Kimai 2 Paket für YunoHost."
     },
-    "version": "0.6",
+    "version": "0.6.1",
     "url": "https://v2.kimai.org",
     "license": "MIT",
     "maintainer": {
