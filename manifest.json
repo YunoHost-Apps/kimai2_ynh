@@ -5,7 +5,7 @@
     "description": {
         "en": "Kimai v2 is web based Timetracker: multi-user application for time-tracking",
         "fr": "Kimai2 de package d’application pour YunoHost.",
-        "de": "Kimai 2 Paket für YunoHost."
+        "de": "Kimai v2 ist eine web-basierte Mehrbenutzer-Zeiterfassung mit Rechnungsdruck"
     },
     "version": "0.6.1",
     "url": "https://v2.kimai.org",
