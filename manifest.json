@@ -4,7 +4,7 @@
     "packaging_format": 1,
     "description": {
         "en": "Kimai v2 is web based Timetracker: multi-user application for time-tracking with support for mobile devices",
-        "fr": "Kimai2 de package d’application pour YunoHost.",
+        "fr": "Kimai v2 est une application web de suivi du temps, multi-utilisateurs, et compatible avec les appareils mobiles",
         "de": "Kimai v2 ist eine web-basierte Mehrbenutzer-Zeiterfassung mit Rechnungsdruck mit Unterstützung für mobile Endgeräte"
     },
     "version": "0.6.1",
@@ -50,6 +50,7 @@
                 "name": "database",
                 "ask": {
                     "en": "Choose the database to use (for production usage choose: mysql)",
+                    "fr": "Choisissez le type de base de données à utiliser (mysql pour un usage en production)",
                     "de": "Wählen Sie die zu nutzende Datenbank (für produktive Zwecke wähle: mysql)"
                 },
                 "choices": ["mysql","sqlite"],
@@ -60,6 +61,7 @@
                 "type": "boolean",
                 "ask": {
                     "en": "Are new users allowed to register ?",
+                    "fr": "Est-ce que de nouveaux utilisateurs peuvent s'y inscrire ?",
                     "de": "Sollen sich neue Benutzer selber registrieren können ?"
                 },
                 "default": false
