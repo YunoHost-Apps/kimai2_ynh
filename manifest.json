@@ -8,7 +8,7 @@
         "de": "Kimai v2 ist eine web-basierte Mehrbenutzer-Zeiterfassung mit Rechnungsdruck mit Unterstützung für mobile Endgeräte",
         "cs": "Kimai v2 je víceuživatelská webová aplikace pro sledování času s podporou mobilních zařízení"
     },
-    "version": "0.6.1",
+    "version": "0.8.1",
     "url": "https://v2.kimai.org",
     "license": "MIT",
     "maintainer": {

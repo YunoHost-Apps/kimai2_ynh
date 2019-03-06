@@ -3,7 +3,7 @@
 [![Integration level](https://dash.yunohost.org/integration/kimai2.svg)](https://ci-apps.yunohost.org/jenkins/job/kimai2%20%28Community%29/lastBuild/consoleFull)  
 [![Install kimai2 with YunoHost](https://install-app.yunohost.org/install-with-yunohost.png)](https://install-app.yunohost.org/?app=kimai2)<br>
 
-Shipped Version: **0.6.1 (pre-release)**
+Shipped Version: **0.8.1 (pre-release)**
 
 **Please note that this app will install PHP 7.2**
 
