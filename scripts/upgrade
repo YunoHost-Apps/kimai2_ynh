@@ -156,6 +156,10 @@ cd $final_path && sudo /usr/bin/php7.2  bin/console cache:clear --env=prod
 cd $final_path && sudo /usr/bin/php7.2  bin/console cache:warmup --env=prod
 cd $final_path && sudo /usr/bin/php7.2  bin/console doctrine:migrations:migrate -n
 
+# convert-timezone script has a problem running non-interactively (-n) on 0.8.1
+# fix it here
+sed -i "s/, \$amount));/, \$amount), 'y');/" /var/www/$app/src/Command/ConvertTimezoneCommand.php
+
 # call convert-timezone script when upgrading from < 0.8 verions
 # fixes timezone issue: https://github.com/kevinpapst/kimai2/pull/372
 if `dpkg --compare-versions $old_ver "lt" "0.8"`
