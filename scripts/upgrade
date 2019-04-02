@@ -77,6 +77,9 @@ ynh_install_php7
 
 # Download, check integrity, uncompress and patch the source from app.src and do required installation for update
 
+# version before upgrade
+old_ver=`sudo yunohost app info $app --output-as plain | ynh_get_plain_key version`
+
 #version check for 0.3
 version=`cd /var/www/$app && bin/console kimai:version --short 2> /dev/null || sed -n 's/^future-release=//p' .github_changelog_generator`
 
@@ -152,6 +155,17 @@ init_composer $final_path
 cd $final_path && sudo /usr/bin/php7.2  bin/console cache:clear --env=prod
 cd $final_path && sudo /usr/bin/php7.2  bin/console cache:warmup --env=prod
 cd $final_path && sudo /usr/bin/php7.2  bin/console doctrine:migrations:migrate -n
+
+# convert-timezone script has a problem running non-interactively (-n) on 0.8.1
+# fix it here
+sed -i "s/, \$amount));/, \$amount), 'y');/" /var/www/$app/src/Command/ConvertTimezoneCommand.php
+
+# call convert-timezone script when upgrading from < 0.8 verions
+# fixes timezone issue: https://github.com/kevinpapst/kimai2/pull/372
+if `dpkg --compare-versions $old_ver "lt" "0.8"`
+then
+	cd $final_path && sudo /usr/bin/php7.2 bin/console kimai:convert-timezone -n
+fi
 )
 #=================================================
 # NGINX CONFIGURATION
