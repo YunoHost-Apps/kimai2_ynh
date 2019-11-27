@@ -3,10 +3,10 @@
     "id": "kimai2",
     "packaging_format": 1,
     "description": {
-        "en": "Kimai v2 is web based Timetracker: multi-user application for time-tracking with support for mobile devices",
-        "fr": "Kimai v2 est une application web de suivi du temps, multi-utilisateurs, et compatible avec les appareils mobiles",
-        "de": "Kimai v2 ist eine web-basierte Mehrbenutzer-Zeiterfassung mit Rechnungsdruck mit Unterstützung für mobile Endgeräte",
-        "cs": "Kimai v2 je víceuživatelská webová aplikace pro sledování času s podporou mobilních zařízení"
+        "en": "A multi-user application for time-tracking with support for mobile devices",
+        "fr": "Une application web de suivi du temps, multi-utilisateurs, et compatible avec les appareils mobiles",
+        "de": "Eine web-basierte Mehrbenutzer-Zeiterfassung mit Rechnungsdruck mit Unterstützung für mobile Endgeräte",
+        "cs": "Víceuživatelská webová aplikace pro sledování času s podporou mobilních zařízení"
     },
     "version": "0.8.1",
     "url": "https://v2.kimai.org",
