@@ -8,7 +8,7 @@
         "de": "Eine web-basierte Mehrbenutzer-Zeiterfassung mit Rechnungsdruck mit Unterstützung für mobile Endgeräte",
         "cs": "Víceuživatelská webová aplikace pro sledování času s podporou mobilních zařízení"
     },
-    "version": "0.8.1",
+    "version": "0.8.1~ynh1",
     "url": "https://v2.kimai.org",
     "license": "MIT",
     "maintainer": {
@@ -17,12 +17,12 @@
         "url": "datamol.org"
     },
     "requirements": {
-        "yunohost": ">= 2.7.2"
+        "yunohost": ">= 3.5"
     },
     "multi_instance": true,
     "services": [
         "nginx",
-        "php7.2-fpm",
+        "php7.0-fpm",
         "mysql"
     ],
     "arguments": {
@@ -50,6 +50,17 @@
                 "example": "johndoe"
             },
             {
+                "name": "is_public",
+                "type": "boolean",
+                "ask": {
+                    "en": "Is it a public application?",
+                    "fr": "Est-ce une application publique ?",
+                    "de": "Ist dies eine öffentliche Applikation?",
+                    "cs": "Je tato aplikace veřejná?"
+                },
+                "default": true
+            },
+            {
                 "name": "database",
                 "ask": {
                     "en": "Choose the database to use (for production usage choose: mysql)",
@@ -70,17 +81,6 @@
                     "cs": "Mohou se noví uživatelé registrovat?"
                 },
                 "default": false
-            },
-            {
-                "name": "is_public",
-                "type": "boolean",
-                "ask": {
-                    "en": "Is it a public application?",
-                    "fr": "Est-ce une application publique ?",
-                    "de": "Ist dies eine öffentliche Applikation?",
-                    "cs": "Je tato aplikace veřejná?"
-                },
-                "default": true
             }
         ]
     }
