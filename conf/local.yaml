@@ -159,6 +159,6 @@ kimai:
             #    - { ldap_value: kimai_admin, role: ROLE_ADMIN }
                 - { ldap_value: "__APP__.main", role: ROLE_USER }
                 - { ldap_value: "__APP__.teamlead", role: ROLE_TEAMLEAD }
-                - { ldap_value: "__APP__.admin, role": ROLE_ADMIN }
+                - { ldap_value: "__APP__.admin", role: ROLE_ADMIN }
                 - { ldap_value: "__APP__.super_admin", role: ROLE_SUPER_ADMIN }
 
