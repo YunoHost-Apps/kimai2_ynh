@@ -9,6 +9,7 @@
 source _common.sh
 source ynh_add_extra_apt_repos__3
 source ynh_install_php__3
+source ynh_composer__2
 source /usr/share/yunohost/helpers
 
 #=================================================
@@ -135,6 +136,13 @@ ynh_print_info --message="Upgrading nginx web server configuration..."
 ynh_add_nginx_config
 
 #=================================================
+# UPGRADE DEPENDENCIES
+#=================================================
+ynh_print_info --message="Upgrading dependencies..."
+
+ynh_install_app_dependencies $pkg_dependencies
+
+#=================================================
 # CREATE DEDICATED USER
 #=================================================
 ynh_print_info --message="Making sure dedicated system user exists..."
@@ -186,6 +194,9 @@ fi
 # UPGRADE KIMAI 2
 #=================================================
 ynh_print_info --message="Upgrading Kimai 2..."
+
+ynh_install_composer --phpversion="7.3" --workdir="$final_path"
+ynh_composer_exec --phpversion="7.3" --workdir="$final_path" --commands="install --no-dev --optimize-autoloader"
 
 pushd "$final_path"
 	php7.3 bin/console kimai:update

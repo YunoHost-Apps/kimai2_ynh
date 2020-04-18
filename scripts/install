@@ -9,6 +9,7 @@
 source _common.sh
 source ynh_add_extra_apt_repos__3
 source ynh_install_php__3
+source ynh_composer__2
 source ynh_send_readme_to_admin__2
 source /usr/share/yunohost/helpers
 
@@ -78,6 +79,13 @@ else
 fi
 
 #=================================================
+# INSTALL DEPENDENCIES
+#=================================================
+ynh_print_info --message="Installing dependencies..."
+
+ynh_install_app_dependencies $pkg_dependencies
+
+#=================================================
 # DOWNLOAD, CHECK AND UNPACK SOURCE
 #=================================================
 ynh_print_info --message="Setting up source files..."
@@ -143,6 +151,9 @@ fi
 # BUILD KIMAI 2
 #=================================================
 ynh_print_info --message="Building Kimai 2..."
+
+ynh_install_composer --phpversion="7.3" --workdir="$final_path"
+ynh_composer_exec --phpversion="7.3" --workdir="$final_path" --commands="install --no-dev --optimize-autoloader"
 
 pushd "$final_path"
 	php7.3 bin/console kimai:install -n

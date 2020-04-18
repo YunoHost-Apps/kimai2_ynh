@@ -91,6 +91,14 @@ else
 fi
 
 #=================================================
+# REINSTALL DEPENDENCIES
+#=================================================
+ynh_print_info --message="Reinstalling dependencies..."
+
+# Define and install dependencies
+ynh_install_app_dependencies $pkg_dependencies
+
+#=================================================
 # RESTORE THE MYSQL DATABASE
 #=================================================
 
