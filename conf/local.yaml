@@ -123,7 +123,7 @@ kimai:
         role:
             # baseDn to query for groups, MUST be set to activate the "group import"
             # default: empty (deactivated)
-            baseDn: ou=groups, dc=kimai, dc=org
+            baseDn: ou=permission, dc=yunohost, dc=org
             
             # Filter to query user groups, all results will be matched against 
             # the configured "groups" mapping below.
@@ -132,7 +132,7 @@ kimai:
             # The following example rule will be expanded to (for user "foo"):
             # (&(&(objectClass=groupOfNames))(member=foo))
             # default: empty
-            filter: (&(objectClass=groupOfNames))
+            filter: (&(objectClass=posixGroup))
               
             # The following field is taken from the LDAP user entry and its 
             # value is used in the filter above as "valueOfUsernameAttribute".
@@ -154,7 +154,11 @@ kimai:
             # Convert LDAP group name (nameAttribute) to Kimai role
             # You will very likely have to define mappings, unless your groups
             # are called "teamlead", "admin" or "super_admin"
-            #groups:
+            groups:
             #    - { ldap_value: group1, role: ROLE_TEAMLEAD }
             #    - { ldap_value: kimai_admin, role: ROLE_ADMIN }
+                - { ldap_value: __APP__.main, role: ROLE_USER }
+                - { ldap_value: __APP__.teamlead, role: ROLE_TEAMLEAD }
+                - { ldap_value: __APP__.admin, role: ROLE_ADMIN }
+                - { ldap_value: __APP__.super_admin, role: ROLE_SUPER_ADMIN }
 

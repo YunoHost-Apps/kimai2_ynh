@@ -25,15 +25,25 @@ Shipped Version: **1.8**
 ### Guidelines 
 
  1. Require dedicated domain like **kimai.domain.tld**.
- 1. No LDAP support (blocked until upstream implements it)
  1. This app is multi-instance (you can have more then one Kimai instance running on a YunoHost server)
- 
- ### Install
-
- 1. **App can be installed by YunoHost admin interface or by the following command:**
-
-         $ sudo yunohost app install https://github.com/YunoHost-Apps/kimai2_ynh
  1. Login details will be sent to the admin email.
+
+## Documentation
+
+ * Official documentation: https://www.kimai.org/documentation
+
+## YunoHost specific features
+
+#### Multi-users support
+
+LDAP is supported
+HTTP auth is not supporter
+Defaul Kimai2 roles are:
+* ROLE_USER
+* ROLE_TEAMLEAD
+* ROLE_ADMIN
+* ROLE_SUPER_ADMIN
+Those roles are directly managed using YunoHost permission system. User choosen during installation is granted the ROLE_SUPER_ADMIN
 
 #### Supported architectures
 

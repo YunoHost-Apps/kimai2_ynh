@@ -119,6 +119,7 @@ ynh_print_info --message="Configuring Kimai 2..."
 
 # Configure registration
 sudo cp ../conf/local.yaml $final_path/config/packages/local.yaml
+ynh_replace_string "__APP__" "$app" "$final_path/config/packages/local.yaml"
 if [ $registration -eq 1  ]
 then
 	ynh_replace_string "__REGISTRATION__" "true" "$final_path/config/packages/local.yaml"
@@ -154,6 +155,7 @@ ynh_print_info --message="Building Kimai 2..."
 
 ynh_install_composer --phpversion="7.3" --workdir="$final_path"
 ynh_composer_exec --phpversion="7.3" --workdir="$final_path" --commands="install --no-dev --optimize-autoloader"
+ynh_composer_exec --phpversion="7.3" --workdir="$final_path" --commands="require zendframework/zend-ldap"
 
 pushd "$final_path"
 	php7.3 bin/console kimai:install -n
@@ -190,11 +192,15 @@ chown -R $app: $final_path
 #=================================================
 ynh_print_info --message="Configuring SSOwat..."
 
+ynh_permission_create --permission="teamlead"
+ynh_permission_create --permission="admin"
+ynh_permission_create --permission="super_admin" --allowed "$admin"
+
 # Make app public if necessary
 if [ $is_public -eq 1 ]
 then
 	# unprotected_uris allows SSO credentials to be passed anyway.
-	ynh_app_setting_set --app=$app --key=unprotected_uris --value="/"
+	ynh_permission_update --permission "main" --add "visitors"
 fi
 
 #=================================================
