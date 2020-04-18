@@ -192,8 +192,9 @@ chown -R $app: $final_path
 #=================================================
 ynh_print_info --message="Configuring SSOwat..."
 
-ynh_permission_create --permission="teamlead"
-ynh_permission_create --permission="admin"
+ynh_permission_update --permission "main" --add "$admin"
+ynh_permission_create --permission="teamlead" --allowed "$admin"
+ynh_permission_create --permission="admin" --allowed "$admin"
 ynh_permission_create --permission="super_admin" --allowed "$admin"
 
 # Make app public if necessary
