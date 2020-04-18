@@ -111,7 +111,7 @@ kimai:
                 # Username is set to the value of the configured "usernameAttribute" field 
                 - { ldap_attr: "usernameAttribute", user_method: setUsername }
                 # Only applied if you don't configure a mapping for setEmail()
-                - { ldap_attr: "usernameAttribute", user_method: setEmail }
+                - { ldap_attr: mail, user_method: setEmail }
                 # An example which will set the display name in Kimai from the 
                 # value of the "common name" field in your LDAP
                 - { ldap_attr: cn, user_method: setAlias }
