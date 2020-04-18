@@ -139,17 +139,17 @@ kimai:
             # The attribute must be given in lowercase!
             # The example below uses "posix group style memberUid". 
             # default: dn
-            #usernameAttribute: uid
+            usernameAttribute: uid
             
             # Field that holds the group name, which will be used to map the 
             # LDAP groups with Kimai roles (see groups mapping below).
             # default: cn
-            #nameAttribute: cn
+            nameAttribute: cn
             
             # Field that holds the users dn in your LDAP group definition.
             # Value of this configuration is used in the filter (see above).
             # default: member
-            #userDnAttribute: member
+            userDnAttribute: groupPermission
             
             # Convert LDAP group name (nameAttribute) to Kimai role
             # You will very likely have to define mappings, unless your groups
