@@ -195,9 +195,8 @@ fi
 #=================================================
 ynh_print_info --message="Upgrading Kimai 2..."
 
-ynh_install_composer --phpversion="7.3" --workdir="$final_path"
-ynh_composer_exec --phpversion="7.3" --workdir="$final_path" --commands="install --no-dev --optimize-autoloader"
-ynh_composer_exec --phpversion="7.3" --workdir="$final_path" --commands="require zendframework/zend-ldap"
+ynh_install_composer --phpversion="7.3" --workdir="$final_path" --install_args="--optimize-autoloader"
+ynh_composer_exec --phpversion="7.3" --workdir="$final_path" --commands="require laminas/laminas-ldap"
 
 pushd "$final_path"
 	php7.3 bin/console kimai:update

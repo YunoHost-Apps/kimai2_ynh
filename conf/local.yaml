@@ -132,14 +132,14 @@ kimai:
             # The following example rule will be expanded to (for user "foo"):
             # (&(&(objectClass=groupOfNames))(member=foo))
             # default: empty
-            filter: (&(objectClass=posixGroup)(cn=__APP__*)) 
+            filter: (&(objectClass=posixGroup)(cn=__APP__*))
               
             # The following field is taken from the LDAP user entry and its 
             # value is used in the filter above as "valueOfUsernameAttribute".
             # The attribute must be given in lowercase!
             # The example below uses "posix group style memberUid". 
             # default: dn
-            usernameAttribute: cn
+            usernameAttribute: dn
             
             # Field that holds the group name, which will be used to map the 
             # LDAP groups with Kimai roles (see groups mapping below).
@@ -149,7 +149,7 @@ kimai:
             # Field that holds the users dn in your LDAP group definition.
             # Value of this configuration is used in the filter (see above).
             # default: member
-            userDnAttribute: groupPermission
+            userDnAttribute: inheritPermission
             
             # Convert LDAP group name (nameAttribute) to Kimai role
             # You will very likely have to define mappings, unless your groups
@@ -157,7 +157,6 @@ kimai:
             groups:
             #    - { ldap_value: group1, role: ROLE_TEAMLEAD }
             #    - { ldap_value: kimai_admin, role: ROLE_ADMIN }
-                - { ldap_value: "__APP__.main", role: ROLE_USER }
                 - { ldap_value: "__APP__.teamlead", role: ROLE_TEAMLEAD }
                 - { ldap_value: "__APP__.admin", role: ROLE_ADMIN }
                 - { ldap_value: "__APP__.super_admin", role: ROLE_SUPER_ADMIN }

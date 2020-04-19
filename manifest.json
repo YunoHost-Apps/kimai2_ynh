@@ -58,7 +58,7 @@
                     "de": "Ist dies eine öffentliche Applikation?",
                     "cs": "Je tato aplikace veřejná?"
                 },
-                "default": true
+                "default": false
             },
             {
                 "name": "database",

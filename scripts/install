@@ -153,9 +153,8 @@ fi
 #=================================================
 ynh_print_info --message="Building Kimai 2..."
 
-ynh_install_composer --phpversion="7.3" --workdir="$final_path"
-ynh_composer_exec --phpversion="7.3" --workdir="$final_path" --commands="install --no-dev --optimize-autoloader"
-ynh_composer_exec --phpversion="7.3" --workdir="$final_path" --commands="require zendframework/zend-ldap"
+ynh_install_composer --phpversion="7.3" --workdir="$final_path" --install_args="--optimize-autoloader"
+ynh_composer_exec --phpversion="7.3" --workdir="$final_path" --commands="require laminas/laminas-ldap"
 
 pushd "$final_path"
 	php7.3 bin/console kimai:install -n
@@ -192,9 +191,8 @@ chown -R $app: $final_path
 #=================================================
 ynh_print_info --message="Configuring SSOwat..."
 
-ynh_permission_update --permission "main" --add "$admin"
-ynh_permission_create --permission="teamlead" --allowed "$admin"
-ynh_permission_create --permission="admin" --allowed "$admin"
+ynh_permission_create --permission="teamlead"
+ynh_permission_create --permission="admin"
 ynh_permission_create --permission="super_admin" --allowed "$admin"
 
 # Make app public if necessary
