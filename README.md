@@ -37,7 +37,7 @@ Shipped Version: **1.8**
 #### Multi-users support
 
 LDAP is supported
-HTTP auth is not supporter
+HTTP auth is not supported
 Defaul Kimai2 roles are:
 * ROLE_USER
 * ROLE_TEAMLEAD => Kimai2 (Teamlead) YunoHost permission
