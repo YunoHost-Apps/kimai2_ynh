@@ -105,9 +105,8 @@ then
 	if [ -d $final_path/var/invoices ]; then
 		cp -af "$final_path/var/invoices" "$tmpdir/."
 	fi
-	if [ -f $final_path/var/data/kimai.sqlite ]; then
-		cp -a "$final_path/var/data/kimai.sqlite" "$tmpdir/."
-		ynh_app_setting_set $app database "sqlite"
+	if [ -d $final_path/var/data ]; then
+		cp -af "$final_path/var/data" "$tmpdir/."
 	fi
 	
 	# Download, check integrity, uncompress and patch the source from app.src
@@ -120,8 +119,8 @@ then
 	if [ -d $tmpdir/invoices ]; then
 		cp -af "$tmpdir/invoices" "$final_path/var/."
 	fi
-	if [ -f $tmpdir/kimai.sqlite ]; then
-	sudo cp -af "$tmpdir/kimai.sqlite" "$final_path/var/data/."
+	if [ -d $tmpdir/data ]; then
+		cp -af "$tmpdir/data" "$final_path/var/."
 	fi
 	
 	ynh_secure_remove --file="$tmpdir"
