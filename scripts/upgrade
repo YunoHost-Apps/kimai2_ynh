@@ -24,7 +24,7 @@ path_url=$(ynh_app_setting_get --app=$app --key=path)
 admin=$(ynh_app_setting_get --app=$app --key=admin)
 is_public=$(ynh_app_setting_get --app=$app --key=is_public)
 final_path=$(ynh_app_setting_get --app=$app --key=final_path)
-database=$(ynh_app_setting_get $app database)
+database=$(ynh_app_setting_get --app=$app --key=database)
 random_key=$(ynh_app_setting_get --app=$app --key=random_key)
 
 #=================================================
@@ -47,7 +47,6 @@ elif [ "$is_public" = "No" ]; then
 	ynh_app_setting_set --app=$app --key=is_public --value=0
 	is_public=0
 fi
-
 
 # If final_path doesn't exist, create it
 if [ -z "$final_path" ]; then
@@ -162,39 +161,49 @@ ynh_add_fpm_config --phpversion="7.3"
 #=================================================
 # SPECIFIC UPGRADE
 #=================================================
-# CONFIGURE KIMAI 2
+# CONFIGURE KIMAI2
 #=================================================
-ynh_print_info --message="Configuring Kimai 2..."
+ynh_print_info --message="Configuring Kimai2..."
+
+local_conf="$final_path/config/packages/local.yaml"
+ynh_backup_if_checksum_is_different "$local_conf"
+sudo cp ../conf/local.yaml $local_conf
+ynh_replace_string  --match_string="__APP__" "$app" --target_file="$local_conf"
+if [ $registration -eq 1  ]
+then
+	ynh_replace_string  --match_string="__REGISTRATION__" --replace_string="true" --target_file="$local_conf"
+else
+	ynh_replace_string  --match_string="__REGISTRATION__" --replace_string="false" --target_file="$local_conf"
+fi
+ynh_store_file_checksum "$local_conf"
 
 env_conf=$final_path/.env
-
-# Verify the checksum and backup the file if it's different
 ynh_backup_if_checksum_is_different "$env_conf"
-
 # Configure environement
 if [ "$database" = "mysql" ]; then
 	# setup application config
 	sudo  cp ../conf/.env.mysql $env_conf
-	db_name=$(ynh_sanitize_dbid $app)
-	ynh_app_setting_set $app db_name $db_name
-	ynh_mysql_setup_db $db_name $db_name
+	db_pwd=$(ynh_app_setting_get --app=$app --key=mysqlpwd)
+	db_name=$(ynh_app_setting_get --app=$app --key=db_name)
+	db_user=$db_name
 	
-	ynh_replace_string "__RANDOM_KEY__"  "$random_key" "$env_conf"
-	ynh_replace_string "__DOMAIN__"      "$domain"     "$env_conf"
-	ynh_replace_string "__DB_PASSWORD__" "$db_pwd"     "$env_conf"
-	ynh_replace_string "__DB_USER__"     "$db_name"    "$env_conf"
-	ynh_replace_string "__DB_NAME__"     "$db_name"    "$env_conf"
+	ynh_replace_string --match_string="__RANDOM_KEY__" --replace_string="$random_key" --target_file="$env_conf"
+	ynh_replace_string --match_string="__DOMAIN__" --replace_string="$domain" --target_file="$env_conf"
+	ynh_replace_string --match_string="__DB_PASSWORD__" --replace_string="$db_pwd" --target_file="$env_conf"
+	ynh_replace_string --match_string="__DB_USER__" --replace_string="$db_name" --target_file="$env_conf"
+	ynh_replace_string --match_string="__DB_NAME__" --replace_string="$db_name" --target_file="$env_conf"
 else
 	# setup application config
 	sudo  cp ../conf/.env.sqlite $env_conf
-	ynh_replace_string "__RANDOM_KEY__"  "$random_key" "$env_conf"
-	ynh_replace_string "__DOMAIN__"      "$domain"     "$env_conf"
+	ynh_replace_string --match_string="__RANDOM_KEY__" --replace_string="$random_key" --target_file="$env_conf"
+	ynh_replace_string --match_string="__DOMAIN__" --replace_string="$domain" --target_file="$env_conf"
 fi
+ynh_store_file_checksum "$env_conf"
 
 #=================================================
-# UPGRADE KIMAI 2
+# UPGRADE KIMAI2
 #=================================================
-ynh_print_info --message="Upgrading Kimai 2..."
+ynh_print_info --message="Upgrading Kimai2..."
 
 ynh_install_composer --phpversion="7.3" --workdir="$final_path" --install_args="--optimize-autoloader"
 ynh_composer_exec --phpversion="7.3" --workdir="$final_path" --commands="require laminas/laminas-ldap"
@@ -202,15 +211,6 @@ ynh_composer_exec --phpversion="7.3" --workdir="$final_path" --commands="require
 pushd "$final_path"
 	php7.3 bin/console kimai:update
 popd
-
-#=================================================
-# STORE THE CONFIG FILE CHECKSUM
-#=================================================
-ynh_print_info --message="Storing the config file checksum..."
-
-
-# Recalculate and store the config file checksum into the app settings
-ynh_store_file_checksum "$env_conf"
 
 #=================================================
 # GENERIC FINALIZATION
@@ -227,6 +227,8 @@ chown -R $app: $final_path
 #=================================================
 ynh_print_info --message="Upgrading SSOwat configuration..."
 
+ynh_permission_create --permission="teamlead"
+ynh_permission_create --permission="admin"
 ynh_permission_create --permission="super_admin" --allowed "$admin"
 
 # Make app public if necessary

@@ -10,7 +10,6 @@ source _common.sh
 source ynh_add_extra_apt_repos__3
 source ynh_install_php__3
 source ynh_composer__2
-source ynh_send_readme_to_admin__2
 source /usr/share/yunohost/helpers
 
 #=================================================
@@ -35,9 +34,7 @@ admin=$YNH_APP_ARG_ADMIN
 is_public=$YNH_APP_ARG_IS_PUBLIC
 registration=$YNH_APP_ARG_REGISTRATION
 database=$YNH_APP_ARG_DATABASE
-admin_pass=$(ynh_string_random 24)
 random_key=$(ynh_string_random 32)
-admin_email=$(ynh_user_get_info $admin 'mail')
 
 app=$YNH_APP_INSTANCE_NAME
 
@@ -61,15 +58,16 @@ ynh_app_setting_set --app=$app --key=domain --value=$domain
 ynh_app_setting_set --app=$app --key=path --value=$path_url
 ynh_app_setting_set --app=$app --key=admin --value=$admin
 ynh_app_setting_set --app=$app --key=is_public --value=$is_public
-ynh_app_setting_set --app=$app --key=random_key --value=$random_key
 ynh_app_setting_set --app=$app --key=registration --value=$registration
 ynh_app_setting_set --app=$app --key=database --value=$database
+ynh_app_setting_set --app=$app --key=random_key --value=$random_key
 
 #=================================================
 # STANDARD MODIFICATIONS
 #=================================================
 # INSTALL PHP7.3
 #=================================================
+ynh_print_info --message="Installing PHP7.3..."
 
 if [ "$(lsb_release --codename --short)" = "buster" ]; then
 	pkg_dependencies="$pkg_dependencies $extra_pkg_dependencies"
@@ -113,45 +111,46 @@ ynh_system_user_create --username=$app
 #=================================================
 # SPECIFIC SETUP
 #=================================================
-# CONFIGURE KIMAI 2
+# CONFIGURE KIMAI2
 #=================================================
-ynh_print_info --message="Configuring Kimai 2..."
+ynh_print_info --message="Configuring Kimai2..."
 
+local_conf="$final_path/config/packages/local.yaml"
 # Configure registration
-sudo cp ../conf/local.yaml $final_path/config/packages/local.yaml
-ynh_replace_string "__APP__" "$app" "$final_path/config/packages/local.yaml"
+sudo cp ../conf/local.yaml $local_conf
+ynh_replace_string  --match_string="__APP__" "$app" --target_file="$local_conf"
 if [ $registration -eq 1  ]
 then
-	ynh_replace_string "__REGISTRATION__" "true" "$final_path/config/packages/local.yaml"
+	ynh_replace_string  --match_string="__REGISTRATION__" --replace_string="true" --target_file="$local_conf"
 else
-	ynh_replace_string "__REGISTRATION__" "false" "$final_path/config/packages/local.yaml"
+	ynh_replace_string  --match_string="__REGISTRATION__" --replace_string="false" --target_file="$local_conf"
 fi
 
-env_conf=$final_path/.env
+env_conf="$final_path/.env"
 # Configure environement
 if [ "$database" = "mysql" ]; then
 	# setup application config
 	sudo  cp ../conf/.env.mysql $env_conf
-	db_name=$(ynh_sanitize_dbid $app)
-	ynh_app_setting_set $app db_name $db_name
-	ynh_mysql_setup_db $db_name $db_name
-	
-	ynh_replace_string "__RANDOM_KEY__"  "$random_key" "$env_conf"
-	ynh_replace_string "__DOMAIN__"      "$domain"     "$env_conf"
-	ynh_replace_string "__DB_PASSWORD__" "$db_pwd"     "$env_conf"
-	ynh_replace_string "__DB_USER__"     "$db_name"    "$env_conf"
-	ynh_replace_string "__DB_NAME__"     "$db_name"    "$env_conf"
+	db_name=$(ynh_sanitize_dbid --db_name=$app)
+	db_user=$db_name
+	ynh_app_setting_set --app=$app --key=db_name --value=$db_name
+	ynh_mysql_setup_db --db_user=$db_user --db_name=$db_name	
+	ynh_replace_string  --match_string="__RANDOM_KEY__" --replace_string="$random_key" --target_file="$env_conf"
+	ynh_replace_string  --match_string="__DOMAIN__" --replace_string="$domain" --target_file="$env_conf"
+	ynh_replace_string  --match_string="__DB_PASSWORD__" --replace_string="$db_pwd" --target_file="$env_conf"
+	ynh_replace_string  --match_string="__DB_USER__" --replace_string="$db_name" --target_file="$env_conf"
+	ynh_replace_string  --match_string="__DB_NAME__" --replace_string="$db_name" --target_file="$env_conf"
 else
 	# setup application config
 	sudo  cp ../conf/.env.sqlite $env_conf
-	ynh_replace_string "__RANDOM_KEY__"  "$random_key" "$env_conf"
-	ynh_replace_string "__DOMAIN__"      "$domain"     "$env_conf"
+	ynh_replace_string  --match_string="__RANDOM_KEY__" --replace_string="$random_key" --target_file="$env_conf"
+	ynh_replace_string  --match_string="__DOMAIN__" --replace_string="$domain" --target_file="$env_conf"
 fi
 
 #=================================================
-# BUILD KIMAI 2
+# BUILD KIMAI2
 #=================================================
-ynh_print_info --message="Building Kimai 2..."
+ynh_print_info --message="Building Kimai2..."
 
 ynh_install_composer --phpversion="7.3" --workdir="$final_path" --install_args="--optimize-autoloader"
 ynh_composer_exec --phpversion="7.3" --workdir="$final_path" --commands="require laminas/laminas-ldap"
@@ -166,6 +165,7 @@ popd
 ynh_print_info --message="Storing the config file checksum..."
 
 # Calculate and store the config file checksum into the app settings
+ynh_store_file_checksum --file="$local_conf"
 ynh_store_file_checksum --file="$env_conf"
 
 #=================================================
@@ -208,19 +208,6 @@ fi
 ynh_print_info --message="Reloading nginx web server..."
 
 ynh_systemd_action --service_name=nginx --action=reload
-
-#=================================================
-# SEND A README FOR THE ADMIN
-#=================================================
-ynh_print_info --message="Sending a readme for the admin..."
-
-ynh_replace_string --match_string="__APP__"    --replace_string="$app"    --target_file="../conf/message"
-ynh_replace_string --match_string="__DOMAIN__"    --replace_string="$domain"    --target_file="../conf/message"
-ynh_replace_string --match_string="__PATH_URL__"    --replace_string="$path_url"    --target_file="../conf/message"
-ynh_replace_string --match_string="__ADMIN_EMAIL__"    --replace_string="$admin_email"    --target_file="../conf/message"
-ynh_replace_string --match_string="__ADMIN_PASS__"    --replace_string="$admin_pass"    --target_file="../conf/message"
-
-ynh_send_readme_to_admin --app_message="../conf/message" --recipients=$admin_email --type='install'
 
 #=================================================
 # END OF SCRIPT

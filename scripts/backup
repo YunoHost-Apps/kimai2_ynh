@@ -18,7 +18,6 @@ ynh_print_info --message="Managing script failure..."
 ynh_clean_setup () {
 	true
 }
-
 # Exit if an error occurs during the execution of the script
 ynh_abort_if_errors
 
@@ -61,6 +60,7 @@ ynh_backup --src_path="/etc/php/7.3/fpm/pool.d/$app.conf"
 #=================================================
 
 if [ "$database" = "mysql" ]; then
+	ynh_print_info --message="Backing up the MySQL database..."
 	db_name=$(ynh_app_setting_get --app=$app --key=db_name)
 	ynh_mysql_dump_db --database="$db_name" > db.sql
 

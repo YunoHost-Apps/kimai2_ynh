@@ -37,7 +37,7 @@ if [ "$database" = "mysql" ]; then
 fi
 
 #=================================================
-# REMOVE PHP
+# REMOVE PHP7.3
 #=================================================
 
 if [ "$(lsb_release --codename --short)" != "buster" ]; then

@@ -26,7 +26,6 @@ Shipped Version: **1.8**
 
  1. Require dedicated domain like **kimai.domain.tld**.
  1. This app is multi-instance (you can have more then one Kimai instance running on a YunoHost server)
- 1. Login details will be sent to the admin email.
 
 ## Documentation
 
