@@ -227,9 +227,20 @@ chown -R $app: $final_path
 #=================================================
 ynh_print_info --message="Upgrading SSOwat configuration..."
 
-ynh_permission_create --permission="teamlead"
-ynh_permission_create --permission="admin"
-ynh_permission_create --permission="super_admin" --allowed "$admin"
+if ! ynh_permission_exists --permission="teamlead"
+then
+	ynh_permission_create --permission="teamlead"
+fi
+
+if ! ynh_permission_exists --permission="admin"
+then
+	ynh_permission_create --permission="admin"
+fi
+
+if ! ynh_permission_exists --permission="super_admin"
+then
+	ynh_permission_create --permission="super_admin" --allowed "$admin"
+fi
 
 # Make app public if necessary
 if [ $is_public -eq 1 ]
