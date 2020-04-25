@@ -117,7 +117,7 @@ ynh_print_info --message="Configuring Kimai2..."
 
 local_conf="$final_path/config/packages/local.yaml"
 # Configure registration
-sudo cp ../conf/local.yaml $local_conf
+cp ../conf/local.yaml $local_conf
 ynh_replace_string  --match_string="__APP__" --replace_string="$app" --target_file="$local_conf"
 if [ $registration -eq 1  ]
 then
@@ -130,7 +130,7 @@ env_conf="$final_path/.env"
 # Configure environement
 if [ "$database" = "mysql" ]; then
 	# setup application config
-	sudo  cp ../conf/.env.mysql $env_conf
+	cp ../conf/.env.mysql $env_conf
 	db_name=$(ynh_sanitize_dbid --db_name=$app)
 	db_user=$db_name
 	ynh_app_setting_set --app=$app --key=db_name --value=$db_name
@@ -142,7 +142,7 @@ if [ "$database" = "mysql" ]; then
 	ynh_replace_string  --match_string="__DB_NAME__" --replace_string="$db_name" --target_file="$env_conf"
 else
 	# setup application config
-	sudo  cp ../conf/.env.sqlite $env_conf
+	cp ../conf/.env.sqlite $env_conf
 	ynh_replace_string  --match_string="__RANDOM_KEY__" --replace_string="$random_key" --target_file="$env_conf"
 	ynh_replace_string  --match_string="__DOMAIN__" --replace_string="$domain" --target_file="$env_conf"
 fi
