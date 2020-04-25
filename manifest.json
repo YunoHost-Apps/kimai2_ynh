@@ -62,6 +62,7 @@
             },
             {
                 "name": "database",
+                "type": "string",
                 "ask": {
                     "en": "Choose the database to use (for production usage choose: mysql)",
                     "fr": "Choisissez le type de base de données à utiliser (mysql pour un usage en production)",
