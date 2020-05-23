@@ -67,7 +67,6 @@ ynh_app_setting_set --app=$app --key=random_key --value=$random_key
 #=================================================
 # INSTALL PHP7.3
 #=================================================
-ynh_print_info --message="Installing PHP7.3..."
 
 if [ "$(lsb_release --codename --short)" = "buster" ]; then
 	pkg_dependencies="$pkg_dependencies $extra_pkg_dependencies"

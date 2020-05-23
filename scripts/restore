@@ -82,7 +82,6 @@ chown -R $app: $final_path
 #=================================================
 # REINSTALL PHP7.3
 #=================================================
-ynh_print_info --message="Reinstall PHP7.3..."
 
 if [ "$(lsb_release --codename --short)" = "buster" ]; then
 	pkg_dependencies="$pkg_dependencies $extra_pkg_dependencies"
