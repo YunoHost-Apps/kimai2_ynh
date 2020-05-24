@@ -100,7 +100,7 @@ ynh_system_user_create --username=$app
 ynh_print_info --message="Configuring php-fpm..."
 
 # Create a dedicated php-fpm config
-ynh_add_fpm_config --package="extra_php_dependencies"
+ynh_add_fpm_config --package="$extra_php_dependencies"
 
 #=================================================
 # SPECIFIC SETUP
