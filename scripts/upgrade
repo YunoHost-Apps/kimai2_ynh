@@ -7,8 +7,6 @@
 #=================================================
 
 source _common.sh
-source ynh_add_extra_apt_repos__3
-source ynh_install_php__3
 source ynh_composer__2
 source /usr/share/yunohost/helpers
 
@@ -71,24 +69,6 @@ ynh_abort_if_errors
 
 #=================================================
 # STANDARD UPGRADE STEPS
-#=================================================
-# UPGRADE PHP7.3
-#=================================================
-
-if [ "$(lsb_release --codename --short)" = "buster" ]; then
-	pkg_dependencies="$pkg_dependencies $extra_pkg_dependencies"
-else
-	if [ "$(ynh_app_setting_get --app=$app --key=php_version)" != "7.3" ]; then
-		ynh_print_info --message="Upgrading PHP7.3..."
-		ynh_remove_fpm_config
-		ynh_remove_app_dependencies
-		ynh_remove_php
-		ynh_install_php --phpversion="7.3" --package="$extra_pkg_dependencies"
-	else
-		ynh_install_php --phpversion="7.3" --package="$extra_pkg_dependencies"
-	fi
-fi
-
 #=================================================
 # DOWNLOAD, CHECK AND UNPACK SOURCE
 #=================================================
@@ -157,7 +137,7 @@ ynh_system_user_create --username=$app
 ynh_print_info --message="Upgrading php-fpm configuration..."
 
 # Create a dedicated php-fpm config
-ynh_add_fpm_config --phpversion="7.3"
+ynh_add_fpm_config --package="extra_php_dependencies"
 
 #=================================================
 # SPECIFIC UPGRADE
@@ -205,11 +185,11 @@ ynh_store_file_checksum --file="$env_conf"
 #=================================================
 ynh_print_info --message="Upgrading Kimai2..."
 
-ynh_install_composer --phpversion="7.3" --workdir="$final_path" --install_args="--optimize-autoloader"
-ynh_composer_exec --phpversion="7.3" --workdir="$final_path" --commands="require laminas/laminas-ldap"
+ynh_install_composer --phpversion="${YNH_PHP_VERSION}" --workdir="$final_path" --install_args="--optimize-autoloader"
+ynh_composer_exec --phpversion="${YNH_PHP_VERSION}" --workdir="$final_path" --commands="require laminas/laminas-ldap"
 
 pushd "$final_path"
-	php7.3 bin/console kimai:update -n
+	php${YNH_PHP_VERSION} bin/console kimai:update -n
 popd
 
 #=================================================

@@ -7,8 +7,6 @@
 #=================================================
 
 source _common.sh
-source ynh_add_extra_apt_repos__3
-source ynh_install_php__3
 source /usr/share/yunohost/helpers
 
 #=================================================
@@ -37,13 +35,12 @@ if [ "$database" = "mysql" ]; then
 fi
 
 #=================================================
-# REMOVE PHP7.3
+# REMOVE DEPENDENCIES
 #=================================================
+ynh_print_info --message="Removing dependencies..."
 
-if [ "$(lsb_release --codename --short)" != "buster" ]; then
-	ynh_print_info --message="Removing php..."
-	ynh_remove_php
-fi
+# Remove metapackage and its dependencies
+ynh_remove_app_dependencies
 
 #=================================================
 # REMOVE APP MAIN DIR

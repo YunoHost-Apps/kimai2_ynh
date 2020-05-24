@@ -7,8 +7,6 @@
 #=================================================
 
 source _common.sh
-source ynh_add_extra_apt_repos__3
-source ynh_install_php__3
 source ynh_composer__2
 source /usr/share/yunohost/helpers
 
@@ -65,17 +63,6 @@ ynh_app_setting_set --app=$app --key=random_key --value=$random_key
 #=================================================
 # STANDARD MODIFICATIONS
 #=================================================
-# INSTALL PHP7.3
-#=================================================
-
-if [ "$(lsb_release --codename --short)" = "buster" ]; then
-	pkg_dependencies="$pkg_dependencies $extra_pkg_dependencies"
-else
-	ynh_print_info --message="Installing PHP7.3..."
-	ynh_install_php --phpversion="7.3" --package="$extra_pkg_dependencies"
-fi
-
-#=================================================
 # INSTALL DEPENDENCIES
 #=================================================
 ynh_print_info --message="Installing dependencies..."
@@ -106,6 +93,14 @@ ynh_print_info --message="Configuring system user..."
 
 # Create a system user
 ynh_system_user_create --username=$app
+
+#=================================================
+# PHP-FPM CONFIGURATION
+#=================================================
+ynh_print_info --message="Configuring php-fpm..."
+
+# Create a dedicated php-fpm config
+ynh_add_fpm_config --package="extra_php_dependencies"
 
 #=================================================
 # SPECIFIC SETUP
@@ -151,11 +146,11 @@ fi
 #=================================================
 ynh_print_info --message="Building Kimai2..."
 
-ynh_install_composer --phpversion="7.3" --workdir="$final_path" --install_args="--optimize-autoloader"
-ynh_composer_exec --phpversion="7.3" --workdir="$final_path" --commands="require laminas/laminas-ldap"
+ynh_install_composer --phpversion="${YNH_PHP_VERSION}" --workdir="$final_path" --install_args="--optimize-autoloader"
+ynh_composer_exec --phpversion="${YNH_PHP_VERSION}" --workdir="$final_path" --commands="require laminas/laminas-ldap"
 
 pushd "$final_path"
-	php7.3 bin/console kimai:install -n
+	php${YNH_PHP_VERSION} bin/console kimai:install -n
 popd
 
 #=================================================
@@ -169,14 +164,6 @@ ynh_store_file_checksum --file="$env_conf"
 
 #=================================================
 # GENERIC FINALIZATION
-#=================================================
-# PHP-FPM CONFIGURATION
-#=================================================
-ynh_print_info --message="Configuring php-fpm..."
-
-# Create a dedicated php-fpm config
-ynh_add_fpm_config --phpversion="7.3"
-
 #=================================================
 # SECURE FILES AND DIRECTORIES
 #=================================================
