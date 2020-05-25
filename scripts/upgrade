@@ -137,7 +137,7 @@ ynh_system_user_create --username=$app
 ynh_print_info --message="Upgrading php-fpm configuration..."
 
 # Create a dedicated php-fpm config
-ynh_add_fpm_config --package="$extra_php_dependencies"
+ynh_add_fpm_config --usage=low --footprint=low --package="$extra_php_dependencies"
 
 #=================================================
 # SPECIFIC UPGRADE
