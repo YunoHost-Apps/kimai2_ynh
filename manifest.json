@@ -8,8 +8,8 @@
         "de": "Eine web-basierte Mehrbenutzer-Zeiterfassung mit Rechnungsdruck mit Unterstützung für mobile Endgeräte",
         "cs": "Víceuživatelská webová aplikace pro sledování času s podporou mobilních zařízení"
     },
-    "version": "1.9~ynh1",
-    "url": "https://v2.kimai.org",
+    "version": "1.11~ynh1",
+    "url": "https://www.kimai.org",
     "license": "MIT",
     "maintainer": {
         "name": "Anmol Sharma",
