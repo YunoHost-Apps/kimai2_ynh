@@ -13,7 +13,7 @@ source /usr/share/yunohost/helpers
 #=================================================
 # LOAD SETTINGS
 #=================================================
-ynh_print_info --message="Loading installation settings..."
+ynh_script_progression --message="Loading installation settings..."
 
 app=$YNH_APP_INSTANCE_NAME
 
@@ -29,14 +29,14 @@ random_key=$(ynh_app_setting_get --app=$app --key=random_key)
 #=================================================
 # CHECK VERSION
 #=================================================
-ynh_print_info --message="Checking version..."
+ynh_script_progression --message="Checking version..."
 
 upgrade_type=$(ynh_check_app_version_changed)
 
 #=================================================
 # ENSURE DOWNWARD COMPATIBILITY
 #=================================================
-ynh_print_info --message="Ensuring downward compatibility..."
+ynh_script_progression --message="Ensuring downward compatibility..."
 
 # Fix is_public as a boolean value
 if [ "$is_public" = "Yes" ]; then
@@ -56,7 +56,7 @@ fi
 #=================================================
 # BACKUP BEFORE UPGRADE THEN ACTIVE TRAP
 #=================================================
-ynh_print_info --message="Backing up the app before upgrading (may take a while)..."
+ynh_script_progression --message="Backing up the app before upgrading (may take a while)..."
 
 # Backup the current version of the app
 ynh_backup_before_upgrade
@@ -75,7 +75,7 @@ ynh_abort_if_errors
 
 if [ "$upgrade_type" == "UPGRADE_APP" ]
 then
-	ynh_print_info --message="Upgrading source files..."
+	ynh_script_progression --message="Upgrading source files..."
 	
 	# Create a temporary directory and backup config
 	tmpdir="$(mktemp -d)"
@@ -111,7 +111,7 @@ fi
 #=================================================
 # NGINX CONFIGURATION
 #=================================================
-ynh_print_info --message="Upgrading nginx web server configuration..."
+ynh_script_progression --message="Upgrading nginx web server configuration..."
 
 # Create a dedicated nginx config
 ynh_add_nginx_config
@@ -119,14 +119,14 @@ ynh_add_nginx_config
 #=================================================
 # UPGRADE DEPENDENCIES
 #=================================================
-ynh_print_info --message="Upgrading dependencies..."
+ynh_script_progression --message="Upgrading dependencies..."
 
 ynh_install_app_dependencies $pkg_dependencies
 
 #=================================================
 # CREATE DEDICATED USER
 #=================================================
-ynh_print_info --message="Making sure dedicated system user exists..."
+ynh_script_progression --message="Making sure dedicated system user exists..."
 
 # Create a dedicated user (if not existing)
 ynh_system_user_create --username=$app
@@ -134,7 +134,7 @@ ynh_system_user_create --username=$app
 #=================================================
 # PHP-FPM CONFIGURATION
 #=================================================
-ynh_print_info --message="Upgrading php-fpm configuration..."
+ynh_script_progression --message="Upgrading php-fpm configuration..."
 
 # Create a dedicated php-fpm config
 ynh_add_fpm_config --usage=low --footprint=low --package="$extra_php_dependencies"
@@ -144,7 +144,7 @@ ynh_add_fpm_config --usage=low --footprint=low --package="$extra_php_dependencie
 #=================================================
 # CONFIGURE KIMAI2
 #=================================================
-ynh_print_info --message="Configuring Kimai2..."
+ynh_script_progression --message="Configuring Kimai2..."
 
 local_conf="$final_path/config/packages/local.yaml"
 ynh_backup_if_checksum_is_different --file="$local_conf"
@@ -183,7 +183,7 @@ ynh_store_file_checksum --file="$env_conf"
 #=================================================
 # UPGRADE KIMAI2
 #=================================================
-ynh_print_info --message="Upgrading Kimai2..."
+ynh_script_progression --message="Upgrading Kimai2..."
 
 ynh_install_composer --phpversion="${YNH_PHP_VERSION}" --workdir="$final_path" --install_args="--optimize-autoloader"
 ynh_composer_exec --phpversion="${YNH_PHP_VERSION}" --workdir="$final_path" --commands="require laminas/laminas-ldap"
@@ -197,7 +197,7 @@ popd
 #=================================================
 # SECURE FILES AND DIRECTORIES
 #=================================================
-ynh_print_info --message="Securing files and directories..."
+ynh_script_progression --message="Securing files and directories..."
 
 # Set permissions on app files
 chown -R $app: $final_path
@@ -205,7 +205,7 @@ chown -R $app: $final_path
 #=================================================
 # SETUP SSOWAT
 #=================================================
-ynh_print_info --message="Upgrading SSOwat configuration..."
+ynh_script_progression --message="Upgrading SSOwat configuration..."
 
 if ! ynh_permission_exists --permission="teamlead"
 then
@@ -232,7 +232,7 @@ fi
 #=================================================
 # RELOAD NGINX
 #=================================================
-ynh_print_info --message="Reloading nginx web server..."
+ynh_script_progression --message="Reloading nginx web server..."
 
 ynh_systemd_action --service_name=nginx --action=reload
 
@@ -240,4 +240,4 @@ ynh_systemd_action --service_name=nginx --action=reload
 # END OF SCRIPT
 #=================================================
 
-ynh_print_info --message="Upgrade of $app completed"
+ynh_script_progression --message="Upgrade of $app completed"
