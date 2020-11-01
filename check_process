@@ -18,6 +18,8 @@
 		setup_private=1
 		setup_public=1
 		upgrade=1
+		# 1.9~ynh1
+		upgrade=1	from_commit=e5ce0d869526c6c856c1e2398b4b2ce0ba8e7542
 		backup_restore=1
 		multi_instance=1
 		# This test is no longer necessary since the version 2.7 (PR: https://github.com/YunoHost/yunohost/pull/304), you can still do it if your app could be installed with this version.
@@ -30,3 +32,6 @@
 ;;; Options
 Email=anmol@datamol.org
 Notification=change
+;;; Upgrade options
+	; commit=e5ce0d869526c6c856c1e2398b4b2ce0ba8e7542
+		name=1.9~ynh1
