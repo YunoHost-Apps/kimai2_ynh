@@ -1,10 +1,10 @@
 # Kimai2 app for YunoHost
 
-[![Integration level](https://dash.yunohost.org/integration/kimai2.svg)](https://dash.yunohost.org/appci/app/kimai2)
-[![Install kimai2 with YunoHost](https://install-app.yunohost.org/install-with-yunohost.png)](https://install-app.yunohost.org/?app=kimai2)
+[![Integration level](https://dash.yunohost.org/integration/kimai2.svg)](https://dash.yunohost.org/appci/app/kimai2) ![](https://ci-apps.yunohost.org/ci/badges/kimai2.status.svg) ![](https://ci-apps.yunohost.org/ci/badges/kimai2.maintain.svg)  
+[![Install Kimai2 with YunoHost](https://install-app.yunohost.org/install-with-yunohost.png)](https://install-app.yunohost.org/?app=kimai2)
 
-> *This package allow you to install kimai2 quickly and simply on a YunoHost server.
-If you don't have YunoHost, please see [here](https://yunohost.org/#/install) to know how to install and enjoy it.*
+> *This package allows you to install kimai2 quickly and simply on a YunoHost server.  
+If you don't have YunoHost, please consult [the guide](https://yunohost.org/#/install) to learn how to install it.*
 
 ## Overview
 This is the reloaded version of the open source timetracker Kimai. Right now its in an early development phase, its usable but some advanced features from Kimai v1 are missing by now.
@@ -12,7 +12,7 @@ This is the reloaded version of the open source timetracker Kimai. Right now its
 Kimai v2 has nothing in common with its predecessor Kimai v1 besides the basic ideas of time-tracking and the current development team. It is based on a lot of great frameworks. Special thanks to Symfony v4, Doctrine, AdminThemeBundle (based on AdminLTE).
 https://github.com/kevinpapst/kimai2
 
-Shipped Version: **1.11**
+Shipped Version: **1.11.1**
 
 ## Screenshots
 
@@ -33,7 +33,7 @@ Shipped Version: **1.11**
 
 ## YunoHost specific features
 
-#### Multi-users support
+#### Multi-user support
 
 LDAP is supported
 HTTP auth is not supported
@@ -46,7 +46,7 @@ Those roles are directly managed using YunoHost permission system. User choosen 
 
 #### Supported architectures
 
-* x86-64b - [![Build Status](https://ci-apps.yunohost.org/ci/logs/kimai2%20%28Apps%29.svg)](https://ci-apps.yunohost.org/ci/apps/kimai2/)
+* x86-64 - [![Build Status](https://ci-apps.yunohost.org/ci/logs/kimai2%20%28Apps%29.svg)](https://ci-apps.yunohost.org/ci/apps/kimai2/)
 * ARMv8-A - [![Build Status](https://ci-apps-arm.yunohost.org/ci/logs/kimai2%20%28Apps%29.svg)](https://ci-apps-arm.yunohost.org/ci/apps/kimai2/)
 
 ## Links
@@ -58,10 +58,10 @@ Those roles are directly managed using YunoHost permission system. User choosen 
 
 ---
 
-Developers info
+Developer info
 ----------------
 
-Please do your pull request to the [testing branch](https://github.com/YunoHost-Apps/kimai2_ynh/tree/testing).
+Please send your pull request to the [testing branch](https://github.com/YunoHost-Apps/kimai2_ynh/tree/testing).
 
 To try the testing branch, please proceed like that.
 ```
