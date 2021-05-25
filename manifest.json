@@ -8,16 +8,14 @@
         "de": "Eine web-basierte Mehrbenutzer-Zeiterfassung mit Rechnungsdruck mit Unterstützung für mobile Endgeräte",
         "cs": "Víceuživatelská webová aplikace pro sledování času s podporou mobilních zařízení"
     },
-    "version": "1.11.1~ynh1",
+    "version": "1.14.3~ynh1",
     "url": "https://www.kimai.org",
     "license": "MIT",
     "maintainer": {
-        "name": "Anmol Sharma",
-        "email": "anmol@datamol.org",
-        "url": "datamol.org"
+        "name": "Anmol Sharma"
     },
     "requirements": {
-        "yunohost": ">= 3.8"
+        "yunohost": ">= 4.0.0"
     },
     "multi_instance": true,
     "services": [
@@ -60,18 +58,6 @@
                 },
                 "default": false
             },
-            {
-                "name": "database",
-                "type": "string",
-                "ask": {
-                    "en": "Choose the database to use (for production usage choose: mysql)",
-                    "fr": "Choisissez le type de base de données à utiliser (mysql pour un usage en production)",
-                    "de": "Wählen Sie die zu nutzende Datenbank (für produktive Zwecke wähle: mysql)",
-                    "cs": "Zvolte databázi (pro produkční použití vyberte: mysql)"
-                },
-                "choices": ["mysql","sqlite"],
-                "default": "mysql"
-			},
              {
                 "name": "registration",
                 "type": "boolean",
