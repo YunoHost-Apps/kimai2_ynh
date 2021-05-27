@@ -15,15 +15,15 @@ source /usr/share/yunohost/helpers
 #=================================================
 ynh_script_progression --message="Loading installation settings..."
 
-app=$YNH_APP_INSTANCE_NAME
+app= $YNH_APP_INSTANCE_NAME
 
-domain=$(ynh_app_setting_get --app=$app --key=domain)
-path_url=$(ynh_app_setting_get --app=$app --key=path)
-admin=$(ynh_app_setting_get --app=$app --key=admin)
-is_public=$(ynh_app_setting_get --app=$app --key=is_public)
-final_path=$(ynh_app_setting_get --app=$app --key=final_path)
+domain=$(ynh_app_setting_get       --app=$app --key=domain)
+path_url=$(ynh_app_setting_get     --app=$app --key=path)
+admin=$(ynh_app_setting_get        --app=$app --key=admin)
+is_public=$(ynh_app_setting_get    --app=$app --key=is_public)
+final_path=$(ynh_app_setting_get   --app=$app --key=final_path)
 registration=$(ynh_app_setting_get --app=$app --key=registration)
-random_key=$(ynh_app_setting_get --app=$app --key=random_key)
+random_key=$(ynh_app_setting_get   --app=$app --key=random_key)
 
 #=================================================
 # CHECK VERSION

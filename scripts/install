@@ -30,7 +30,6 @@ admin=$YNH_APP_ARG_ADMIN
 is_public=$YNH_APP_ARG_IS_PUBLIC
 registration=$YNH_APP_ARG_REGISTRATION
 random_key=$(ynh_string_random 32)
-
 app=$YNH_APP_INSTANCE_NAME
 
 #=================================================
@@ -54,7 +53,6 @@ ynh_app_setting_set --app=$app --key=path         --value=$path_url
 ynh_app_setting_set --app=$app --key=admin        --value=$admin
 ynh_app_setting_set --app=$app --key=is_public    --value=$is_public
 ynh_app_setting_set --app=$app --key=registration --value=$registration
-ynh_app_setting_set --app=$app --key=database     --value=$database
 ynh_app_setting_set --app=$app --key=random_key   --value=$random_key
 
 #=================================================
@@ -75,6 +73,7 @@ ynh_app_setting_set --app=$app --key=final_path --value=$final_path
 
 # Clone the latest version
 latest_tag=$(curl -s https://api.github.com/repos/kevinpapst/kimai2/releases/latest | grep 'tag_name' | cut -d\" -f4)
+
 git clone -b $latest_tag --depth 1 https://github.com/kevinpapst/kimai2.git $final_path
 
 #=================================================
@@ -111,10 +110,12 @@ ynh_script_progression --message="Configuring Kimai2..."
 local_conf="$final_path/config/packages/local.yaml"
 # Configure registration
 cp ../conf/local.yaml $local_conf
-ynh_replace_string  --match_string="__APP__" --replace_string="$app" --target_file="$local_conf"
+ynh_replace_string      --match_string="__APP__"          --replace_string="$app"  --target_file="$local_conf"
+
+# Registration should be allowed or not 
 if [ $registration -eq 1  ]
 then
-	ynh_replace_string  --match_string="__REGISTRATION__" --replace_string="true" --target_file="$local_conf"
+	ynh_replace_string  --match_string="__REGISTRATION__" --replace_string="true"  --target_file="$local_conf"
 else
 	ynh_replace_string  --match_string="__REGISTRATION__" --replace_string="false" --target_file="$local_conf"
 fi
@@ -124,21 +125,21 @@ fi
 cp ../conf/.env.mysql $env_conf
 db_name=$(ynh_sanitize_dbid --db_name=$app)
 db_user=$db_name
-ynh_app_setting_set --app=$app --key=db_name --value=$db_name
-ynh_mysql_setup_db --db_user=$db_user --db_name=$db_name	
-ynh_replace_string  --match_string="__RANDOM_KEY__" --replace_string="$random_key" --target_file="$env_conf"
-ynh_replace_string  --match_string="__DOMAIN__" --replace_string="$domain" --target_file="$env_conf"
-ynh_replace_string  --match_string="__DB_PASSWORD__" --replace_string="$db_pwd" --target_file="$env_conf"
-ynh_replace_string  --match_string="__DB_USER__" --replace_string="$db_name" --target_file="$env_conf"
-ynh_replace_string  --match_string="__DB_NAME__" --replace_string="$db_name" --target_file="$env_conf"
+ynh_app_setting_set --app=$app                       --key=db_name --value=$db_name
+ynh_mysql_setup_db  --db_user=$db_user               --db_name=$db_name	
+ynh_replace_string  --match_string="__RANDOM_KEY__"  --replace_string="$random_key" --target_file="$env_conf"
+ynh_replace_string  --match_string="__DOMAIN__"      --replace_string="$domain"     --target_file="$env_conf"
+ynh_replace_string  --match_string="__DB_PASSWORD__" --replace_string="$db_pwd"     --target_file="$env_conf"
+ynh_replace_string  --match_string="__DB_USER__"     --replace_string="$db_name"    --target_file="$env_conf"
+ynh_replace_string  --match_string="__DB_NAME__"     --replace_string="$db_name"    --target_file="$env_conf"
 
 #=================================================
 # BUILD KIMAI2
 #=================================================
 ynh_script_progression --message="Building Kimai2..."
 
-ynh_install_composer --phpversion="${YNH_PHP_VERSION}" --workdir="$final_path" --install_args="--optimize-autoloader"
-ynh_composer_exec --phpversion="${YNH_PHP_VERSION}" --workdir="$final_path" --commands="require laminas/laminas-ldap"
+ynh_install_composer   --phpversion="${YNH_PHP_VERSION}" --workdir="$final_path" --install_args="--optimize-autoloader"
+ynh_composer_exec      --phpversion="${YNH_PHP_VERSION}" --workdir="$final_path" --commands="require laminas/laminas-ldap"
 
 pushd "$final_path"
 	php${YNH_PHP_VERSION} bin/console kimai:install -n
@@ -147,7 +148,7 @@ popd
 #=================================================
 # STORE THE CONFIG FILE CHECKSUM
 #=================================================
-ynh_script_progression --message="Storing the config file checksum..."
+ynh_script_progression  --message="Storing the config file checksum..."
 
 # Calculate and store the config file checksum into the app settings
 ynh_store_file_checksum --file="$local_conf"
@@ -168,9 +169,9 @@ chown -R $app: $final_path
 #=================================================
 ynh_script_progression --message="Configuring SSOwat..."
 
-ynh_permission_create --permission="teamlead"
-ynh_permission_create --permission="admin"
-ynh_permission_create --permission="super_admin" --allowed "$admin"
+ynh_permission_create  --permission="teamlead"
+ynh_permission_create  --permission="admin"
+ynh_permission_create  --permission="super_admin" --allowed "$admin"
 
 # Make app public if necessary
 if [ $is_public -eq 1 ]
