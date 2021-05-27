@@ -120,7 +120,7 @@ else
 	ynh_replace_string  --match_string="__REGISTRATION__" --replace_string="false" --target_file="$local_conf"
 fi
 
-
+env_conf="$final_path/.env"
 # setup application config
 cp ../conf/.env.mysql $env_conf
 db_name=$(ynh_sanitize_dbid --db_name=$app)

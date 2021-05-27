@@ -1,6 +1,7 @@
 # Kimai2 app for YunoHost
 
-[![Integration level](https://dash.yunohost.org/integration/kimai2.svg)](https://dash.yunohost.org/appci/app/kimai2) ![](https://ci-apps.yunohost.org/ci/badges/kimai2.status.svg) ![](https://ci-apps.yunohost.org/ci/badges/kimai2.maintain.svg)  
+[![Integration level](https://dash.yunohost.org/integration/kimai2.svg)](https://dash.yunohost.org/appci/app/kimai2) ![](https://ci-apps.yunohost.org/ci/badges/kimai2.status.svg) ![](https://ci-apps.yunohost.org/ci/badges/kimai2.maintain.svg)
+
 [![Install Kimai2 with YunoHost](https://install-app.yunohost.org/install-with-yunohost.png)](https://install-app.yunohost.org/?app=kimai2)
 
 > *This package allows you to install kimai2 quickly and simply on a YunoHost server.  
