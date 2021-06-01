@@ -31,6 +31,7 @@ is_public=$YNH_APP_ARG_IS_PUBLIC
 registration=$YNH_APP_ARG_REGISTRATION
 random_key=$(ynh_string_random 32)
 app=$YNH_APP_INSTANCE_NAME
+update=$YNH_APP_ARG_UPDATE
 
 #=================================================
 # CHECK IF THE APP CAN BE INSTALLED WITH THESE ARGS
@@ -54,6 +55,7 @@ ynh_app_setting_set --app=$app --key=admin        --value=$admin
 ynh_app_setting_set --app=$app --key=is_public    --value=$is_public
 ynh_app_setting_set --app=$app --key=registration --value=$registration
 ynh_app_setting_set --app=$app --key=random_key   --value=$random_key
+ynh_app_setting_set --app=$app --key=update       --value=$update
 
 #=================================================
 # STANDARD MODIFICATIONS
@@ -72,9 +74,8 @@ ynh_script_progression --message="Setting up source files..."
 ynh_app_setting_set --app=$app --key=final_path --value=$final_path
 
 # Clone the latest version
-latest_tag=$(curl -s https://api.github.com/repos/kevinpapst/kimai2/releases/latest | grep 'tag_name' | cut -d\" -f4)
 
-git clone -b $latest_tag --depth 1 https://github.com/kevinpapst/kimai2.git $final_path
+git clone -b $tag --depth 1 https://github.com/kevinpapst/kimai2.git $final_path
 
 #=================================================
 # NGINX CONFIGURATION

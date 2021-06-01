@@ -9,7 +9,8 @@
 		admin="john"	(USER)
 		registration=1
 		is_public=1	(PUBLIC|public=1|private=0)
-	; Checks
+	    update=0
+    ; Checks
 		pkg_linter=1
 		setup_sub_dir=0
 		setup_root=1
