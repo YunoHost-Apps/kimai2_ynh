@@ -31,7 +31,7 @@ is_public=$YNH_APP_ARG_IS_PUBLIC
 registration=$YNH_APP_ARG_REGISTRATION
 random_key=$(ynh_string_random 32)
 app=$YNH_APP_INSTANCE_NAME
-update=$YNH_APP_ARG_UPDATE
+update=0
 
 #=================================================
 # CHECK IF THE APP CAN BE INSTALLED WITH THESE ARGS
