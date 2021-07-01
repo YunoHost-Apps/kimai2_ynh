@@ -170,9 +170,9 @@ chown -R $app: $final_path
 #=================================================
 ynh_script_progression --message="Configuring SSOwat..."
 
-ynh_permission_create  --permission="teamlead"
-ynh_permission_create  --permission="admin"
-ynh_permission_create  --permission="super_admin" --allowed "$admin"
+ynh_permission_create --permission="teamlead"
+ynh_permission_create --permission="admin"
+ynh_permission_create --permission="super_admin" --allowed "$admin"
 
 # Make app public if necessary
 if [ $is_public -eq 1 ]
