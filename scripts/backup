@@ -29,7 +29,6 @@ app=$YNH_APP_INSTANCE_NAME
 
 final_path=$(ynh_app_setting_get --app=$app --key=final_path)
 domain=$(ynh_app_setting_get --app=$app --key=domain)
-database=$(ynh_app_setting_get --app=$app --key=database)
 
 #=================================================
 # DECLARE DATA AND CONF FILES TO BACKUP
@@ -58,11 +57,11 @@ ynh_backup --src_path="/etc/php/${YNH_PHP_VERSION}/fpm/pool.d/$app.conf"
 # BACKUP THE MYSQL DATABASE
 #=================================================
 
-if [ "$database" = "mysql" ]; then
-	ynh_print_info --message="Backing up the MySQL database..."
-	db_name=$(ynh_app_setting_get --app=$app --key=db_name)
-	ynh_mysql_dump_db --database="$db_name" > db.sql
-fi
+
+ynh_print_info --message="Backing up the MySQL database..."
+db_name=$(ynh_app_setting_get --app=$app --key=db_name)
+ynh_mysql_dump_db --database="$db_name" > db.sql
+
 
 #=================================================
 # END OF SCRIPT

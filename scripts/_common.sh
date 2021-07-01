@@ -4,6 +4,9 @@
 # COMMON VARIABLES
 #=================================================
 
+# Latest tag
+latest_tag=$(curl -s https://api.github.com/repos/kevinpapst/kimai2/releases/latest | grep 'tag_name' | cut -d\" -f4)
+tag="1.14.3"
 # dependencies used by the app
 pkg_dependencies=""
 

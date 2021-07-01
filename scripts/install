@@ -29,10 +29,9 @@ path_url="/"
 admin=$YNH_APP_ARG_ADMIN
 is_public=$YNH_APP_ARG_IS_PUBLIC
 registration=$YNH_APP_ARG_REGISTRATION
-database=$YNH_APP_ARG_DATABASE
 random_key=$(ynh_string_random 32)
-
 app=$YNH_APP_INSTANCE_NAME
+update=0
 
 #=================================================
 # CHECK IF THE APP CAN BE INSTALLED WITH THESE ARGS
@@ -50,13 +49,13 @@ ynh_webpath_register --app=$app --domain=$domain --path_url=$path_url
 #=================================================
 ynh_script_progression --message="Storing installation settings..."
 
-ynh_app_setting_set --app=$app --key=domain --value=$domain
-ynh_app_setting_set --app=$app --key=path --value=$path_url
-ynh_app_setting_set --app=$app --key=admin --value=$admin
-ynh_app_setting_set --app=$app --key=is_public --value=$is_public
+ynh_app_setting_set --app=$app --key=domain       --value=$domain
+ynh_app_setting_set --app=$app --key=path         --value=$path_url
+ynh_app_setting_set --app=$app --key=admin        --value=$admin
+ynh_app_setting_set --app=$app --key=is_public    --value=$is_public
 ynh_app_setting_set --app=$app --key=registration --value=$registration
-ynh_app_setting_set --app=$app --key=database --value=$database
-ynh_app_setting_set --app=$app --key=random_key --value=$random_key
+ynh_app_setting_set --app=$app --key=random_key   --value=$random_key
+ynh_app_setting_set --app=$app --key=update       --value=$update
 
 #=================================================
 # STANDARD MODIFICATIONS
@@ -73,8 +72,10 @@ ynh_install_app_dependencies $pkg_dependencies
 ynh_script_progression --message="Setting up source files..."
 
 ynh_app_setting_set --app=$app --key=final_path --value=$final_path
-# Download, check integrity, uncompress and patch the source from app.src
-ynh_setup_source --dest_dir="$final_path"
+
+# Clone the latest version
+
+git clone -b $tag --depth 1 https://github.com/kevinpapst/kimai2.git $final_path
 
 #=================================================
 # NGINX CONFIGURATION
@@ -110,34 +111,28 @@ ynh_script_progression --message="Configuring Kimai2..."
 local_conf="$final_path/config/packages/local.yaml"
 # Configure registration
 cp ../conf/local.yaml $local_conf
-ynh_replace_string  --match_string="__APP__" --replace_string="$app" --target_file="$local_conf"
+ynh_replace_string      --match_string="__APP__"          --replace_string="$app"  --target_file="$local_conf"
+
+# Registration should be allowed or not 
 if [ $registration -eq 1  ]
 then
-	ynh_replace_string  --match_string="__REGISTRATION__" --replace_string="true" --target_file="$local_conf"
+	ynh_replace_string  --match_string="__REGISTRATION__" --replace_string="true"  --target_file="$local_conf"
 else
 	ynh_replace_string  --match_string="__REGISTRATION__" --replace_string="false" --target_file="$local_conf"
 fi
 
 env_conf="$final_path/.env"
-# Configure environement
-if [ "$database" = "mysql" ]; then
-	# setup application config
-	cp ../conf/.env.mysql $env_conf
-	db_name=$(ynh_sanitize_dbid --db_name=$app)
-	db_user=$db_name
-	ynh_app_setting_set --app=$app --key=db_name --value=$db_name
-	ynh_mysql_setup_db --db_user=$db_user --db_name=$db_name	
-	ynh_replace_string  --match_string="__RANDOM_KEY__" --replace_string="$random_key" --target_file="$env_conf"
-	ynh_replace_string  --match_string="__DOMAIN__" --replace_string="$domain" --target_file="$env_conf"
-	ynh_replace_string  --match_string="__DB_PASSWORD__" --replace_string="$db_pwd" --target_file="$env_conf"
-	ynh_replace_string  --match_string="__DB_USER__" --replace_string="$db_name" --target_file="$env_conf"
-	ynh_replace_string  --match_string="__DB_NAME__" --replace_string="$db_name" --target_file="$env_conf"
-else
-	# setup application config
-	cp ../conf/.env.sqlite $env_conf
-	ynh_replace_string  --match_string="__RANDOM_KEY__" --replace_string="$random_key" --target_file="$env_conf"
-	ynh_replace_string  --match_string="__DOMAIN__" --replace_string="$domain" --target_file="$env_conf"
-fi
+# setup application config
+cp ../conf/.env.mysql $env_conf
+db_name=$(ynh_sanitize_dbid --db_name=$app)
+db_user=$db_name
+ynh_app_setting_set --app=$app                       --key=db_name --value=$db_name
+ynh_mysql_setup_db  --db_user=$db_user               --db_name=$db_name	
+ynh_replace_string  --match_string="__RANDOM_KEY__"  --replace_string="$random_key" --target_file="$env_conf"
+ynh_replace_string  --match_string="__DOMAIN__"      --replace_string="$domain"     --target_file="$env_conf"
+ynh_replace_string  --match_string="__DB_PASSWORD__" --replace_string="$db_pwd"     --target_file="$env_conf"
+ynh_replace_string  --match_string="__DB_USER__"     --replace_string="$db_name"    --target_file="$env_conf"
+ynh_replace_string  --match_string="__DB_NAME__"     --replace_string="$db_name"    --target_file="$env_conf"
 
 #=================================================
 # BUILD KIMAI2
