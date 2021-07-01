@@ -139,8 +139,8 @@ ynh_replace_string  --match_string="__DB_NAME__"     --replace_string="$db_name"
 #=================================================
 ynh_script_progression --message="Building Kimai2..."
 
-ynh_install_composer   --phpversion="${YNH_PHP_VERSION}" --workdir="$final_path" --install_args="--optimize-autoloader"
-ynh_composer_exec      --phpversion="${YNH_PHP_VERSION}" --workdir="$final_path" --commands="require laminas/laminas-ldap"
+ynh_install_composer --phpversion="${YNH_PHP_VERSION}" --workdir="$final_path" --install_args="--optimize-autoloader"
+ynh_composer_exec --phpversion="${YNH_PHP_VERSION}" --workdir="$final_path" --commands="require laminas/laminas-ldap"
 
 pushd "$final_path"
 	php${YNH_PHP_VERSION} bin/console kimai:install -n
