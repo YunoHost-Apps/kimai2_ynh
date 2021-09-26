@@ -96,7 +96,7 @@ ynh_add_nginx_config
 #=================================================
 # PHP-FPM CONFIGURATION
 #=================================================
-ynh_script_progression --message="Configuring php-fpm..."
+ynh_script_progression --message="Configuring PHP-FPM..."
 
 # Create a dedicated php-fpm config
 ynh_add_fpm_config --usage=low --footprint=low --package="$extra_php_dependencies"
@@ -134,9 +134,7 @@ ynh_replace_string  --match_string="__DB_PWD__" --replace_string="$db_pwd"     -
 ynh_replace_string  --match_string="__DB_USER__"     --replace_string="$db_name"    --target_file="$env_conf"
 ynh_replace_string  --match_string="__DB_NAME__"     --replace_string="$db_name"    --target_file="$env_conf"
 
-
 #ynh_add_config --template="../conf/.env.mysql" --destination="$final_path/.env"
-
 
 #=================================================
 # BUILD KIMAI2
@@ -164,15 +162,17 @@ ynh_store_file_checksum --file="$env_conf"
 #=================================================
 # SECURE FILES AND DIRECTORIES
 #=================================================
-ynh_script_progression --message="Securing files and directories..."
+# ynh_script_progression --message="Securing files and directories..."
 
-# Set permissions to app files
-chown -R $app: $final_path
+# # Set permissions to app files
+# chmod 750 "$final_path"
+# chmod -R o-rwx "$final_path"
+# chown -R $app:www-data "$final_path"
 
 #=================================================
 # SETUP SSOWAT
 #=================================================
-ynh_script_progression --message="Configuring SSOwat..."
+ynh_script_progression --message="Configuring permissions..."
 
 ynh_permission_create --permission="teamlead"
 ynh_permission_create --permission="admin"
@@ -187,7 +187,7 @@ fi
 #=================================================
 # RELOAD NGINX
 #=================================================
-ynh_script_progression --message="Reloading nginx web server..."
+ynh_script_progression --message="Reloading NGINX web server..."
 
 ynh_systemd_action --service_name=nginx --action=reload
 

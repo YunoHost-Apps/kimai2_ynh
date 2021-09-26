@@ -7,7 +7,6 @@
 #=================================================
 
 source _common.sh
-source ynh_composer__3
 source /usr/share/yunohost/helpers
 
 #=================================================
@@ -17,31 +16,20 @@ ynh_script_progression --message="Loading installation settings..."
 
 app=$YNH_APP_INSTANCE_NAME
 
-domain=$(ynh_app_setting_get       --app=$app --key=domain)
-path_url=$(ynh_app_setting_get     --app=$app --key=path)
-admin=$(ynh_app_setting_get        --app=$app --key=admin)
-is_public=$(ynh_app_setting_get    --app=$app --key=is_public)
-final_path=$(ynh_app_setting_get   --app=$app --key=final_path)
+domain=$(ynh_app_setting_get --app=$app --key=domain)
+path_url=$(ynh_app_setting_get --app=$app --key=path)
+admin=$(ynh_app_setting_get --app=$app --key=admin)
+is_public=$(ynh_app_setting_get --app=$app --key=is_public)
+final_path=$(ynh_app_setting_get --app=$app --key=final_path)
 registration=$(ynh_app_setting_get --app=$app --key=registration)
-random_key=$(ynh_app_setting_get   --app=$app --key=random_key)
-update=$(ynh_app_setting_get       --app=$app --key=update)
+random_key=$(ynh_app_setting_get --app=$app --key=random_key)
+update=$(ynh_app_setting_get --app=$app --key=update)
 
 #=================================================
 # CHECK VERSION
 #=================================================
 
 upgrade_type=$(ynh_check_app_version_changed)
-
-#=================================================
-# ENSURE DOWNWARD COMPATIBILITY
-#=================================================
-ynh_script_progression --message="Ensuring downward compatibility..."
-
-# If final_path doesn't exist, create it
-if [ -z "$final_path" ]; then
-	final_path=/var/www/$app
-	ynh_app_setting_set --app=$app --key=final_path --value=$final_path
-fi
 
 #=================================================
 # BACKUP BEFORE UPGRADE THEN ACTIVE TRAP
@@ -58,10 +46,52 @@ ynh_clean_setup () {
 ynh_abort_if_errors
 
 #=================================================
+# ENSURE DOWNWARD COMPATIBILITY
+#=================================================
+ynh_script_progression --message="Ensuring downward compatibility..."
+
+# If final_path doesn't exist, create it
+if [ -z "$final_path" ]; then
+	final_path=/var/www/$app
+	ynh_app_setting_set --app=$app --key=final_path --value=$final_path
+fi
+
+# Cleaning legacy permissions
+if ynh_legacy_permissions_exists; then
+	ynh_legacy_permissions_delete_all
+
+	ynh_app_setting_delete --app=$app --key=is_public
+fi
+
+if ! ynh_permission_exists --permission="teamlead"
+then
+	ynh_permission_create --permission="teamlead"
+fi
+
+if ! ynh_permission_exists --permission="admin"
+then
+	ynh_permission_create --permission="admin"
+fi
+
+if ! ynh_permission_exists --permission="super_admin"
+then
+	ynh_permission_create --permission="super_admin" --allowed "$admin"
+fi
+
+#=================================================
+# CREATE DEDICATED USER
+#=================================================
+ynh_script_progression --message="Making sure dedicated system user exists..."
+
+# Create a dedicated user (if not existing)
+ynh_system_user_create --username=$app --home_dir="$final_path"
+
+#=================================================
 # STANDARD UPGRADE STEPS
 #=================================================
 # DOWNLOAD, CHECK AND UNPACK SOURCE
 #=================================================
+
 latest_tag=$(curl -s https://api.github.com/repos/kevinpapst/kimai2/releases/latest | grep 'tag_name' | cut -d\" -f4)
 if [ "$upgrade_type" == "UPGRADE_APP" ]
 then
@@ -102,8 +132,6 @@ then
      fi
 
    
-
-	
 	# Restore config
 	if [ -f $tmpdir/local.yaml ]; then
 		cp -af "$tmpdir/local.yaml" "$final_path/config/packages/."
@@ -119,11 +147,10 @@ then
  fi
 fi
 
-
 #=================================================
 # NGINX CONFIGURATION
 #=================================================
-ynh_script_progression --message="Upgrading nginx web server configuration..."
+ynh_script_progression --message="Upgrading NGINX web server configuration..."
 
 # Create a dedicated nginx config
 ynh_add_nginx_config
@@ -136,17 +163,9 @@ ynh_script_progression --message="Upgrading dependencies..."
 ynh_install_app_dependencies $pkg_dependencies
 
 #=================================================
-# CREATE DEDICATED USER
-#=================================================
-ynh_script_progression --message="Making sure dedicated system user exists..."
-
-# Create a dedicated user (if not existing)
-ynh_system_user_create --username=$app
-
-#=================================================
 # PHP-FPM CONFIGURATION
 #=================================================
-ynh_script_progression --message="Upgrading php-fpm configuration..."
+ynh_script_progression --message="Upgrading PHP-FPM configuration..."
 
 # Create a dedicated php-fpm config
 ynh_add_fpm_config --usage=low --footprint=low --package="$extra_php_dependencies"
@@ -209,39 +228,14 @@ popd
 ynh_script_progression --message="Securing files and directories..."
 
 # Set permissions on app files
-chown -R $app: $final_path
-
-#=================================================
-# SETUP SSOWAT
-#=================================================
-ynh_script_progression --message="Upgrading SSOwat configuration..."
-
-if ! ynh_permission_exists --permission="teamlead"
-then
-	ynh_permission_create --permission="teamlead"
-fi
-
-if ! ynh_permission_exists --permission="admin"
-then
-	ynh_permission_create --permission="admin"
-fi
-
-if ! ynh_permission_exists --permission="super_admin"
-then
-	ynh_permission_create --permission="super_admin" --allowed "$admin"
-fi
-
-# Make app public if necessary
-if [ $is_public -eq 1 ]
-then
-	# unprotected_uris allows SSO credentials to be passed anyway.
-	ynh_permission_update --permission "main" --add "visitors"
-fi
+chmod 750 "$final_path"
+chmod -R o-rwx "$final_path"
+chown -R $app:www-data "$final_path"
 
 #=================================================
 # RELOAD NGINX
 #=================================================
-ynh_script_progression --message="Reloading nginx web server..."
+ynh_script_progression --message="Reloading NGINX web server..."
 
 ynh_systemd_action --service_name=nginx --action=reload
 
