@@ -60,12 +60,13 @@
                 "name": "registration",
                 "type": "boolean",
                 "ask": {
-                    "en": "Are new users allowed to register ?",
+                    "en": "Are new users allowed to register?",
                     "fr": "Est-ce que de nouveaux utilisateurs peuvent s'y inscrire ?",
                     "de": "Sollen sich neue Benutzer selber registrieren können ?",
                     "cs": "Mohou se noví uživatelé registrovat?"
                 },
                 "default": false
-            }       ]
+            }
+        ]
     }
 }
