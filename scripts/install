@@ -7,7 +7,6 @@
 #=================================================
 
 source _common.sh
-source ynh_composer__3
 source /usr/share/yunohost/helpers
 
 #=================================================
@@ -27,8 +26,9 @@ admin=$YNH_APP_ARG_ADMIN
 is_public=$YNH_APP_ARG_IS_PUBLIC
 registration=$YNH_APP_ARG_REGISTRATION
 random_key=$(ynh_string_random 32)
-app=$YNH_APP_INSTANCE_NAME
 update=0
+
+app=$YNH_APP_INSTANCE_NAME
 
 #=================================================
 # CHECK IF THE APP CAN BE INSTALLED WITH THESE ARGS
@@ -46,12 +46,12 @@ ynh_webpath_register --app=$app --domain=$domain --path_url=$path_url
 #=================================================
 ynh_script_progression --message="Storing installation settings..."
 
-ynh_app_setting_set --app=$app --key=domain       --value=$domain
-ynh_app_setting_set --app=$app --key=path         --value=$path_url
-ynh_app_setting_set --app=$app --key=admin        --value=$admin
+ynh_app_setting_set --app=$app --key=domain --value=$domain
+ynh_app_setting_set --app=$app --key=path --value=$path_url
+ynh_app_setting_set --app=$app --key=admin --value=$admin
 ynh_app_setting_set --app=$app --key=registration --value=$registration
-ynh_app_setting_set --app=$app --key=random_key   --value=$random_key
-ynh_app_setting_set --app=$app --key=update       --value=$update
+ynh_app_setting_set --app=$app --key=random_key --value=$random_key
+ynh_app_setting_set --app=$app --key=update --value=$update
 
 #=================================================
 # CREATE DEDICATED USER
@@ -60,6 +60,16 @@ ynh_script_progression --message="Configuring system user..."
 
 # Create a system user
 ynh_system_user_create --username=$app --home_dir="$final_path"
+
+#=================================================
+# CREATE A MYSQL DATABASE
+#=================================================
+ynh_script_progression --message="Creating a MySQL database..." --time --weight=1
+
+db_name=$(ynh_sanitize_dbid --db_name=$app)
+db_user=$db_name
+ynh_app_setting_set --app=$app --key=db_name --value=$db_name
+ynh_mysql_setup_db --db_user=$db_user --db_name=$db_name
 
 #=================================================
 # DOWNLOAD, CHECK AND UNPACK SOURCE
