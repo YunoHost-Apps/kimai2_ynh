@@ -1,6 +1,7 @@
 # Kimai2 app for YunoHost
 
-[![Integration level](https://dash.yunohost.org/integration/kimai2.svg)](https://dash.yunohost.org/appci/app/kimai2) ![](https://ci-apps.yunohost.org/ci/badges/kimai2.status.svg) ![](https://ci-apps.yunohost.org/ci/badges/kimai2.maintain.svg)  
+[![Integration level](https://dash.yunohost.org/integration/kimai2.svg)](https://dash.yunohost.org/appci/app/kimai2) ![](https://ci-apps.yunohost.org/ci/badges/kimai2.status.svg) ![](https://ci-apps.yunohost.org/ci/badges/kimai2.maintain.svg)
+
 [![Install Kimai2 with YunoHost](https://install-app.yunohost.org/install-with-yunohost.png)](https://install-app.yunohost.org/?app=kimai2)
 
 > *This package allows you to install kimai2 quickly and simply on a YunoHost server.  
@@ -12,7 +13,7 @@ This is the reloaded version of the open source timetracker Kimai. Right now its
 Kimai v2 has nothing in common with its predecessor Kimai v1 besides the basic ideas of time-tracking and the current development team. It is based on a lot of great frameworks. Special thanks to Symfony v4, Doctrine, AdminThemeBundle (based on AdminLTE).
 https://github.com/kevinpapst/kimai2
 
-Shipped Version: **1.11.1**
+Shipped Version: **1.14.3**
 
 ## Screenshots
 

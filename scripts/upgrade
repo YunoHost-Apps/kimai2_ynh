@@ -17,14 +17,14 @@ ynh_script_progression --message="Loading installation settings..."
 
 app=$YNH_APP_INSTANCE_NAME
 
-domain=$(ynh_app_setting_get --app=$app --key=domain)
-path_url=$(ynh_app_setting_get --app=$app --key=path)
-admin=$(ynh_app_setting_get --app=$app --key=admin)
-is_public=$(ynh_app_setting_get --app=$app --key=is_public)
-final_path=$(ynh_app_setting_get --app=$app --key=final_path)
+domain=$(ynh_app_setting_get       --app=$app --key=domain)
+path_url=$(ynh_app_setting_get     --app=$app --key=path)
+admin=$(ynh_app_setting_get        --app=$app --key=admin)
+is_public=$(ynh_app_setting_get    --app=$app --key=is_public)
+final_path=$(ynh_app_setting_get   --app=$app --key=final_path)
 registration=$(ynh_app_setting_get --app=$app --key=registration)
-database=$(ynh_app_setting_get --app=$app --key=database)
-random_key=$(ynh_app_setting_get --app=$app --key=random_key)
+random_key=$(ynh_app_setting_get   --app=$app --key=random_key)
+update=$(ynh_app_setting_get       --app=$app --key=update)
 
 #=================================================
 # CHECK VERSION
@@ -72,9 +72,21 @@ ynh_abort_if_errors
 #=================================================
 # DOWNLOAD, CHECK AND UNPACK SOURCE
 #=================================================
-
+latest_tag=$(curl -s https://api.github.com/repos/kevinpapst/kimai2/releases/latest | grep 'tag_name' | cut -d\" -f4)
 if [ "$upgrade_type" == "UPGRADE_APP" ]
 then
+  if [ `cd $final_path && git rev-parse --is-inside-work-tree` ]; then
+	  pushd "$final_path"
+        if [ $update -eq 1 ]
+        then
+          git fetch origin tag $latest_tag --no-tags
+          git checkout $latest_tag  
+        else
+          git fetch origin tag $tag --no-tags
+          git checkout $tag
+        fi
+      popd
+  else
 	ynh_script_progression --message="Upgrading source files..."
 	
 	# Create a temporary directory and backup config
@@ -92,7 +104,15 @@ then
 	ynh_secure_remove --file="$final_path"
 	
 	# Download, check integrity, uncompress and patch the source from app.src
-	ynh_setup_source --dest_dir="$final_path"
+    if [ $update -eq 1 ]
+    then
+      git clone -b $latest_tag --depth 1 https://github.com/kevinpapst/kimai2.git $final_path
+    else
+       git clone -b $tag --depth 1 https://github.com/kevinpapst/kimai2.git $final_path
+     fi
+
+   
+
 	
 	# Restore config
 	if [ -f $tmpdir/local.yaml ]; then
@@ -106,7 +126,9 @@ then
 	fi
 	
 	ynh_secure_remove --file="$tmpdir"
+ fi
 fi
+
 
 #=================================================
 # NGINX CONFIGURATION
@@ -161,23 +183,20 @@ ynh_store_file_checksum --file="$local_conf"
 env_conf=$final_path/.env
 ynh_backup_if_checksum_is_different --file="$env_conf"
 # Configure environement
-if [ "$database" = "mysql" ]; then
-	# setup application config
-	cp ../conf/.env.mysql $env_conf
-	db_pwd=$(ynh_app_setting_get --app=$app --key=mysqlpwd)
-	db_name=$(ynh_app_setting_get --app=$app --key=db_name)
-	db_user=$db_name	
-	ynh_replace_string --match_string="__RANDOM_KEY__" --replace_string="$random_key" --target_file="$env_conf"
-	ynh_replace_string --match_string="__DOMAIN__" --replace_string="$domain" --target_file="$env_conf"
-	ynh_replace_string --match_string="__DB_PASSWORD__" --replace_string="$db_pwd" --target_file="$env_conf"
-	ynh_replace_string --match_string="__DB_USER__" --replace_string="$db_name" --target_file="$env_conf"
-	ynh_replace_string --match_string="__DB_NAME__" --replace_string="$db_name" --target_file="$env_conf"
-else
-	# setup application config
-	cp ../conf/.env.sqlite $env_conf
-	ynh_replace_string --match_string="__RANDOM_KEY__" --replace_string="$random_key" --target_file="$env_conf"
-	ynh_replace_string --match_string="__DOMAIN__" --replace_string="$domain" --target_file="$env_conf"
-fi
+
+# setup application config
+	
+cp ../conf/.env.mysql $env_conf
+
+db_pwd=$(ynh_app_setting_get --app=$app --key=mysqlpwd)
+db_name=$(ynh_app_setting_get --app=$app --key=db_name)
+db_user=$db_name	
+ynh_replace_string --match_string="__RANDOM_KEY__" --replace_string="$random_key" --target_file="$env_conf"
+ynh_replace_string --match_string="__DOMAIN__" --replace_string="$domain" --target_file="$env_conf"
+ynh_replace_string --match_string="__DB_PASSWORD__" --replace_string="$db_pwd" --target_file="$env_conf"
+ynh_replace_string --match_string="__DB_USER__" --replace_string="$db_name" --target_file="$env_conf"
+ynh_replace_string --match_string="__DB_NAME__" --replace_string="$db_name" --target_file="$env_conf"
+
 ynh_store_file_checksum --file="$env_conf"
 
 #=================================================

@@ -30,7 +30,6 @@ app=$YNH_APP_INSTANCE_NAME
 domain=$(ynh_app_setting_get --app=$app --key=domain)
 path_url=$(ynh_app_setting_get --app=$app --key=path)
 final_path=$(ynh_app_setting_get --app=$app --key=final_path)
-database=$(ynh_app_setting_get --app=$app --key=database)
 
 #=================================================
 # CHECK IF THE APP CAN BE RESTORED
@@ -99,14 +98,12 @@ ynh_install_app_dependencies $pkg_dependencies
 # RESTORE THE MYSQL DATABASE
 #=================================================
 
-if [ "$database" = "mysql" ]; then
-	ynh_script_progression --message="Restoring the MySQL database..."
-	db_pwd=$(ynh_app_setting_get --app=$app --key=mysqlpwd)
-	db_name=$(ynh_app_setting_get --app=$app --key=db_name)
-	db_user=$db_name
-	ynh_mysql_setup_db --db_user=$db_user --db_name=$db_name --db_pwd=$db_pwd
-	ynh_mysql_connect_as --user=$db_user --password=$db_pwd --database=$db_name < ./db.sql
-fi
+ynh_script_progression --message="Restoring the MySQL database..."
+db_pwd=$(ynh_app_setting_get --app=$app --key=mysqlpwd)
+db_name=$(ynh_app_setting_get --app=$app --key=db_name)
+db_user=$db_name
+ynh_mysql_setup_db --db_user=$db_user --db_name=$db_name --db_pwd=$db_pwd
+ynh_mysql_connect_as --user=$db_user --password=$db_pwd --database=$db_name < ./db.sql
 
 #=================================================
 # GENERIC FINALIZATION
