@@ -25,7 +25,7 @@ path_url="/"
 admin=$YNH_APP_ARG_ADMIN
 is_public=$YNH_APP_ARG_IS_PUBLIC
 registration=$YNH_APP_ARG_REGISTRATION
-random_key=$(ynh_string_random 32)
+random_key=$(ynh_string_random --length=32)
 
 app=$YNH_APP_INSTANCE_NAME
 
