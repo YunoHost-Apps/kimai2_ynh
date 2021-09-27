@@ -110,8 +110,9 @@ then
 	if [ -d $final_path/var/data ]; then
 		cp -af "$final_path/var/data" "$tmpdir/."
 	fi
-	
-	ynh_secure_remove --file="$final_path"
+	$final_path/.env
+
+	cp -a "$final_path/.env" "$tmpdir/.env"
 	
 	# Download, check integrity, uncompress and patch the source from app.src
 	ynh_setup_source --dest_dir="$final_path"
@@ -127,6 +128,8 @@ then
 		cp -af "$tmpdir/data" "$final_path/var/."
 	fi
 	
+	cp -a "$tmpdir/.env" "$final_path/.env"
+
 	ynh_secure_remove --file="$tmpdir"
 fi
 
@@ -151,22 +154,22 @@ ynh_add_fpm_config --usage=low --footprint=low --package="$extra_php_dependencie
 #=================================================
 # CONFIGURE KIMAI2
 #=================================================
-ynh_script_progression --message="Configuring Kimai2..."
+# ynh_script_progression --message="Configuring Kimai2..."
 
-local_conf="$final_path/config/packages/local.yaml"
+# local_conf="$final_path/config/packages/local.yaml"
 
-ynh_backup_if_checksum_is_different --file="$local_conf"
-cp ../conf/local.yaml $local_conf
-ynh_replace_string  --match_string="__APP__" --replace_string="$app" --target_file="$local_conf"
-if [ $registration -eq 1  ]
-then
-	ynh_replace_string  --match_string="__REGISTRATION__" --replace_string="true" --target_file="$local_conf"
-else
-	ynh_replace_string  --match_string="__REGISTRATION__" --replace_string="false" --target_file="$local_conf"
-fi
-ynh_store_file_checksum --file="$local_conf"
+# ynh_backup_if_checksum_is_different --file="$local_conf"
+# cp ../conf/local.yaml $local_conf
+# ynh_replace_string  --match_string="__APP__" --replace_string="$app" --target_file="$local_conf"
+# if [ $registration -eq 1  ]
+# then
+# 	ynh_replace_string  --match_string="__REGISTRATION__" --replace_string="true" --target_file="$local_conf"
+# else
+# 	ynh_replace_string  --match_string="__REGISTRATION__" --replace_string="false" --target_file="$local_conf"
+# fi
+# ynh_store_file_checksum --file="$local_conf"
 
-ynh_add_config --template="../conf/.env.mysql" --destination="$final_path/.env"
+#ynh_add_config --template="../conf/.env.mysql" --destination="$final_path/.env"
 
 #=================================================
 # UPGRADE KIMAI2
