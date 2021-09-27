@@ -7,7 +7,6 @@
 #=================================================
 
 source _common.sh
-source ynh_composer__3
 source /usr/share/yunohost/helpers
 
 #=================================================
@@ -59,13 +58,12 @@ ynh_app_setting_set --app=$app --key=database --value=$database
 ynh_app_setting_set --app=$app --key=random_key --value=$random_key
 
 #=================================================
-# STANDARD MODIFICATIONS
+# CREATE DEDICATED USER
 #=================================================
-# INSTALL DEPENDENCIES
-#=================================================
-ynh_script_progression --message="Installing dependencies..."
+ynh_script_progression --message="Configuring system user..."
 
-ynh_install_app_dependencies $pkg_dependencies
+# Create a system user
+ynh_system_user_create --username=$app
 
 #=================================================
 # DOWNLOAD, CHECK AND UNPACK SOURCE
@@ -83,14 +81,6 @@ ynh_script_progression --message="Configuring nginx web server..."
 
 # Create a dedicated nginx config
 ynh_add_nginx_config
-
-#=================================================
-# CREATE DEDICATED USER
-#=================================================
-ynh_script_progression --message="Configuring system user..."
-
-# Create a system user
-ynh_system_user_create --username=$app
 
 #=================================================
 # PHP-FPM CONFIGURATION
@@ -182,7 +172,6 @@ ynh_permission_create --permission="super_admin" --allowed "$admin"
 # Make app public if necessary
 if [ $is_public -eq 1 ]
 then
-	# unprotected_uris allows SSO credentials to be passed anyway.
 	ynh_permission_update --permission "main" --add "visitors"
 fi
 

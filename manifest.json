@@ -3,8 +3,8 @@
     "id": "kimai2",
     "packaging_format": 1,
     "description": {
-        "en": "A multi-user application for time-tracking with support for mobile devices",
-        "fr": "Une application web de suivi du temps, multi-utilisateurs, et compatible avec les appareils mobiles",
+        "en": "Multi-user application for time-tracking with support for mobile devices",
+        "fr": "Application web de suivi du temps, multi-utilisateurs, et compatible avec les appareils mobiles",
         "de": "Eine web-basierte Mehrbenutzer-Zeiterfassung mit Rechnungsdruck mit Unterstützung für mobile Endgeräte",
         "cs": "Víceuživatelská webová aplikace pro sledování času s podporou mobilních zařízení"
     },
@@ -17,47 +17,27 @@
         "url": "datamol.org"
     },
     "requirements": {
-        "yunohost": ">= 3.8"
+        "yunohost": ">= 4.2.4"
     },
     "multi_instance": true,
     "services": [
         "nginx",
-        "php7.0-fpm",
+        "php7.3-fpm",
         "mysql"
     ],
     "arguments": {
         "install" : [
             {
                 "name": "domain",
-                "type": "domain",
-                "ask": {
-                    "en": "Choose a domain name for Kimai2",
-                    "fr": "Choisissez un nom de domaine pour Kimai2",
-                    "de": "Wählen Sie einen Domainnamen für Kimai2",
-                    "cs": "Zvolte doménu pro Kimai2"
-                },
-                "example": "kimai2.example.com"
+                "type": "domain"
             },
             {
                 "name": "admin",
-                "type": "user",
-                "ask": {
-                    "en": "Choose an admin user (should be a YunoHost registered user).",
-                    "fr": "Choisissez l’administrateur (should be a YunoHost registered user).",
-                    "de": "Wählen Sie einen Admin Benutzer (sollte ein registrierter YunoHost Benutzer sein).",
-                    "cs": "Zvolte administrátora (musí to být registrovaný uživatel YunoHostu)."
-                },
-                "example": "johndoe"
+                "type": "user"
             },
             {
                 "name": "is_public",
                 "type": "boolean",
-                "ask": {
-                    "en": "Is it a public application?",
-                    "fr": "Est-ce une application publique ?",
-                    "de": "Ist dies eine öffentliche Applikation?",
-                    "cs": "Je tato aplikace veřejná?"
-                },
                 "default": false
             },
             {
@@ -76,7 +56,7 @@
                 "name": "registration",
                 "type": "boolean",
                 "ask": {
-                    "en": "Are new users allowed to register ?",
+                    "en": "Are new users allowed to register?",
                     "fr": "Est-ce que de nouveaux utilisateurs peuvent s'y inscrire ?",
                     "de": "Sollen sich neue Benutzer selber registrieren können ?",
                     "cs": "Mohou se noví uživatelé registrovat?"

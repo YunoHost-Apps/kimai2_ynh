@@ -4,9 +4,6 @@
 # COMMON VARIABLES
 #=================================================
 
-# dependencies used by the app
-pkg_dependencies=""
-
 YNH_PHP_VERSION="7.3"
 
 YNH_COMPOSER_VERSION="2.0.4"
