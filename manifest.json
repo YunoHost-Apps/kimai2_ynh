@@ -41,18 +41,6 @@
                 "default": false
             },
             {
-                "name": "database",
-                "type": "string",
-                "ask": {
-                    "en": "Choose the database to use (for production usage choose: mysql)",
-                    "fr": "Choisissez le type de base de données à utiliser (mysql pour un usage en production)",
-                    "de": "Wählen Sie die zu nutzende Datenbank (für produktive Zwecke wähle: mysql)",
-                    "cs": "Zvolte databázi (pro produkční použití vyberte: mysql)"
-                },
-                "choices": ["mysql","sqlite"],
-                "default": "mysql"
-			},
-             {
                 "name": "registration",
                 "type": "boolean",
                 "ask": {
