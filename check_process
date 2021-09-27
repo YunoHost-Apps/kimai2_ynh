@@ -12,8 +12,8 @@
 		setup_private=1
 		setup_public=1
 		upgrade=1
-		# 1.9~ynh1
-		#upgrade=1	from_commit=f26285511a167a1ed591a7fa96ae786ea89efb1e
+		# 1.11.1~ynh1
+		upgrade=1	from_commit=26829daa0113b88e45d86ae6c6611784f51a41d2
         backup_restore=1
 		multi_instance=1
 		change_url=0
@@ -21,5 +21,5 @@
 Email=
 Notification=change
 ;;; Upgrade options
-	; commit=e5ce0d869526c6c856c1e2398b4b2ce0ba8e7542
-		name=1.9~ynh1
+	; commit=26829daa0113b88e45d86ae6c6611784f51a41d2
+		name=Upgrade to 1.11.1
