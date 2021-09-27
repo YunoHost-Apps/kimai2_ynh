@@ -12,7 +12,7 @@
 		setup_private=1
 		setup_public=1
 		upgrade=1
-		# 1.9~ynh1
+		# 1.11.1~ynh1
 		upgrade=1	from_commit=26829daa0113b88e45d86ae6c6611784f51a41d2
 		backup_restore=1
 		multi_instance=1
