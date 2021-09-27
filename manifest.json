@@ -27,11 +27,11 @@
         "install" : [
             {
                 "name": "domain",
-                "type": "domain",
+                "type": "domain"
             },
             {
                 "name": "admin",
-                "type": "user",
+                "type": "user"
             },
             {
                 "name": "is_public",
