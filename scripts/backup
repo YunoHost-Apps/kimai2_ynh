@@ -50,17 +50,14 @@ ynh_backup --src_path="/etc/nginx/conf.d/$domain.d/$app.conf"
 # BACKUP THE PHP-FPM CONFIGURATION
 #=================================================
 
-ynh_backup --src_path="/etc/php/${YNH_PHP_VERSION}/fpm/pool.d/$app.conf"
+ynh_backup --src_path="/etc/php/$phpversion/fpm/pool.d/$app.conf"
 
 #=================================================
 # BACKUP THE MYSQL DATABASE
 #=================================================
+ynh_print_info --message="Backing up the MySQL database..."
 
-if [ "$database" = "mysql" ]; then
-	ynh_print_info --message="Backing up the MySQL database..."
-	db_name=$(ynh_app_setting_get --app=$app --key=db_name)
-	ynh_mysql_dump_db --database="$db_name" > db.sql
-fi
+ynh_mysql_dump_db --database="$db_name" > db.sql
 
 #=================================================
 # END OF SCRIPT
