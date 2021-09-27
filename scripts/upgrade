@@ -22,6 +22,7 @@ admin=$(ynh_app_setting_get --app=$app --key=admin)
 final_path=$(ynh_app_setting_get --app=$app --key=final_path)
 registration=$(ynh_app_setting_get --app=$app --key=registration)
 random_key=$(ynh_app_setting_get --app=$app --key=random_key)
+phpversion=$(ynh_app_setting_get --app=$app --key=phpversion)
 
 #=================================================
 # CHECK VERSION
@@ -70,7 +71,7 @@ if ! ynh_permission_exists --permission="admin"; then
 fi
 
 if ! ynh_permission_exists --permission="super_admin"; then
-	ynh_permission_create --permission="super_admin" --allowed "$admin"
+	ynh_permission_create --permission="super_admin" --allowed="$admin"
 fi
 
 #=================================================
@@ -146,6 +147,7 @@ ynh_add_fpm_config --usage=low --footprint=low --package="$extra_php_dependencie
 ynh_script_progression --message="Configuring Kimai2..."
 
 local_conf="$final_path/config/packages/local.yaml"
+
 ynh_backup_if_checksum_is_different --file="$local_conf"
 cp ../conf/local.yaml $local_conf
 ynh_replace_string  --match_string="__APP__" --replace_string="$app" --target_file="$local_conf"
@@ -164,11 +166,11 @@ ynh_add_config --template="../conf/.env.mysql" --destination="$final_path/.env"
 #=================================================
 ynh_script_progression --message="Upgrading Kimai2..."
 
-ynh_install_composer --phpversion="${YNH_PHP_VERSION}" --workdir="$final_path" --install_args="--optimize-autoloader"
-ynh_composer_exec --phpversion="${YNH_PHP_VERSION}" --workdir="$final_path" --commands="require laminas/laminas-ldap"
+ynh_install_composer --phpversion="$phpversion" --workdir="$final_path" --install_args="--optimize-autoloader"
+ynh_composer_exec --phpversion="$phpversion" --workdir="$final_path" --commands="require laminas/laminas-ldap"
 
 pushd "$final_path"
-	php${YNH_PHP_VERSION} bin/console kimai:update -n
+	php$phpversion bin/console kimai:update -n
 popd
 
 #=================================================
