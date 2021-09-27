@@ -19,7 +19,6 @@ app=$YNH_APP_INSTANCE_NAME
 domain=$(ynh_app_setting_get --app=$app --key=domain)
 path_url=$(ynh_app_setting_get --app=$app --key=path)
 admin=$(ynh_app_setting_get --app=$app --key=admin)
-is_public=$(ynh_app_setting_get --app=$app --key=is_public)
 final_path=$(ynh_app_setting_get --app=$app --key=final_path)
 registration=$(ynh_app_setting_get --app=$app --key=registration)
 random_key=$(ynh_app_setting_get --app=$app --key=random_key)
@@ -78,7 +77,7 @@ fi
 
 if ! ynh_permission_exists --permission="super_admin"
 then
-	ynh_permission_create --permission="super_admin" --allowed "$admin"
+	ynh_permission_create --permission="super_admin" --allowed="$admin"
 fi
 
 #=================================================
