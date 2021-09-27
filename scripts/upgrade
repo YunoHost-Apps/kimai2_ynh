@@ -24,6 +24,8 @@ registration=$(ynh_app_setting_get --app=$app --key=registration)
 random_key=$(ynh_app_setting_get --app=$app --key=random_key)
 phpversion=$(ynh_app_setting_get --app=$app --key=phpversion)
 db_name=$(ynh_app_setting_get --app=$app --key=db_name)
+db_user=$db_name
+db_pwd=$(ynh_app_setting_get --app=$app --key=mysqlpwd)
 
 #=================================================
 # CHECK VERSION
