@@ -19,10 +19,13 @@ Multi-user application for time-tracking with support for mobile devices
 
 **Shipped version:** 1.15.2~ynh1
 
-
+**Demo:** https://www.kimai.org/demo/
 
 ## Documentation and resources
 
+* Official app website: https://www.kimai.org
+* Official admin documentation: https://www.kimai.org/documentation
+* Upstream app code repository: https://github.com/kevinpapst/kimai2
 * YunoHost documentation for this app: https://yunohost.org/app_kimai2
 * Report a bug: https://github.com/YunoHost-Apps/kimai2_ynh/issues
 
