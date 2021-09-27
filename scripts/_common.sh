@@ -6,6 +6,7 @@
 
 # Latest tag
 latest_tag=$(curl -s https://api.github.com/repos/kevinpapst/kimai2/releases/latest | grep 'tag_name' | cut -d\" -f4 2>&1)
+
 tag="1.15.2"
 
 YNH_PHP_VERSION="7.3"
