@@ -27,6 +27,12 @@ db_name=$(ynh_app_setting_get --app=$app --key=db_name)
 db_user=$db_name
 db_pwd=$(ynh_app_setting_get --app=$app --key=mysqlpwd)
 
+
+# If sqlite was installed, warn
+if [ -d "$final_path/var/data/kimai.sqlite" ]; then
+	ynh_print_warn --message="Support for sqlite has been dropped. please reinstall the app" | ynh_die
+fi
+
 #=================================================
 # CHECK VERSION
 #=================================================
@@ -56,6 +62,12 @@ ynh_script_progression --message="Ensuring downward compatibility..."
 if [ -z "$final_path" ]; then
 	final_path=/var/www/$app
 	ynh_app_setting_set --app=$app --key=final_path --value=$final_path
+fi
+
+# If db_name doesn't exist, create it
+if [ -z "$db_name" ]; then
+	db_name=$(ynh_sanitize_dbid --db_name=$app)
+	ynh_app_setting_set --app=$app --key=db_name --value=$db_name
 fi
 
 # Cleaning legacy permissions
