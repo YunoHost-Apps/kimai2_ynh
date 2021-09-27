@@ -15,10 +15,13 @@ Application web de suivi du temps, multi-utilisateurs, et compatible avec les ap
 
 **Version incluse :** 1.15.2~ynh1
 
-
+**Démo :** https://www.kimai.org/demo/
 
 ## Documentations et ressources
 
+* Site officiel de l'app : https://www.kimai.org
+* Documentation officielle de l'admin : https://www.kimai.org/documentation
+* Dépôt de code officiel de l'app : https://github.com/kevinpapst/kimai2
 * Documentation YunoHost pour cette app : https://yunohost.org/app_kimai2
 * Signaler un bug : https://github.com/YunoHost-Apps/kimai2_ynh/issues
 
