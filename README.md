@@ -20,7 +20,7 @@ This is the reloaded version of the open source timetracker Kimai. Right now its
 Kimai v2 has nothing in common with its predecessor Kimai v1 besides the basic ideas of time-tracking and the current development team. It is based on a lot of great frameworks. Special thanks to Symfony v4, Doctrine, AdminThemeBundle (based on AdminLTE).
 
 
-**Shipped version:** 1.17~ynh1
+**Shipped version:** 1.13~ynh1
 
 **Demo:** https://www.kimai.org/demo/
 
