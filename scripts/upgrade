@@ -22,7 +22,7 @@ admin=$(ynh_app_setting_get --app=$app --key=admin)
 final_path=$(ynh_app_setting_get --app=$app --key=final_path)
 db_name=$(ynh_app_setting_get --app=$app --key=db_name)
 db_user=$db_name
-db_name=$(ynh_app_setting_get --app=$app --key=mysqlpwd)
+db_pwd=$(ynh_app_setting_get --app=$app --key=mysqlpwd)
 registration=$(ynh_app_setting_get --app=$app --key=registration)
 database=$(ynh_app_setting_get --app=$app --key=database)
 random_key=$(ynh_app_setting_get --app=$app --key=random_key)
