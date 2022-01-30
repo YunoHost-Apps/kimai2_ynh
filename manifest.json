@@ -8,8 +8,15 @@
         "de": "Eine web-basierte Mehrbenutzer-Zeiterfassung mit Rechnungsdruck mit Unterstützung für mobile Endgeräte",
         "cs": "Víceuživatelská webová aplikace pro sledování času s podporou mobilních zařízení"
     },
-    "version": "1.11.1~ynh1",
+    "version": "1.13~ynh1",
     "url": "https://www.kimai.org",
+    "upstream": {
+        "license": "MIT",
+        "website": "https://www.kimai.org",
+        "demo": "https://www.kimai.org/demo/",
+        "admindoc": "https://www.kimai.org/documentation/",
+        "code": "https://github.com/kevinpapst/kimai2"
+    },
     "license": "MIT",
     "maintainer": {
         "name": "Anmol Sharma",
@@ -17,37 +24,23 @@
         "url": "datamol.org"
     },
     "requirements": {
-        "yunohost": ">= 3.8"
+        "yunohost": ">= 4.3.0"
     },
     "multi_instance": true,
     "services": [
         "nginx",
-        "php7.0-fpm",
+        "php7.3-fpm",
         "mysql"
     ],
     "arguments": {
-        "install" : [
+        "install": [
             {
                 "name": "domain",
-                "type": "domain",
-                "ask": {
-                    "en": "Choose a domain name for Kimai2",
-                    "fr": "Choisissez un nom de domaine pour Kimai2",
-                    "de": "Wählen Sie einen Domainnamen für Kimai2",
-                    "cs": "Zvolte doménu pro Kimai2"
-                },
-                "example": "kimai2.example.com"
+                "type": "domain"
             },
             {
                 "name": "admin",
-                "type": "user",
-                "ask": {
-                    "en": "Choose an admin user (should be a YunoHost registered user).",
-                    "fr": "Choisissez l’administrateur (should be a YunoHost registered user).",
-                    "de": "Wählen Sie einen Admin Benutzer (sollte ein registrierter YunoHost Benutzer sein).",
-                    "cs": "Zvolte administrátora (musí to být registrovaný uživatel YunoHostu)."
-                },
-                "example": "johndoe"
+                "type": "user"
             },
             {
                 "name": "is_public",
@@ -72,7 +65,7 @@
                 "choices": ["mysql","sqlite"],
                 "default": "mysql"
 			},
-             {
+            {
                 "name": "registration",
                 "type": "boolean",
                 "ask": {
