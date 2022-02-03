@@ -28,7 +28,7 @@ path_url="/"
 admin=$YNH_APP_ARG_ADMIN
 is_public=$YNH_APP_ARG_IS_PUBLIC
 registration=$YNH_APP_ARG_REGISTRATION
-database=$YNH_APP_ARG_DATABASE
+database="mysql"
 random_key=$(ynh_string_random 32)
 
 app=$YNH_APP_INSTANCE_NAME
@@ -92,7 +92,7 @@ ynh_script_progression --message="Setting up source files..."
 
 ynh_app_setting_set --app=$app --key=final_path --value=$final_path
 # Download, check integrity, uncompress and patch the source from app.src
-ynh_setup_source --dest_dir="$final_path"
+ynh_setup_source --dest_dir="$final_path" --source_id="$database"
 
 chmod 750 "$final_path"
 chmod -R o-rwx "$final_path"
