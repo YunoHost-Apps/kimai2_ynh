@@ -111,7 +111,7 @@ then
 	ynh_secure_remove --file="$final_path"
 	
 	# Download, check integrity, uncompress and patch the source from app.src
-	ynh_setup_source --dest_dir="$final_path"
+	ynh_setup_source --dest_dir="$final_path" --source_id="$database"
 	
 	# Restore config
 	if [ -f $tmpdir/local.yaml ]; then

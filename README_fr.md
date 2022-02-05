@@ -16,7 +16,7 @@ This is the reloaded version of the open source timetracker Kimai. Right now its
 Kimai v2 has nothing in common with its predecessor Kimai v1 besides the basic ideas of time-tracking and the current development team. It is based on a lot of great frameworks. Special thanks to Symfony v4, Doctrine, AdminThemeBundle (based on AdminLTE).
 
 
-**Version incluse :** 1.13~ynh1
+**Version incluse :** 1.17.1~ynh1
 
 **Démo :** https://www.kimai.org/demo/
 
@@ -28,6 +28,7 @@ Kimai v2 has nothing in common with its predecessor Kimai v1 besides the basic i
 
 * Require dedicated domain like **kimai.domain.tld**.
 * This app is multi-instance (you can have more then one Kimai instance running on a YunoHost server)
+* As sqlite support ended on version 1.14, if you choosed an sqlite databse during installation, Kimai2 upgrade is blocked to version 1.13
 
 #### Multi-user support
 
