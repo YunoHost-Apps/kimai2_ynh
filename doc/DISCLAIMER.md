@@ -1,5 +1,6 @@
 * Require dedicated domain like **kimai.domain.tld**.
 * This app is multi-instance (you can have more then one Kimai instance running on a YunoHost server)
+* As sqlite support ended on version 1.14, if you choosed an sqlite databse during installation, Kimai2 upgrade is blocked to version 1.13
 
 #### Multi-user support
 
