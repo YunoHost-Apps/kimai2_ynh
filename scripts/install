@@ -30,7 +30,6 @@ is_public=$YNH_APP_ARG_IS_PUBLIC
 registration=$YNH_APP_ARG_REGISTRATION
 random_key=$(ynh_string_random 32)
 phpversion=$YNH_PHP_VERSION
-email=$(ynh_user_get_info --username=$admin --key=mail)
 
 app=$YNH_APP_INSTANCE_NAME
 
@@ -174,7 +173,6 @@ ynh_script_progression --message="Installing Kimai2..."
 
 pushd "$final_path"
 	ynh_exec_as $app php$phpversion bin/console kimai:install -n
-	ynh_exec_as $app php$phpversion bin/console kimai:create-user $admin $email ROLE_SUPER_ADMIN -n
 popd
 
 #=================================================
