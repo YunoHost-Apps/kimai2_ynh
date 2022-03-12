@@ -40,7 +40,9 @@
             },
             {
                 "name": "path",
-                "type": "path"
+                "type": "path",
+                    "example": "/kimai",
+                    "default": "/kimai"
             },
             {
                 "name": "admin",
