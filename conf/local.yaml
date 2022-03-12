@@ -8,6 +8,7 @@ security:
             kimai_ldap: ~
 kimai:
     data_dir: "__DATADIR__"
+    
     user:
         registration: __REGISTRATION__
     ldap:
