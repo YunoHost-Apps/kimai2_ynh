@@ -23,8 +23,9 @@ final_path=$(ynh_app_setting_get --app=$app --key=final_path)
 db_name=$(ynh_app_setting_get --app=$app --key=db_name)
 db_user=$db_name
 db_pwd=$(ynh_app_setting_get --app=$app --key=mysqlpwd)
-registration=$(ynh_app_setting_get --app=$app --key=registration)
 random_key=$(ynh_app_setting_get --app=$app --key=random_key)
+
+registration=$(ynh_app_setting_get --app=$app --key=registration)
 
 #=================================================
 # CHECK VERSION
@@ -57,6 +58,11 @@ ynh_script_progression --message="Ensuring downward compatibility..."
 if [ -z "$final_path" ]; then
 	final_path=/var/www/$app
 	ynh_app_setting_set --app=$app --key=final_path --value=$final_path
+fi
+
+if [ -z "$registration" ]; then
+	registration_enabled="false"
+	ynh_app_setting_set --app=$app --key=registration --value=$registration
 fi
 
 # Cleaning legacy permissions
@@ -132,8 +138,7 @@ ynh_add_fpm_config
 #=================================================
 ynh_script_progression --message="Adding a configuration file..."
 
-if [ $registration -eq 1  ]
-then
+if [ $registration -eq 1  ]; then
 	registration="true"
 else
 	registration="false"
