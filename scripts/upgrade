@@ -171,13 +171,9 @@ setfacl -R -m g:"www-data":rwX -m u:$app:rwX "$final_path/var/"
 #=================================================
 ynh_script_progression --message="Installing Kimai2..."
 
-#update-alternatives --set php /usr/bin/php$phpversion
-
 pushd "$final_path"
 	ynh_exec_as $app php$phpversion bin/console kimai:update -n
 popd
-
-#update-alternatives --set php /usr/bin/php${YNH_DEFAULT_PHP_VERSION}
 
 #=================================================
 # GENERIC FINALIZATION
