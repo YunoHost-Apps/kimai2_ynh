@@ -33,7 +33,6 @@ final_path=$(ynh_app_setting_get --app=$app --key=final_path)
 db_name=$(ynh_app_setting_get --app=$app --key=db_name)
 db_user=$db_name
 phpversion=$(ynh_app_setting_get --app=$app --key=phpversion)
-database=$(ynh_app_setting_get --app=$app --key=database)
 
 #=================================================
 # CHECK IF THE APP CAN BE RESTORED
@@ -82,7 +81,7 @@ ynh_script_progression --message="Restoring the PHP-FPM configuration..."
 ynh_restore_file --origin_path="/etc/php/$phpversion/fpm/pool.d/$app.conf"
 
 # Recreate a dedicated php-fpm config
-ynh_add_fpm_config --package="$extra_php_dependencies"
+ynh_add_fpm_config
 phpversion=$(ynh_app_setting_get --app=$app --key=phpversion)
 
 #=================================================
@@ -98,13 +97,11 @@ ynh_install_app_dependencies $pkg_dependencies
 #=================================================
 # RESTORE THE MYSQL DATABASE
 #=================================================
+ynh_script_progression --message="Restoring the MySQL database..."
 
-if [ "$database" = "mysql" ]; then
-	ynh_script_progression --message="Restoring the MySQL database..."
-	db_pwd=$(ynh_app_setting_get --app=$app --key=mysqlpwd)
-	ynh_mysql_setup_db --db_user=$db_user --db_name=$db_name --db_pwd=$db_pwd
-	ynh_mysql_connect_as --user=$db_user --password=$db_pwd --database=$db_name < ./db.sql
-fi
+db_pwd=$(ynh_app_setting_get --app=$app --key=mysqlpwd)
+ynh_mysql_setup_db --db_user=$db_user --db_name=$db_name --db_pwd=$db_pwd
+ynh_mysql_connect_as --user=$db_user --password=$db_pwd --database=$db_name < ./db.sql
 
 #=================================================
 # GENERIC FINALIZATION

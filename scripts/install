@@ -28,8 +28,8 @@ path_url="/"
 admin=$YNH_APP_ARG_ADMIN
 is_public=$YNH_APP_ARG_IS_PUBLIC
 registration=$YNH_APP_ARG_REGISTRATION
-database="mysql"
 random_key=$(ynh_string_random 32)
+phpversion=$YNH_PHP_VERSION
 
 app=$YNH_APP_INSTANCE_NAME
 
@@ -53,7 +53,6 @@ ynh_app_setting_set --app=$app --key=domain --value=$domain
 ynh_app_setting_set --app=$app --key=path --value=$path_url
 ynh_app_setting_set --app=$app --key=admin --value=$admin
 ynh_app_setting_set --app=$app --key=registration --value=$registration
-ynh_app_setting_set --app=$app --key=database --value=$database
 ynh_app_setting_set --app=$app --key=random_key --value=$random_key
 
 #=================================================
@@ -78,12 +77,10 @@ ynh_system_user_create --username=$app --home_dir=$final_path
 #=================================================
 ynh_script_progression --message="Creating a MySQL database..."
 
-if [ "$database" = "mysql" ]; then
-	db_name=$(ynh_sanitize_dbid --db_name=$app)
-	db_user=$db_name
-	ynh_app_setting_set --app=$app --key=db_name --value=$db_name
-	ynh_mysql_setup_db --db_user=$db_user --db_name=$db_name
-fi
+db_name=$(ynh_sanitize_dbid --db_name=$app)
+db_user=$db_name
+ynh_app_setting_set --app=$app --key=db_name --value=$db_name
+ynh_mysql_setup_db --db_user=$db_user --db_name=$db_name
 
 #=================================================
 # DOWNLOAD, CHECK AND UNPACK SOURCE
@@ -114,7 +111,7 @@ ynh_add_nginx_config
 ynh_script_progression --message="Configuring PHP-FPM..."
 
 # Create a dedicated PHP-FPM config
-ynh_add_fpm_config --package="$extra_php_dependencies"
+ynh_add_fpm_config
 phpversion=$(ynh_app_setting_get --app=$app --key=phpversion)
 
 #=================================================
@@ -151,7 +148,7 @@ chmod 400 "$final_path/config/packages/local.yaml"
 chown $app:$app "$final_path/config/packages/local.yaml"
 
 # Configure environement
-ynh_add_config --template="../conf/.env.$database" --destination="$final_path/.env"
+ynh_add_config --template="../conf/.env.example" --destination="$final_path/.env"
 
 chmod 400 "$final_path/.env"
 chown $app:$app "$final_path/.env"
@@ -161,13 +158,13 @@ chown $app:$app "$final_path/.env"
 #=================================================
 ynh_script_progression --message="Installing Kimai2..."
 
-update-alternatives --set php /usr/bin/php$phpversion
+#update-alternatives --set php /usr/bin/php$phpversion
 
 pushd "$final_path"
 	ynh_exec_as $app php$phpversion bin/console kimai:install -n
 popd
 
-update-alternatives --set php /usr/bin/php${YNH_DEFAULT_PHP_VERSION}
+#update-alternatives --set php /usr/bin/php${YNH_DEFAULT_PHP_VERSION}
 
 #=================================================
 # GENERIC FINALIZATION
@@ -183,8 +180,6 @@ ynh_permission_create --permission="super_admin" --allowed "$admin"
 # Make app public if necessary
 if [ $is_public -eq 1 ]
 then
-	# Everyone can access the app.
-	# The "main" permission is automatically created before the install script.
 	ynh_permission_update --permission="main" --add="visitors"
 fi
 
