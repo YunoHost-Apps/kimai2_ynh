@@ -25,6 +25,7 @@ db_user=$db_name
 db_pwd=$(ynh_app_setting_get --app=$app --key=mysqlpwd)
 random_key=$(ynh_app_setting_get --app=$app --key=random_key)
 phpversion=$YNH_PHP_VERSION
+datadir=$(ynh_app_setting_get --app=$app --key=datadir)
 
 registration=$(ynh_app_setting_get --app=$app --key=registration)
 
@@ -64,6 +65,16 @@ fi
 if [ -z "$registration" ]; then
 	registration_enabled="false"
 	ynh_app_setting_set --app=$app --key=registration --value=$registration
+fi
+
+# If public_path doesn't exist, create it
+if [ -z "$datadir" ]; then
+	datadir=/home/yunohost.app/$app
+	mkdir -p $datadir
+    chmod 750 "$datadir"
+	chmod -R o-rwx "$datadir"
+	chown -R $app:www-data "$datadir"
+	ynh_app_setting_set --app=$app --key=datadir --value=$datadir
 fi
 
 # Cleaning legacy permissions
