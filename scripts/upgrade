@@ -67,7 +67,7 @@ if [ -z "$registration" ]; then
 	ynh_app_setting_set --app=$app --key=registration --value=$registration
 fi
 
-# If public_path doesn't exist, create it
+# If datadir doesn't exist, create it
 if [ -z "$datadir" ]; then
 	datadir=/home/yunohost.app/$app
 	mkdir -p $datadir
