@@ -39,6 +39,10 @@
                 "type": "domain"
             },
             {
+                "name": "path",
+                "type": "path"
+            },
+            {
                 "name": "admin",
                 "type": "user"
             },

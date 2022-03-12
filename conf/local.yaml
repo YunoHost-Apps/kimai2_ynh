@@ -8,7 +8,7 @@ security:
             kimai_ldap: ~
 kimai:
     user:
-        registration: "__REGISTRATION__"
+        registration: __REGISTRATION__
     ldap:
         activate: true
         # more infos about the connection params can be found at:
