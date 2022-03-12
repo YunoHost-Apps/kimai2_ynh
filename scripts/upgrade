@@ -95,7 +95,7 @@ then
 	ynh_script_progression --message="Upgrading source files..."
 	
 	# Download, check integrity, uncompress and patch the source from app.src
-	ynh_setup_source --dest_dir="$final_path" --keep="$final_path/config/packages/local.yaml $final_path/var/invoices $final_path/var/data $final_path/.env"
+	ynh_setup_source --dest_dir="$final_path" --keep="$final_path/var/invoices $final_path/var/data $final_path/.env"
 fi
 
 chmod 750 "$final_path"
@@ -126,6 +126,23 @@ ynh_script_progression --message="Upgrading PHP-FPM configuration..."
 
 # Create a dedicated PHP-FPM config
 ynh_add_fpm_config
+
+#=================================================
+# ADD A CONFIGURATION
+#=================================================
+ynh_script_progression --message="Adding a configuration file..."
+
+if [ $registration -eq 1  ]
+then
+	registration="true"
+else
+	registration="false"
+fi
+
+ynh_add_config --template="../conf/local.yaml" --destination="$final_path/config/packages/local.yaml"
+
+chmod 400 "$final_path/config/packages/local.yaml"
+chown $app:$app "$final_path/config/packages/local.yaml"
 
 #=================================================
 # SPECIFIC UPGRADE
