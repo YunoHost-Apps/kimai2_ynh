@@ -153,12 +153,6 @@ ynh_add_fpm_config --phpversion=$phpversion --usage=$fpm_usage --footprint=$fpm_
 #=================================================
 ynh_script_progression --message="Adding a configuration file..."
 
-if [ $registration -eq 1 ]; then
-	registration="true"
-else
-	registration="false"
-fi
-
 ynh_add_config --template="../conf/local.yaml" --destination="$final_path/config/packages/local.yaml"
 
 chmod 400 "$final_path/config/packages/local.yaml"
