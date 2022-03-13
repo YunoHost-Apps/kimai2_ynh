@@ -139,7 +139,7 @@ ynh_add_fpm_config
 #=================================================
 ynh_script_progression --message="Adding a configuration file..."
 
-if [ $registration -eq 1  ]; then
+if [ $registration -eq 1 ]; then
 	registration="true"
 else
 	registration="false"
