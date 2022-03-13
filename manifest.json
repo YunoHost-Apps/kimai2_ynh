@@ -5,7 +5,7 @@
     "description": {
         "en": "Multi-user application for time-tracking with support for mobile devices",
         "fr": "Application web de suivi du temps, multi-utilisateurs, et compatible avec les appareils mobiles",
-        "de": "Eine web-basierte Mehrbenutzer-Zeiterfassung mit Rechnungsdruck mit Unterstützung für mobile Endgeräte",
+        "de": "Web-basierte Mehrbenutzer-Zeiterfassung mit Rechnungsdruck mit Unterstützung für mobile Endgeräte",
         "cs": "Víceuživatelská webová aplikace pro sledování času s podporou mobilních zařízení"
     },
     "version": "1.18.2~ynh1",
@@ -58,7 +58,7 @@
                 "type": "boolean",
                 "ask": {
                     "en": "Are new users allowed to register?",
-                    "fr": "Est-ce que de nouveaux utilisateurs peuvent s'y inscrire ?",
+                    "fr": "Les nouveaux utilisateurs sont-ils autorisés à s'inscrire ?",
                     "de": "Sollen sich neue Benutzer selber registrieren können ?",
                     "cs": "Mohou se noví uživatelé registrovat?"
                 },
