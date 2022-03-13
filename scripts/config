@@ -92,4 +92,12 @@ ynh_app_config_apply() {
     ynh_add_fpm_config --phpversion=$phpversion --usage=$fpm_usage --footprint=$fpm_footprint
 }
 
+#=================================================
+# CLEARING CACHE
+#=================================================
+
+pushd "$final_path"
+    ynh_exec_as $app php$phpversion bin/console kimai:reload --env=prod -n
+popd
+
 ynh_app_config_run $1
