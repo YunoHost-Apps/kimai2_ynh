@@ -6,9 +6,7 @@ security:
     firewalls:
         secured_area:
             kimai_ldap: ~
-kimai:
-    data_dir: "__DATADIR__"
-    
+kimai:    
     user:
         registration: __REGISTRATION__
     ldap:
