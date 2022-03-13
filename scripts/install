@@ -28,7 +28,7 @@ path_url="/"
 admin=$YNH_APP_ARG_ADMIN
 is_public=$YNH_APP_ARG_IS_PUBLIC
 registration=$YNH_APP_ARG_REGISTRATION
-random_key=$(ynh_string_random 32)
+random_key=$(ynh_string_random --length=32)
 phpversion=$YNH_PHP_VERSION
 
 app=$YNH_APP_INSTANCE_NAME
@@ -135,7 +135,7 @@ setfacl -R -m g:"www-data":rwX -m u:$app:rwX "$final_path/var/"
 #=================================================
 ynh_script_progression --message="Adding a configuration file..."
 
-if [ $registration -eq 1  ]; then
+if [ $registration -eq 1 ]; then
 	registration="true"
 else
 	registration="false"
