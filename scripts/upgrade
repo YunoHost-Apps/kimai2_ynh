@@ -23,14 +23,14 @@ final_path=$(ynh_app_setting_get --app=$app --key=final_path)
 db_name=$(ynh_app_setting_get --app=$app --key=db_name)
 db_user=$db_name
 db_pwd=$(ynh_app_setting_get --app=$app --key=mysqlpwd)
-registration=$(ynh_app_setting_get --app=$app --key=registration)
-database=$(ynh_app_setting_get --app=$app --key=database)
 random_key=$(ynh_app_setting_get --app=$app --key=random_key)
+phpversion=$YNH_PHP_VERSION
+
+registration=$(ynh_app_setting_get --app=$app --key=registration)
 
 #=================================================
 # CHECK VERSION
 #=================================================
-ynh_script_progression --message="Checking version..."
 
 upgrade_type=$(ynh_check_app_version_changed)
 
@@ -59,6 +59,11 @@ ynh_script_progression --message="Ensuring downward compatibility..."
 if [ -z "$final_path" ]; then
 	final_path=/var/www/$app
 	ynh_app_setting_set --app=$app --key=final_path --value=$final_path
+fi
+
+if [ -z "$registration" ]; then
+	registration_enabled="false"
+	ynh_app_setting_set --app=$app --key=registration --value=$registration
 fi
 
 # Cleaning legacy permissions
@@ -96,35 +101,8 @@ if [ "$upgrade_type" == "UPGRADE_APP" ]
 then
 	ynh_script_progression --message="Upgrading source files..."
 	
-	# Create a temporary directory and backup config
-	tmpdir="$(mktemp -d)"
-	if [ -f $final_path/config/packages/local.yaml ]; then
-		cp -af "$final_path/config/packages/local.yaml" "$tmpdir/."
-	fi
-	if [ -d $final_path/var/invoices ]; then
-		cp -af "$final_path/var/invoices" "$tmpdir/."
-	fi
-	if [ -d $final_path/var/data ]; then
-		cp -af "$final_path/var/data" "$tmpdir/."
-	fi
-	
-	ynh_secure_remove --file="$final_path"
-	
 	# Download, check integrity, uncompress and patch the source from app.src
-	ynh_setup_source --dest_dir="$final_path" --source_id="$database"
-	
-	# Restore config
-	if [ -f $tmpdir/local.yaml ]; then
-		cp -af "$tmpdir/local.yaml" "$final_path/config/packages/."
-	fi
-	if [ -d $tmpdir/invoices ]; then
-		cp -af "$tmpdir/invoices" "$final_path/var/."
-	fi
-	if [ -d $tmpdir/data ]; then
-		cp -af "$tmpdir/data" "$final_path/var/."
-	fi
-	
-	ynh_secure_remove --file="$tmpdir"
+	ynh_setup_source --dest_dir="$final_path" --keep="$final_path/var/invoices $final_path/var/data $final_path/.env"
 fi
 
 chmod 750 "$final_path"
@@ -154,8 +132,23 @@ ynh_install_app_dependencies $pkg_dependencies
 ynh_script_progression --message="Upgrading PHP-FPM configuration..."
 
 # Create a dedicated PHP-FPM config
-ynh_add_fpm_config --package="$extra_php_dependencies"
-phpversion=$(ynh_app_setting_get --app=$app --key=phpversion)
+ynh_add_fpm_config
+
+#=================================================
+# ADD A CONFIGURATION
+#=================================================
+ynh_script_progression --message="Adding a configuration file..."
+
+if [ $registration -eq 1 ]; then
+	registration="true"
+else
+	registration="false"
+fi
+
+ynh_add_config --template="../conf/local.yaml" --destination="$final_path/config/packages/local.yaml"
+
+chmod 400 "$final_path/config/packages/local.yaml"
+chown $app:$app "$final_path/config/packages/local.yaml"
 
 #=================================================
 # SPECIFIC UPGRADE
@@ -174,40 +167,13 @@ setfacl -dR -m g:"www-data":rwX -m u:$app:rwX "$final_path/var/"
 setfacl -R -m g:"www-data":rwX -m u:$app:rwX "$final_path/var/"
 
 #=================================================
-# UPDATE A CONFIG FILE
-#=================================================
-ynh_script_progression --message="Updating a configuration file..."
-
-if [ $registration -eq 1  ]
-then
-	registration="true"
-else
-	registration="false"
-fi
-
-ynh_add_config --template="../conf/local.yaml" --destination="$final_path/config/packages/local.yaml"
-
-chmod 400 "$final_path/config/packages/local.yaml"
-chown $app:$app "$final_path/config/packages/local.yaml"
-
-# Configure environement
-ynh_add_config --template="../conf/.env.$database" --destination="$final_path/.env"
-
-chmod 400 "$final_path/.env"
-chown $app:$app "$final_path/.env"
-
-#=================================================
 # INSTALL KIMAI2
 #=================================================
 ynh_script_progression --message="Installing Kimai2..."
 
-update-alternatives --set php /usr/bin/php$phpversion
-
 pushd "$final_path"
 	ynh_exec_as $app php$phpversion bin/console kimai:update -n
 popd
-
-update-alternatives --set php /usr/bin/php${YNH_DEFAULT_PHP_VERSION}
 
 #=================================================
 # GENERIC FINALIZATION

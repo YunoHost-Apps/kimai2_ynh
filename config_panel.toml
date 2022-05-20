@@ -1,0 +1,15 @@
+version = "1.0"
+
+[main]
+name = "Kimai2 configuration"
+
+    [main.config]
+    name = "Configuration Options"
+
+        [main.config.registration]
+        ask = "Enable registration"
+        type = "boolean"
+        yes = "true"
+		no = "false"
+        help = "Allow Kimai2 account creation"
+        bind = "registration:__FINALPATH__/config/packages/local.yaml"
