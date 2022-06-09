@@ -10,6 +10,7 @@ kimai:
     user:
         registration: __REGISTRATION__
     ldap:
+        activate: true
         # more infos about the connection params can be found at:
         # https://docs.laminas.dev/laminas-ldap/api/
         connection:
@@ -17,11 +18,11 @@ kimai:
             # You can connect to multiple servers by setting their URLs like this:
             # host: "ldap://ldap.example.local ldap://ldap2.example.local"
             # host: "ldaps://ldap.example.local ldaps://ldap2.example.local"
-            host: 127.0.0.1
+            host: "ldap://127.0.0.1"
             
             # Default port for your LDAP port server
             # default: 389
-            #port: 389
+            port: 389
             
             # Whether or not the LDAP client should use SSL encrypted transport. 
             # The useSsl and useStartTls options are mutually exclusive.
@@ -80,20 +81,20 @@ kimai:
 
         user:
             # baseDn to query for users (mandatory setting).
-            baseDn: ou=users, dc=yunohost, dc=org
+            baseDn: "ou=users, dc=yunohost, dc=org"
             
             # Field used to match the login username in your LDAP.
             # If "bindRequiresDn: false" is set, the username is used in "bind".
             # Otherwise a search is executed to find the users "dn" by finding the user
             # via this attribute with his "baseDn" and the "filter" below. 
             # default: uid 
-            usernameAttribute: uid
+            usernameAttribute: "uid"
             
             # LDAP search base filter to find the user / the users DN.
             # Do NOT include the rule (&(usernameAttribute=%s)), it will be appended
             # automatically. The result of the search filter must return 1 result only.
             # default: empty (results in (&(uid=%s)) with default usernameAttribute)
-            filter: (&(objectClass=inetOrgPerson))
+            filter: "(&(objectClass=inetOrgPerson))"
 
             # LDAP search base filter to find the user attributes.
             # This is used for a slightly different query than the one above, which is 
@@ -109,12 +110,12 @@ kimai:
             attributes:
                 # The following 2 rules are automatically prepended and can be overwritten.
                 # Username is set to the value of the configured "usernameAttribute" field 
-                - { ldap_attr: "usernameAttribute", user_method: setUsername }
+                - { ldap_attr: "uid", user_method: setUsername }
                 # Only applied if you don't configure a mapping for setEmail()
-                - { ldap_attr: mail, user_method: setEmail }
+                - { ldap_attr: "mail", user_method: setEmail }
                 # An example which will set the display name in Kimai from the 
                 # value of the "common name" field in your LDAP
-                - { ldap_attr: cn, user_method: setAlias }
+                - { ldap_attr: "cn", user_method: setAlias }
 
         # You can comment the following section, if you don't want to manage
         # user roles in Kimai via LDAP groups. If you want to use the group
@@ -123,7 +124,7 @@ kimai:
         role:
             # baseDn to query for groups, MUST be set to activate the "group import"
             # default: empty (deactivated)
-            baseDn: ou=permission, dc=yunohost, dc=org
+            baseDn: "ou=permission, dc=yunohost, dc=org"
             
             # Filter to query user groups, all results will be matched against 
             # the configured "groups" mapping below.
@@ -132,24 +133,24 @@ kimai:
             # The following example rule will be expanded to (for user "foo"):
             # (&(&(objectClass=groupOfNames))(member=foo))
             # default: empty
-            filter: (&(objectClass=posixGroup)(cn=__APP__*))
-              
+            filter: "(&(objectClass=posixGroup)(cn=__APP__*))"
+
             # The following field is taken from the LDAP user entry and its 
             # value is used in the filter above as "valueOfUsernameAttribute".
             # The attribute must be given in lowercase!
             # The example below uses "posix group style memberUid". 
             # default: dn
-            usernameAttribute: dn
+            usernameAttribute: "dn"
             
             # Field that holds the group name, which will be used to map the 
             # LDAP groups with Kimai roles (see groups mapping below).
             # default: cn
-            nameAttribute: cn
+            nameAttribute: "cn"
             
             # Field that holds the users dn in your LDAP group definition.
             # Value of this configuration is used in the filter (see above).
             # default: member
-            userDnAttribute: inheritPermission
+            userDnAttribute: "inheritPermission"
             
             # Convert LDAP group name (nameAttribute) to Kimai role
             # You will very likely have to define mappings, unless your groups
