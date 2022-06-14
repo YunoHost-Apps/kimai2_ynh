@@ -1,8 +1,8 @@
 ;; Test complet mysql
 	; Manifest
 		domain="domain.tld"
-		admin="john"
 		is_public=1
+		admin="john"
 		database="mysql"
 		registration=1
 	; Checks
@@ -13,10 +13,8 @@
 		setup_private=1
 		setup_public=1
 		upgrade=1
-		# 1.9~ynh1
-		upgrade=1	from_commit=22580412fae14859f661c1f9b54a3131a60c9323
-		# 1.11.1~ynh1
-		upgrade=1	from_commit=f26285511a167a1ed591a7fa96ae786ea89efb1e
+		# 1.17.1~ynh1
+		upgrade=1	from_commit=6b3ab38a5bf6aa48aaef23254381e8063839598b
 		backup_restore=1
 		multi_instance=1
 		port_already_use=0
@@ -24,8 +22,8 @@
 ;; Test complet sqlite
 	; Manifest
 		domain="domain.tld"
-		admin="john"
 		is_public=1
+		admin="john"
 		database="sqlite"
 		registration=1
 	; Checks
@@ -36,10 +34,8 @@
 		setup_private=1
 		setup_public=1
 		upgrade=1
-		# 1.9~ynh1
-		upgrade=1	from_commit=22580412fae14859f661c1f9b54a3131a60c9323
-		# 1.11.1~ynh1
-		upgrade=1	from_commit=f26285511a167a1ed591a7fa96ae786ea89efb1e
+		# 1.17.1~ynh1
+		upgrade=1	from_commit=6b3ab38a5bf6aa48aaef23254381e8063839598b
 		backup_restore=1
 		multi_instance=1
 		port_already_use=0
@@ -47,8 +43,3 @@
 ;;; Options
 Email=anmol@datamol.org
 Notification=change
-;;; Upgrade options
-	; commit=22580412fae14859f661c1f9b54a3131a60c9323
-		name=1.9~ynh1
-	; commit=f26285511a167a1ed591a7fa96ae786ea89efb1e
-		name=1.11.1~ynh1
