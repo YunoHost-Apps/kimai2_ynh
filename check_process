@@ -14,7 +14,7 @@
 		setup_public=1
 		upgrade=1
 		# 1.11.1~ynh1
-		upgrade=1	from_commit=26829daa0113b88e45d86ae6c6611784f51a41d2
+		upgrade=0	from_commit=26829daa0113b88e45d86ae6c6611784f51a41d2
 		# 1.17.1~ynh1
 		upgrade=1	from_commit=6b3ab38a5bf6aa48aaef23254381e8063839598b
 		# 1.20.2~ynh1
