@@ -8,7 +8,7 @@
         "de": "Eine web-basierte Mehrbenutzer-Zeiterfassung mit Rechnungsdruck mit Unterstützung für mobile Endgeräte",
         "cs": "Víceuživatelská webová aplikace pro sledování času s podporou mobilních zařízení"
     },
-    "version": "1.29.0~ynh1",
+    "version": "1.29.1~ynh1",
     "url": "https://www.kimai.org",
     "upstream": {
         "license": "MIT",
