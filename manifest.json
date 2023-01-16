@@ -3,8 +3,8 @@
     "id": "kimai2",
     "packaging_format": 1,
     "description": {
-        "en": "A multi-user application for time-tracking with support for mobile devices",
-        "fr": "Une application web de suivi du temps, multi-utilisateurs, et compatible avec les appareils mobiles",
+        "en": "Multi-user application for time-tracking with support for mobile devices",
+        "fr": "Application multi-utilisateurs de suivi du temps compatible avec les appareils mobiles",
         "de": "Eine web-basierte Mehrbenutzer-Zeiterfassung mit Rechnungsdruck mit Unterstützung für mobile Endgeräte",
         "cs": "Víceuživatelská webová aplikace pro sledování času s podporou mobilních zařízení"
     },
@@ -52,7 +52,7 @@
                 "name": "registration",
                 "type": "boolean",
                 "ask": {
-                    "en": "Are new users allowed to register ?",
+                    "en": "Are new users allowed to register?",
                     "fr": "Est-ce que de nouveaux utilisateurs peuvent s'y inscrire ?",
                     "de": "Sollen sich neue Benutzer selber registrieren können ?",
                     "cs": "Mohou se noví uživatelé registrovat?"
