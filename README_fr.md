@@ -5,7 +5,8 @@ It shall NOT be edited by hand.
 
 # Kimai2 pour YunoHost
 
-[![Niveau d’intégration](https://dash.yunohost.org/integration/kimai2.svg)](https://dash.yunohost.org/appci/app/kimai2) ![Statut du fonctionnement](https://ci-apps.yunohost.org/ci/badges/kimai2.status.svg) ![Statut de maintenance](https://ci-apps.yunohost.org/ci/badges/kimai2.maintain.svg)  
+[![Niveau d’intégration](https://dash.yunohost.org/integration/kimai2.svg)](https://dash.yunohost.org/appci/app/kimai2) ![Statut du fonctionnement](https://ci-apps.yunohost.org/ci/badges/kimai2.status.svg) ![Statut de maintenance](https://ci-apps.yunohost.org/ci/badges/kimai2.maintain.svg)
+
 [![Installer Kimai2 avec YunoHost](https://install-app.yunohost.org/install-with-yunohost.svg)](https://install-app.yunohost.org/?app=kimai2)
 
 *[Read this readme in english.](./README.md)*
