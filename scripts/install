@@ -166,8 +166,6 @@ pushd "$final_path"
 	ynh_exec_as $app php$phpversion bin/console kimai:install -n
 popd
 
-update-alternatives --set php /usr/bin/php${YNH_DEFAULT_PHP_VERSION}
-
 #=================================================
 # GENERIC FINALIZATION
 #=================================================
