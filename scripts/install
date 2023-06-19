@@ -160,8 +160,6 @@ chown $app:$app "$final_path/.env"
 #=================================================
 ynh_script_progression --message="Installing Kimai2..." --weight=1
 
-update-alternatives --set php /usr/bin/php$phpversion
-
 pushd "$final_path"
 	ynh_exec_as $app php$phpversion bin/console kimai:install -n
 popd
