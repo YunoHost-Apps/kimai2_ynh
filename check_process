@@ -13,12 +13,8 @@
 		setup_private=1
 		setup_public=1
 		upgrade=1
-		# 1.11.1~ynh1
-		upgrade=0	from_commit=26829daa0113b88e45d86ae6c6611784f51a41d2
-		# 1.17.1~ynh1
-		upgrade=1	from_commit=6b3ab38a5bf6aa48aaef23254381e8063839598b
-		# 1.20.2~ynh1
-		upgrade=1	from_commit=ef7f7d388e1e2abbe7789b9a9e93230b0f14262a
+		# 1.30.0~ynh1
+		upgrade=1	from_commit=d073ffb8db7e416f0f1d0f645c6e77a9f11e10b9
 		backup_restore=1
 		multi_instance=1
 		port_already_use=0
