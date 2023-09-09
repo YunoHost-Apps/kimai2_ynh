@@ -62,7 +62,7 @@ setfacl -R -m g:"www-data":rwX -m u:$app:rwX "$install_dir/var/"
 ynh_script_progression --message="Upgrading PHP-FPM configuration..." --weight=1
 
 # Create a dedicated PHP-FPM config
-ynh_add_fpm_config
+ynh_add_fpm_config --usage=low --footprint=low
 
 # Create a dedicated NGINX config
 ynh_add_nginx_config
