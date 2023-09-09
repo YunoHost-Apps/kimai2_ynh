@@ -10,24 +10,6 @@ source _common.sh
 source /usr/share/yunohost/helpers
 
 #=================================================
-# LOAD SETTINGS
-#=================================================
-ynh_script_progression --message="Loading settings..." --weight=1
-
-#REMOVEME? app=$YNH_APP_INSTANCE_NAME
-
-#REMOVEME? domain=$(ynh_app_setting_get --app=$app --key=domain)
-#REMOVEME? path=$(ynh_app_setting_get --app=$app --key=path)
-#REMOVEME? admin=$(ynh_app_setting_get --app=$app --key=admin)
-#REMOVEME? #REMOVEME? install_dir=$(ynh_app_setting_get --app=$app --key=install_dir)
-#REMOVEME? db_name=$(ynh_app_setting_get --app=$app --key=db_name)
-#REMOVEME? db_user=$db_name
-#REMOVEME? db_pwd=$(ynh_app_setting_get --app=$app --key=mysqlpwd)
-#REMOVEME? registration=$(ynh_app_setting_get --app=$app --key=registration)
-#REMOVEME? database=$(ynh_app_setting_get --app=$app --key=database)
-#REMOVEME? random_key=$(ynh_app_setting_get --app=$app --key=random_key)
-
-#=================================================
 # CHECK VERSION
 #=================================================
 ynh_script_progression --message="Checking version..." --weight=1
@@ -46,63 +28,16 @@ then
 fi
 
 #=================================================
-# BACKUP BEFORE UPGRADE THEN ACTIVE TRAP
-#=================================================
-#REMOVEME? ynh_script_progression --message="Backing up the app before upgrading (may take a while)..." --weight=1
-
-# Backup the current version of the app
-#REMOVEME? ynh_backup_before_upgrade
-#REMOVEME? ynh_clean_setup () {
-	# Restore it if the upgrade fails
-#REMOVEME? 	ynh_restore_upgradebackup
-}
-# Exit if an error occurs during the execution of the script
-#REMOVEME? ynh_abort_if_errors
-
-#=================================================
 # STANDARD UPGRADE STEPS
 #=================================================
 # ENSURE DOWNWARD COMPATIBILITY
 #=================================================
 ynh_script_progression --message="Ensuring downward compatibility..." --weight=1
 
-# If install_dir doesn't exist, create it
-if [ -z "$install_dir" ]; then
-#REMOVEME? 	install_dir=/var/www/$app
-#REMOVEME? 	ynh_app_setting_set --app=$app --key=install_dir --value=$install_dir
-fi
-
-# Cleaning legacy permissions
-#REMOVEME? if ynh_legacy_permissions_exists; then
-#REMOVEME? 	ynh_legacy_permissions_delete_all
-
-	ynh_app_setting_delete --app=$app --key=is_public
-fi
-
-#REMOVEME? if ! ynh_permission_exists --permission="teamlead"; then
-#REMOVEME? 	ynh_permission_create --permission="teamlead"
-fi
-
-#REMOVEME? if ! ynh_permission_exists --permission="admin"; then
-#REMOVEME? 	ynh_permission_create --permission="admin"
-fi
-
-#REMOVEME? if ! ynh_permission_exists --permission="super_admin"; then
-#REMOVEME? 	ynh_permission_create --permission="super_admin" --allowed="$admin"
-fi
-
 if [ -z "$registration" ]; then
 	registration_enabled="false"
 	ynh_app_setting_set --app=$app --key=registration --value=$registration
 fi
-
-#=================================================
-# CREATE DEDICATED USER
-#=================================================
-#REMOVEME? ynh_script_progression --message="Making sure dedicated system user exists..." --weight=1
-
-# Create a dedicated user (if not existing)
-#REMOVEME? ynh_system_user_create --username=$app --home_dir="$install_dir"
 
 #=================================================
 # DOWNLOAD, CHECK AND UNPACK SOURCE
@@ -113,21 +48,13 @@ then
 	ynh_script_progression --message="Upgrading source files..." --weight=1
 
 	# Download, check integrity, uncompress and patch the source from app.src
-	ynh_setup_source --dest_dir="$install_dir" --source_id="$database" --keep="config/packages/local.yaml var/invoices/ var/data/"
+	ynh_setup_source --dest_dir="$install_dir" --keep="config/packages/local.yaml var/invoices/ var/data/"
 fi
 
-chmod 750 "$install_dir"
 chmod -R o-rwx "$install_dir"
 chown -R $app:www-data "$install_dir"
 setfacl -dR -m g:"www-data":rwX -m u:$app:rwX "$install_dir/var/"
 setfacl -R -m g:"www-data":rwX -m u:$app:rwX "$install_dir/var/"
-
-#=================================================
-# UPGRADE DEPENDENCIES
-#=================================================
-#REMOVEME? ynh_script_progression --message="Upgrading dependencies..." --weight=1
-
-#REMOVEME? ynh_install_app_dependencies $pkg_dependencies
 
 #=================================================
 # PHP-FPM CONFIGURATION
@@ -136,12 +63,6 @@ ynh_script_progression --message="Upgrading PHP-FPM configuration..." --weight=1
 
 # Create a dedicated PHP-FPM config
 ynh_add_fpm_config
-#REMOVEME? phpversion=$(ynh_app_setting_get --app=$app --key=phpversion)
-
-#=================================================
-# NGINX CONFIGURATION
-#=================================================
-ynh_script_progression --message="Upgrading NGINX web server configuration..." --weight=1
 
 # Create a dedicated NGINX config
 ynh_add_nginx_config
@@ -196,16 +117,7 @@ pushd "$install_dir"
 	ynh_exec_as $app php$phpversion bin/console kimai:update -n
 popd
 
-update-alternatives --set php /usr/bin/php${YNH_DEFAULT_PHP_VERSION}
-
-#=================================================
-# GENERIC FINALIZATION
-#=================================================
-# RELOAD NGINX
-#=================================================
-#REMOVEME? ynh_script_progression --message="Reloading NGINX web server..." --weight=1
-
-#REMOVEME? ynh_systemd_action --service_name=nginx --action=reload
+update-alternatives --set php /usr/bin/php${YNH_PHP_VERSION}
 
 #=================================================
 # END OF SCRIPT
