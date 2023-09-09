@@ -96,17 +96,6 @@ pushd "$install_dir"
 popd
 
 #=================================================
-# GENERIC FINALIZATION
-#=================================================
-# SETUP SSOWAT
-#=================================================
-#REMOVEME? ynh_script_progression --message="Configuring permissions..." --weight=1
-
-#REMOVEME? ynh_permission_create --permission="teamlead"
-#REMOVEME? ynh_permission_create --permission="admin"
-#REMOVEME? ynh_permission_create --permission="super_admin" --allowed "$admin"
-
-#=================================================
 # END OF SCRIPT
 #=================================================
 
