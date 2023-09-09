@@ -10,24 +10,6 @@ source _common.sh
 source /usr/share/yunohost/helpers
 
 #=================================================
-# CHECK VERSION
-#=================================================
-ynh_script_progression --message="Checking version..." --weight=1
-
-upgrade_type=$(ynh_check_app_version_changed)
-
-if [ "$database" == "sqlite" ]
-then
-	ynh_script_progression --message="Sqlite is not more supported by Kimai2..."
-	ynh_script_progression --message="Kimai2 will be upgrade to last available version : 1.13"
-	if ynh_compare_current_package_version --comparison ge --version 1.17.1~ynh1
-	then
-    	ynh_script_progression --message="Kimai2 sqlite version is already to the last available version, no upgrade will be made"
-    	ynh_die  --message="" 0
-	fi
-fi
-
-#=================================================
 # STANDARD UPGRADE STEPS
 #=================================================
 # ENSURE DOWNWARD COMPATIBILITY
