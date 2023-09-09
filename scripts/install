@@ -150,7 +150,7 @@ chmod 400 "$final_path/config/packages/local.yaml"
 chown $app:$app "$final_path/config/packages/local.yaml"
 
 # Configure environement
-ynh_add_config --template="../conf/.env.$database" --destination="$final_path/.env"
+ynh_add_config --template="../conf/.env" --destination="$final_path/.env"
 
 chmod 400 "$final_path/.env"
 chown $app:$app "$final_path/.env"
