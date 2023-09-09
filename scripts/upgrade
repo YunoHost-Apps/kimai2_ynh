@@ -153,13 +153,9 @@ ynh_add_nginx_config
 #=================================================
 ynh_script_progression --message="Building Kimai2..." --weight=1
 
+ynh_secure_remove --file="$final_path/var/cache/prod"
 ynh_install_composer --phpversion="$YNH_PHP_VERSION" --workdir="$final_path" --install_args="--optimize-autoloader"
-	pushd "$final_path"
-		ynh_exec_as $app php$YNH_PHP_VERSION bin/console cache:clear --env=prod
-	popd
 ynh_composer_exec --phpversion="$YNH_PHP_VERSION" --workdir="$final_path" --commands="require laminas/laminas-ldap"
-
-#ynh_secure_remove --file="$final_path/var/cache/prod"
 
 chmod 750 "$final_path"
 chmod -R o-rwx "$final_path"
