@@ -113,7 +113,7 @@ then
 	ynh_script_progression --message="Upgrading source files..." --weight=1
 
 	# Download, check integrity, uncompress and patch the source from app.src
-	ynh_setup_source --dest_dir="$final_path" --source_id="$database" --keep="config/packages/local.yaml var/invoices/ var/data/"
+	ynh_setup_source --dest_dir="$final_path" --keep="config/packages/local.yaml var/invoices/ var/data/"
 fi
 
 chmod 750 "$final_path"
@@ -135,7 +135,7 @@ ynh_install_app_dependencies $pkg_dependencies
 ynh_script_progression --message="Upgrading PHP-FPM configuration..." --weight=1
 
 # Create a dedicated PHP-FPM config
-ynh_add_fpm_config
+ynh_add_fpm_config --usage=low --footprint=low
 phpversion=$(ynh_app_setting_get --app=$app --key=phpversion)
 
 #=================================================
