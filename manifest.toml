@@ -1,0 +1,74 @@
+packaging_format = 2
+
+id = "kimai2"
+name = "Kimai2"
+description.en = "Multi-user application for time-tracking with support for mobile devices"
+description.fr = "Application multi-utilisateurs de suivi du temps compatible avec les appareils mobiles"
+description.de = "Eine web-basierte Mehrbenutzer-Zeiterfassung mit Rechnungsdruck mit Unterstützung für mobile Endgeräte"
+description.cs = "Víceuživatelská webová aplikace pro sledování času s podporou mobilních zařízení"
+
+version = "2.0.33~ynh1"
+
+maintainers = ["Anmol Sharma"]
+
+[upstream]
+license = "MIT"
+website = "https://www.kimai.org"
+demo = "https://www.kimai.org/demo/"
+admindoc = "https://www.kimai.org/documentation/"
+code = "https://github.com/kevinpapst/kimai2"
+cpe = "???" # FIXME: optional but recommended if relevant, this is meant to contain the Common Platform Enumeration, which is sort of a standard id for applications defined by the NIST. In particular, Yunohost may use this is in the future to easily track CVE (=security reports) related to apps. The CPE may be obtained by searching here: https://nvd.nist.gov/products/cpe/search. For example, for Nextcloud, the CPE is 'cpe:2.3:a:nextcloud:nextcloud' (no need to include the version number)
+fund = "???" # FIXME: optional but recommended (or remove if irrelevant / not applicable). This is meant to be an URL where people can financially support this app, especially when its development is based on volunteers and/or financed by its community. YunoHost may later advertise it in the webadmin.
+
+[integration]
+yunohost = ">= 11.2"
+architectures = "all" # FIXME: can be replaced by a list of supported archs using the dpkg --print-architecture nomenclature (amd64/i386/armhf/arm64), for example: ["amd64", "i386"]
+multi_instance = true
+ldap = "?" # FIXME: replace with true, false, or "not_relevant". Not to confuse with the "sso" key : the "ldap" key corresponds to wether or not a user *can* login on the app using its YunoHost credentials.
+sso = "?" # FIXME: replace with true, false, or "not_relevant". Not to confuse with the "ldap" key : the "sso" key corresponds to wether or not a user is *automatically logged-in* on the app when logged-in on the YunoHost portal.
+disk = "50M" # FIXME: replace with an **estimate** minimum disk requirement. e.g. 20M, 400M, 1G, ...
+ram.build = "50M" # FIXME: replace with an **estimate** minimum ram requirement. e.g. 50M, 400M, 1G, ...
+ram.runtime = "50M" # FIXME: replace with an **estimate** minimum ram requirement. e.g. 50M, 400M, 1G, ...
+
+[install]
+    [install.domain]
+    # this is a generic question - ask strings are automatically handled by Yunohost's core
+    type = "domain"
+    full_domain = true
+
+    [install.init_main_permission]
+    type = "group"
+    default = false
+
+    [install.admin]
+    # this is a generic question - ask strings are automatically handled by Yunohost's core
+    type = "user"
+
+    [install.registration]
+    ask.en = "Are new users allowed to register?"
+    ask.fr = "Est-ce que de nouveaux utilisateurs peuvent s'y inscrire ?"
+    ask.de = "Sollen sich neue Benutzer selber registrieren können ?"
+    ask.cs = "Mohou se noví uživatelé registrovat?"
+    type = "boolean"
+    default = false
+
+[resources]
+    [resources.sources]
+        [resources.sources.mysql]
+        url = "https://github.com/kevinpapst/kimai2/archive/1.30.0.tar.gz"
+        sha256 = "BE8AEE909B995A3277C87BBB8CE0CB157F03921BCC4364A95100252903C87609"
+
+        [resources.sources.sqlite]
+        url = "https://github.com/kevinpapst/kimai2/archive/2.0.33.tar.gz"
+        sha256 = "9cad2555eb115711e100ca129c8152f3ec19ebfde6334a1ec5b7b2009b011959"
+
+
+    [resources.system_user]
+
+    [resources.install_dir]
+
+    [resources.permissions]
+    main.url = "/"
+
+    [resources.database]
+    type = "mysql"

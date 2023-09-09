@@ -14,18 +14,18 @@ source /usr/share/yunohost/helpers
 #=================================================
 ynh_script_progression --message="Loading settings..." --weight=1
 
-app=$YNH_APP_INSTANCE_NAME
+#REMOVEME? app=$YNH_APP_INSTANCE_NAME
 
-domain=$(ynh_app_setting_get --app=$app --key=domain)
-path_url=$(ynh_app_setting_get --app=$app --key=path)
-admin=$(ynh_app_setting_get --app=$app --key=admin)
-final_path=$(ynh_app_setting_get --app=$app --key=final_path)
-db_name=$(ynh_app_setting_get --app=$app --key=db_name)
-db_user=$db_name
-db_pwd=$(ynh_app_setting_get --app=$app --key=mysqlpwd)
-registration=$(ynh_app_setting_get --app=$app --key=registration)
-database=$(ynh_app_setting_get --app=$app --key=database)
-random_key=$(ynh_app_setting_get --app=$app --key=random_key)
+#REMOVEME? domain=$(ynh_app_setting_get --app=$app --key=domain)
+#REMOVEME? path=$(ynh_app_setting_get --app=$app --key=path)
+#REMOVEME? admin=$(ynh_app_setting_get --app=$app --key=admin)
+#REMOVEME? #REMOVEME? install_dir=$(ynh_app_setting_get --app=$app --key=install_dir)
+#REMOVEME? db_name=$(ynh_app_setting_get --app=$app --key=db_name)
+#REMOVEME? db_user=$db_name
+#REMOVEME? db_pwd=$(ynh_app_setting_get --app=$app --key=mysqlpwd)
+#REMOVEME? registration=$(ynh_app_setting_get --app=$app --key=registration)
+#REMOVEME? database=$(ynh_app_setting_get --app=$app --key=database)
+#REMOVEME? random_key=$(ynh_app_setting_get --app=$app --key=random_key)
 
 #=================================================
 # CHECK VERSION
@@ -48,16 +48,16 @@ fi
 #=================================================
 # BACKUP BEFORE UPGRADE THEN ACTIVE TRAP
 #=================================================
-ynh_script_progression --message="Backing up the app before upgrading (may take a while)..." --weight=1
+#REMOVEME? ynh_script_progression --message="Backing up the app before upgrading (may take a while)..." --weight=1
 
 # Backup the current version of the app
-ynh_backup_before_upgrade
-ynh_clean_setup () {
+#REMOVEME? ynh_backup_before_upgrade
+#REMOVEME? ynh_clean_setup () {
 	# Restore it if the upgrade fails
-	ynh_restore_upgradebackup
+#REMOVEME? 	ynh_restore_upgradebackup
 }
 # Exit if an error occurs during the execution of the script
-ynh_abort_if_errors
+#REMOVEME? ynh_abort_if_errors
 
 #=================================================
 # STANDARD UPGRADE STEPS
@@ -66,29 +66,29 @@ ynh_abort_if_errors
 #=================================================
 ynh_script_progression --message="Ensuring downward compatibility..." --weight=1
 
-# If final_path doesn't exist, create it
-if [ -z "$final_path" ]; then
-	final_path=/var/www/$app
-	ynh_app_setting_set --app=$app --key=final_path --value=$final_path
+# If install_dir doesn't exist, create it
+if [ -z "$install_dir" ]; then
+#REMOVEME? 	install_dir=/var/www/$app
+#REMOVEME? 	ynh_app_setting_set --app=$app --key=install_dir --value=$install_dir
 fi
 
 # Cleaning legacy permissions
-if ynh_legacy_permissions_exists; then
-	ynh_legacy_permissions_delete_all
+#REMOVEME? if ynh_legacy_permissions_exists; then
+#REMOVEME? 	ynh_legacy_permissions_delete_all
 
 	ynh_app_setting_delete --app=$app --key=is_public
 fi
 
-if ! ynh_permission_exists --permission="teamlead"; then
-	ynh_permission_create --permission="teamlead"
+#REMOVEME? if ! ynh_permission_exists --permission="teamlead"; then
+#REMOVEME? 	ynh_permission_create --permission="teamlead"
 fi
 
-if ! ynh_permission_exists --permission="admin"; then
-	ynh_permission_create --permission="admin"
+#REMOVEME? if ! ynh_permission_exists --permission="admin"; then
+#REMOVEME? 	ynh_permission_create --permission="admin"
 fi
 
-if ! ynh_permission_exists --permission="super_admin"; then
-	ynh_permission_create --permission="super_admin" --allowed="$admin"
+#REMOVEME? if ! ynh_permission_exists --permission="super_admin"; then
+#REMOVEME? 	ynh_permission_create --permission="super_admin" --allowed="$admin"
 fi
 
 if [ -z "$registration" ]; then
@@ -99,10 +99,10 @@ fi
 #=================================================
 # CREATE DEDICATED USER
 #=================================================
-ynh_script_progression --message="Making sure dedicated system user exists..." --weight=1
+#REMOVEME? ynh_script_progression --message="Making sure dedicated system user exists..." --weight=1
 
 # Create a dedicated user (if not existing)
-ynh_system_user_create --username=$app --home_dir="$final_path"
+#REMOVEME? ynh_system_user_create --username=$app --home_dir="$install_dir"
 
 #=================================================
 # DOWNLOAD, CHECK AND UNPACK SOURCE
@@ -113,21 +113,21 @@ then
 	ynh_script_progression --message="Upgrading source files..." --weight=1
 
 	# Download, check integrity, uncompress and patch the source from app.src
-	ynh_setup_source --dest_dir="$final_path" --source_id="$database" --keep="config/packages/local.yaml var/invoices/ var/data/"
+	ynh_setup_source --dest_dir="$install_dir" --source_id="$database" --keep="config/packages/local.yaml var/invoices/ var/data/"
 fi
 
-chmod 750 "$final_path"
-chmod -R o-rwx "$final_path"
-chown -R $app:www-data "$final_path"
-setfacl -dR -m g:"www-data":rwX -m u:$app:rwX "$final_path/var/"
-setfacl -R -m g:"www-data":rwX -m u:$app:rwX "$final_path/var/"
+chmod 750 "$install_dir"
+chmod -R o-rwx "$install_dir"
+chown -R $app:www-data "$install_dir"
+setfacl -dR -m g:"www-data":rwX -m u:$app:rwX "$install_dir/var/"
+setfacl -R -m g:"www-data":rwX -m u:$app:rwX "$install_dir/var/"
 
 #=================================================
 # UPGRADE DEPENDENCIES
 #=================================================
-ynh_script_progression --message="Upgrading dependencies..." --weight=1
+#REMOVEME? ynh_script_progression --message="Upgrading dependencies..." --weight=1
 
-ynh_install_app_dependencies $pkg_dependencies
+#REMOVEME? ynh_install_app_dependencies $pkg_dependencies
 
 #=================================================
 # PHP-FPM CONFIGURATION
@@ -136,7 +136,7 @@ ynh_script_progression --message="Upgrading PHP-FPM configuration..." --weight=1
 
 # Create a dedicated PHP-FPM config
 ynh_add_fpm_config
-phpversion=$(ynh_app_setting_get --app=$app --key=phpversion)
+#REMOVEME? phpversion=$(ynh_app_setting_get --app=$app --key=phpversion)
 
 #=================================================
 # NGINX CONFIGURATION
@@ -153,14 +153,14 @@ ynh_add_nginx_config
 #=================================================
 ynh_script_progression --message="Building Kimai2..." --weight=1
 
-ynh_install_composer --phpversion="$phpversion" --workdir="$final_path" --install_args="--optimize-autoloader"
-ynh_composer_exec --phpversion="$phpversion" --workdir="$final_path" --commands="require laminas/laminas-ldap"
+ynh_install_composer --phpversion="$phpversion" --workdir="$install_dir" --install_args="--optimize-autoloader"
+ynh_composer_exec --phpversion="$phpversion" --workdir="$install_dir" --commands="require laminas/laminas-ldap"
 
-chmod 750 "$final_path"
-chmod -R o-rwx "$final_path"
-chown -R $app:www-data "$final_path"
-setfacl -dR -m g:"www-data":rwX -m u:$app:rwX "$final_path/var/"
-setfacl -R -m g:"www-data":rwX -m u:$app:rwX "$final_path/var/"
+chmod 750 "$install_dir"
+chmod -R o-rwx "$install_dir"
+chown -R $app:www-data "$install_dir"
+setfacl -dR -m g:"www-data":rwX -m u:$app:rwX "$install_dir/var/"
+setfacl -R -m g:"www-data":rwX -m u:$app:rwX "$install_dir/var/"
 
 #=================================================
 # UPDATE A CONFIG FILE
@@ -174,16 +174,16 @@ else
 	registration="false"
 fi
 
-ynh_add_config --template="../conf/local.yaml" --destination="$final_path/config/packages/local.yaml"
+ynh_add_config --template="../conf/local.yaml" --destination="$install_dir/config/packages/local.yaml"
 
-chmod 400 "$final_path/config/packages/local.yaml"
-chown $app:$app "$final_path/config/packages/local.yaml"
+chmod 400 "$install_dir/config/packages/local.yaml"
+chown $app:$app "$install_dir/config/packages/local.yaml"
 
 # Configure environement
-ynh_add_config --template="../conf/.env.$database" --destination="$final_path/.env"
+ynh_add_config --template="../conf/.env.$database" --destination="$install_dir/.env"
 
-chmod 400 "$final_path/.env"
-chown $app:$app "$final_path/.env"
+chmod 400 "$install_dir/.env"
+chown $app:$app "$install_dir/.env"
 
 #=================================================
 # INSTALL KIMAI2
@@ -192,7 +192,7 @@ ynh_script_progression --message="Installing Kimai2..." --weight=1
 
 update-alternatives --set php /usr/bin/php$phpversion
 
-pushd "$final_path"
+pushd "$install_dir"
 	ynh_exec_as $app php$phpversion bin/console kimai:update -n
 popd
 
@@ -203,9 +203,9 @@ update-alternatives --set php /usr/bin/php${YNH_DEFAULT_PHP_VERSION}
 #=================================================
 # RELOAD NGINX
 #=================================================
-ynh_script_progression --message="Reloading NGINX web server..." --weight=1
+#REMOVEME? ynh_script_progression --message="Reloading NGINX web server..." --weight=1
 
-ynh_systemd_action --service_name=nginx --action=reload
+#REMOVEME? ynh_systemd_action --service_name=nginx --action=reload
 
 #=================================================
 # END OF SCRIPT
