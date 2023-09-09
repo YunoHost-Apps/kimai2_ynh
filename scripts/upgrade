@@ -116,7 +116,9 @@ then
 	ynh_setup_source --dest_dir="$final_path" --keep="config/packages/local.yaml var/invoices/ var/data/"
 	pushd "$final_path"
 		ynh_exec_as $app php$YNH_PHP_VERSION bin/console cache:clear --env=prod
-		popd
+	popd
+
+	#ynh_secure_remove --file="$final_path/var/cache/prod"
 fi
 
 chmod 750 "$final_path"
