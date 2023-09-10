@@ -113,7 +113,9 @@ then
 	ynh_script_progression --message="Upgrading source files..." --weight=1
 
 	# Download, check integrity, uncompress and patch the source from app.src
-	ynh_setup_source --dest_dir="$final_path" --keep="config/packages/local.yaml var/invoices/ var/data/"
+	ynh_setup_source --dest_dir="$final_path" --keep="var/invoices/ var/data/" #config/packages/local.yaml
+
+	ynh_secure_remove --file="$final_path/var/plugins/*"
 fi
 
 chmod 750 "$final_path"
@@ -153,7 +155,7 @@ ynh_add_nginx_config
 #=================================================
 ynh_script_progression --message="Building Kimai2..." --weight=1
 
-ynh_secure_remove --file="$final_path/var/cache/prod"
+ynh_secure_remove --file="$final_path/var/cache/prod/*"
 ynh_install_composer --phpversion="$YNH_PHP_VERSION" --workdir="$final_path" --install_args="--optimize-autoloader --no-scripts"
 ynh_composer_exec --phpversion="$YNH_PHP_VERSION" --workdir="$final_path" --commands="require laminas/laminas-ldap"
 
