@@ -17,6 +17,7 @@ website = "https://www.kimai.org"
 demo = "https://www.kimai.org/demo/"
 admindoc = "https://www.kimai.org/documentation/"
 code = "https://github.com/kevinpapst/kimai2"
+cpe = "cpe:2.3:a:kimai:kimai_2"
 
 [integration]
 yunohost = ">= 11.2"
