@@ -6,7 +6,7 @@
 # PHP APP SPECIFIC
 #=================================================
 
-YNH_COMPOSER_VERSION=2.3.3
+YNH_COMPOSER_VERSION=2.5.8
 
 #=================================================
 # PERSONAL HELPERS
