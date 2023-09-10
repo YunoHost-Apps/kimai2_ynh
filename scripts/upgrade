@@ -154,7 +154,7 @@ ynh_add_nginx_config
 #=================================================
 # BUILD KIMAI2
 #=================================================
-ynh_script_progression --message="Building Kimai2..." --weight=1
+ynh_script_progression --message="Building $app..." --weight=1
 
 ynh_install_composer --phpversion="$YNH_PHP_VERSION" --workdir="$final_path" --install_args="--optimize-autoloader --no-scripts"
 ynh_composer_exec --phpversion="$YNH_PHP_VERSION" --workdir="$final_path" --commands="require laminas/laminas-ldap"
@@ -191,7 +191,7 @@ chown $app:$app "$final_path/.env"
 #=================================================
 # INSTALL KIMAI2
 #=================================================
-ynh_script_progression --message="Installing Kimai2..." --weight=1
+ynh_script_progression --message="Installing $app..." --weight=1
 
 pushd "$final_path"
 	ynh_exec_as $app php$YNH_PHP_VERSION bin/console kimai:update -n
