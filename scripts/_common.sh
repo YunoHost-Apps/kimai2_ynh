@@ -6,7 +6,7 @@
 # PHP APP SPECIFIC
 #=================================================
 
-YNH_PHP_VERSION=8.2
+YNH_PHP_VERSION=8.1
 
 YNH_COMPOSER_VERSION=2.3.3
 
