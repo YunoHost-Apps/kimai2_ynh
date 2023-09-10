@@ -1,4 +1,4 @@
-;; Test complet mysql
+;; Test complet
 	; Manifest
 		domain="domain.tld"
 		is_public=1
@@ -14,7 +14,7 @@
 		setup_public=1
 		upgrade=1
 		# 1.30.0~ynh1
-		upgrade=1	from_commit=d073ffb8db7e416f0f1d0f645c6e77a9f11e10b9
+		upgrade=1	from_commit=8f44ac8fd4276c402c3cf68e373a6a3ff51e25b5
 		backup_restore=1
 		multi_instance=1
 		port_already_use=0
