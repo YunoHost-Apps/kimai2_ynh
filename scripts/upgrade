@@ -56,8 +56,9 @@ ynh_add_nginx_config
 #=================================================
 ynh_script_progression --message="Building $app..." --weight=1
 
-ynh_install_composer --phpversion="$phpversion" --workdir="$install_dir" --install_args="--optimize-autoloader"
-ynh_composer_exec --phpversion="$phpversion" --workdir="$install_dir" --commands="require laminas/laminas-ldap"
+ynh_secure_remove --file="$final_path/var/cache/prod"
+ynh_install_composer --phpversion="$YNH_PHP_VERSION" --workdir="$final_path" --install_args="--optimize-autoloader --no-scripts"
+ynh_composer_exec --phpversion="$YNH_PHP_VERSION" --workdir="$final_path" --commands="require laminas/laminas-ldap"
 
 chmod 750 "$install_dir"
 chmod -R o-rwx "$install_dir"
