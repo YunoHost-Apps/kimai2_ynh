@@ -16,7 +16,7 @@ source /usr/share/yunohost/helpers
 #=================================================
 ynh_script_progression --message="Ensuring downward compatibility..." --weight=1
 
-if [ -z "$registration" ]; then
+if [ -z "${registration:-}" ]; then
 	registration_enabled="false"
 	ynh_app_setting_set --app=$app --key=registration --value=$registration
 fi
