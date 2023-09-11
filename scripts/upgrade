@@ -30,8 +30,7 @@ then
 	ynh_script_progression --message="Upgrading source files..." --weight=1
 
 	# Download, check integrity, uncompress and patch the source from app.src
-	ynh_setup_source --dest_dir="$install_dir" --keep="var/invoices/ var/data/"
-	ynh_secure_remove --file="$install_dir/var/plugins/*"
+	ynh_setup_source --dest_dir="$final_path" --keep="var/invoices/ var/data/"
 fi
 
 chmod -R o-rwx "$install_dir"
@@ -57,9 +56,8 @@ ynh_add_nginx_config
 #=================================================
 ynh_script_progression --message="Building $app..." --weight=1
 
-ynh_secure_remove --file="$final_path/var/cache/prod/*"
-ynh_install_composer --install_args="--optimize-autoloader --no-scripts"
-ynh_composer_exec --commands="require laminas/laminas-ldap"
+ynh_install_composer --phpversion="$YNH_PHP_VERSION" --workdir="$final_path" --install_args="--optimize-autoloader --no-interaction"
+ynh_composer_exec --phpversion="$YNH_PHP_VERSION" --workdir="$final_path" --commands="require laminas/laminas-ldap"
 
 chmod 750 "$install_dir"
 chmod -R o-rwx "$install_dir"
