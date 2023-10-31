@@ -51,7 +51,7 @@ Those roles are directly managed using YunoHost permission system. User choosen 
 * Official app website: <https://www.kimai.org>
 * Official admin documentation: <https://www.kimai.org/documentation/>
 * Upstream app code repository: <https://github.com/kevinpapst/kimai2>
-* YunoHost documentation for this app: <https://yunohost.org/app_kimai2>
+* YunoHost Store: <https://apps.yunohost.org/app/kimai2>
 * Report a bug: <https://github.com/YunoHost-Apps/kimai2_ynh/issues>
 
 ## Developer info
