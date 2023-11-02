@@ -63,10 +63,10 @@ ram.runtime = "50M"
 
     [resources.permissions]
     main.url = "/"
-    teamlead.url = "/"
-    admin.url = "/"
-    super_admin.url = "/"
-    super_admin.allowed = "admins"
+    #teamlead.url = "/"
+    #admin.url = "/"
+    #super_admin.url = "/"
+    #super_admin.allowed = "admins"
 
     [resources.apt]
     packages = "mariadb-server, php8.2-gd, php8.2-intl, php8.2-mbstring, php8.2-pdo, php8.2-zip, php8.2-xml, php8.2-xsl, php8.2-ldap, php8.2-mysql"
