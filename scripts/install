@@ -54,8 +54,7 @@ ynh_add_nginx_config
 ynh_script_progression --message="Building $app..." --weight=1
 
 ynh_install_composer --install_args="--optimize-autoloader --no-interaction"
-ynh_composer_exec --commands="require laminas/laminas-ldap symfony/flex"
-ynh_composer_exec --commands="require symfony/flex"
+ynh_composer_exec --commands="require laminas/laminas-ldap"
 
 chmod 750 "$install_dir"
 chmod -R o-rwx "$install_dir"
