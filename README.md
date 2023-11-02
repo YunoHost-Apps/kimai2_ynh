@@ -32,7 +32,7 @@ Kimai v2 has nothing in common with its predecessor Kimai v1 besides the basic i
 * Official app website: <https://www.kimai.org>
 * Official admin documentation: <https://www.kimai.org/documentation/>
 * Upstream app code repository: <https://github.com/kevinpapst/kimai2>
-* YunoHost documentation for this app: <https://yunohost.org/app_kimai2>
+* YunoHost Store: <https://apps.yunohost.org/app/kimai2>
 * Report a bug: <https://github.com/YunoHost-Apps/kimai2_ynh/issues>
 
 ## Developer info
