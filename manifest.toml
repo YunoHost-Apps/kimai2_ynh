@@ -23,8 +23,11 @@ cpe = "cpe:2.3:a:kimai:kimai_2"
 yunohost = ">= 11.2"
 architectures = "all"
 multi_instance = true
+
 ldap = true
+
 sso = false
+
 disk = "50M"
 ram.build = "50M"
 ram.runtime = "50M"
