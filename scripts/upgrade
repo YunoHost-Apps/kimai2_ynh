@@ -120,8 +120,8 @@ if ynh_compare_current_package_version --comparison le --version 1.30.0~ynh1
 then
 	ynh_script_progression --message="Doing a hard cache flush for major Kimai 2 update from version 1.x to 2.x"
 	# https://www.kimai.org/documentation/updates.html
-	rm -r "$final_path/var/cache/*"
-	rm -r "$final_path/var/plugins/*"
+	ynh_secure_remove --file="$final_path/var/cache/*"
+	ynh_secure_remove --file="$final_path/var/plugins/*"
 fi
 
 chmod 750 "$final_path"
