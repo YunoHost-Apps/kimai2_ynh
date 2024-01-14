@@ -116,9 +116,9 @@ then
 	ynh_setup_source --dest_dir="$final_path" --source_id="$database" --keep="config/packages/local.yaml var/invoices/ var/data/"
 fi
 
-if [ ynh_compare_current_package_version --comparison le --version 1.30.0~ynh1 ]
+if ynh_compare_current_package_version --comparison le --version 1.30.0~ynh1
 then
-	ynh_script_progression --message="Doing a hard cache flush for major Kimai update from version 1.x to 2.x"
+	ynh_script_progression --message="Doing a hard cache flush for major Kimai 2 update from version 1.x to 2.x"
 	# https://www.kimai.org/documentation/updates.html
 	rm -r "$final_path/var/cache/*"
 	rm -r "$final_path/var/plugins/*"
