@@ -115,13 +115,11 @@ then
 	if ynh_compare_current_package_version --comparison le --version 1.30.0~ynh1
 	then
 		ynh_script_progression --message="Doing a hard cache flush for major Kimai 2 update from version 1.x to 2.x"
-		# https://www.kimai.org/documentation/updates.html
-		ynh_secure_remove --file="$final_path/var/cache/*"
-		ynh_secure_remove --file="$final_path/var/plugins/*"
 		
 		# Download, check integrity, uncompress and patch the source from app.src
 		# Remove local.yaml as recommended for major version upgrade https://github.com/kimai/kimai/blob/main/UPGRADING.md
-		ynh_setup_source --dest_dir="$final_path" --source_id="$database" --keep="var/invoices/ var/data/" --full_replace=1
+		# As a full_replace (see https://www.kimai.org/documentation/updates.html) is performed keep .env file
+		ynh_setup_source --dest_dir="$final_path" --source_id="$database" --keep=".env var/invoices/ var/data/" --full_replace=1
 	else
 		# Download, check integrity, uncompress and patch the source from app.src
 		ynh_setup_source --dest_dir="$final_path" --source_id="$database" --keep="config/packages/local.yaml var/invoices/ var/data/"
@@ -165,14 +163,8 @@ ynh_add_nginx_config
 #=================================================
 ynh_script_progression --message="Building Kimai2..." --weight=1
 
-if ynh_compare_current_package_version --comparison le --version 1.30.0~ynh1
-then
-	# No loading from cache for major upgrade
-	ynh_install_composer --phpversion="$phpversion" --workdir="$final_path" --install_args="--optimize-autoloader --no-cache"
-else
-	ynh_install_composer --phpversion="$phpversion" --workdir="$final_path" --install_args="--optimize-autoloader"
-fi
-ynh_composer_exec --phpversion="$phpversion" --workdir="$final_path" --commands="require laminas/laminas-ldap"
+ynh_install_composer --phpversion="$phpversion" --workdir="$final_path" --install_args="--optimize-autoloader"
+ynh_composer_exec --phpversion="$phpversion" --workdir="$final_path" --commands="require laminas/laminas-ldap --optimize-autoloader"
 
 chmod 750 "$final_path"
 chmod -R o-rwx "$final_path"
