@@ -121,7 +121,7 @@ then
 		
 		# Download, check integrity, uncompress and patch the source from app.src
 		# Remove local.yaml as recommended for major version upgrade https://github.com/kimai/kimai/blob/main/UPGRADING.md
-		ynh_setup_source --dest_dir="$final_path" --source_id="$database" --keep="var/invoices/ var/data/"
+		ynh_setup_source --dest_dir="$final_path" --source_id="$database" --keep="var/invoices/ var/data/" --full_replace
 	else
 		# Download, check integrity, uncompress and patch the source from app.src
 		ynh_setup_source --dest_dir="$final_path" --source_id="$database" --keep="config/packages/local.yaml var/invoices/ var/data/"
