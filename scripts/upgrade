@@ -161,10 +161,10 @@ ynh_add_nginx_config
 #=================================================
 # BUILD KIMAI2
 #=================================================
-ynh_script_progression --message="Building Kimai2..." --weight=1
+ynh_script_progression --message="Building $app..." --weight=1
 
-ynh_install_composer --phpversion="$phpversion" --workdir="$final_path" --install_args="--optimize-autoloader"
-ynh_composer_exec --phpversion="$phpversion" --workdir="$final_path" --commands="require laminas/laminas-ldap --optimize-autoloader"
+ynh_install_composer --phpversion="$YNH_PHP_VERSION" --workdir="$final_path" --install_args="--optimize-autoloader --no-interaction"
+ynh_composer_exec --phpversion="$YNH_PHP_VERSION" --workdir="$final_path" --commands="require laminas/laminas-ldap --optimize-autoloader"
 
 chmod 750 "$final_path"
 chmod -R o-rwx "$final_path"
@@ -190,7 +190,7 @@ chmod 400 "$final_path/config/packages/local.yaml"
 chown $app:$app "$final_path/config/packages/local.yaml"
 
 # Configure environement
-ynh_add_config --template="../conf/.env.$database" --destination="$final_path/.env"
+ynh_add_config --template="../conf/.env" --destination="$final_path/.env"
 
 chmod 400 "$final_path/.env"
 chown $app:$app "$final_path/.env"
@@ -198,15 +198,11 @@ chown $app:$app "$final_path/.env"
 #=================================================
 # INSTALL KIMAI2
 #=================================================
-ynh_script_progression --message="Installing Kimai2..." --weight=1
-
-update-alternatives --set php /usr/bin/php$phpversion
+ynh_script_progression --message="Installing $app..." --weight=1
 
 pushd "$final_path"
-	ynh_exec_as $app php$phpversion bin/console kimai:update -n
+	ynh_exec_as $app php$YNH_PHP_VERSION bin/console kimai:update -n
 popd
-
-update-alternatives --set php /usr/bin/php${YNH_DEFAULT_PHP_VERSION}
 
 #=================================================
 # GENERIC FINALIZATION

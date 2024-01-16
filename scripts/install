@@ -91,7 +91,7 @@ ynh_script_progression --message="Setting up source files..." --weight=1
 
 ynh_app_setting_set --app=$app --key=final_path --value=$final_path
 # Download, check integrity, uncompress and patch the source from app.src
-ynh_setup_source --dest_dir="$final_path" --source_id="$database"
+ynh_setup_source --dest_dir="$final_path"
 
 chmod 750 "$final_path"
 chmod -R o-rwx "$final_path"
@@ -123,7 +123,7 @@ ynh_add_nginx_config
 #=================================================
 ynh_script_progression --message="Building Kimai2..." --weight=1
 
-ynh_install_composer --phpversion="$phpversion" --workdir="$final_path" --install_args="--optimize-autoloader"
+ynh_install_composer --phpversion="$phpversion" --workdir="$final_path" --install_args="--optimize-autoloader --no-interaction"
 ynh_composer_exec --phpversion="$phpversion" --workdir="$final_path" --commands="require laminas/laminas-ldap"
 
 chmod 750 "$final_path"
@@ -150,7 +150,7 @@ chmod 400 "$final_path/config/packages/local.yaml"
 chown $app:$app "$final_path/config/packages/local.yaml"
 
 # Configure environement
-ynh_add_config --template="../conf/.env.$database" --destination="$final_path/.env"
+ynh_add_config --template="../conf/.env" --destination="$final_path/.env"
 
 chmod 400 "$final_path/.env"
 chown $app:$app "$final_path/.env"
