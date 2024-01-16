@@ -37,7 +37,7 @@ upgrade_type=$(ynh_check_app_version_changed)
 if [ "$database" == "sqlite" ]
 then
 	ynh_script_progression --message="Sqlite is not more supported by Kimai2..."
-	ynh_script_progression --message="Kimai2 will be upgrade to last available version : 1.13"
+	ynh_script_progression --message="Kimai2 will be upgraded to last available version : 1.13"
 	if ynh_compare_current_package_version --comparison ge --version 1.17.1~ynh1
 	then
     	ynh_script_progression --message="Kimai2 sqlite version is already to the last available version, no upgrade will be made"
@@ -112,8 +112,18 @@ if [ "$upgrade_type" == "UPGRADE_APP" ]
 then
 	ynh_script_progression --message="Upgrading source files..." --weight=1
 
-	# Download, check integrity, uncompress and patch the source from app.src
-	ynh_setup_source --dest_dir="$final_path" --keep="var/invoices/ var/data/" #config/packages/local.yaml
+	if ynh_compare_current_package_version --comparison le --version 1.30.0~ynh1
+	then
+		ynh_script_progression --message="Doing a hard cache flush for major Kimai 2 update from version 1.x to 2.x"
+		
+		# Download, check integrity, uncompress and patch the source from app.src
+		# Remove local.yaml as recommended for major version upgrade https://github.com/kimai/kimai/blob/main/UPGRADING.md
+		# As a full_replace (see https://www.kimai.org/documentation/updates.html) is performed keep .env file
+		ynh_setup_source --dest_dir="$final_path" --keep=".env var/invoices/ var/data/" --full_replace=1
+	else
+		# Download, check integrity, uncompress and patch the source from app.src
+		ynh_setup_source --dest_dir="$final_path" --keep="config/packages/local.yaml var/invoices/ var/data/"
+	fi
 fi
 
 chmod 750 "$final_path"
@@ -154,7 +164,7 @@ ynh_add_nginx_config
 ynh_script_progression --message="Building $app..." --weight=1
 
 ynh_install_composer --phpversion="$YNH_PHP_VERSION" --workdir="$final_path" --install_args="--optimize-autoloader --no-interaction"
-ynh_composer_exec --phpversion="$YNH_PHP_VERSION" --workdir="$final_path" --commands="require laminas/laminas-ldap"
+ynh_composer_exec --phpversion="$YNH_PHP_VERSION" --workdir="$final_path" --commands="require laminas/laminas-ldap --optimize-autoloader"
 
 chmod 750 "$final_path"
 chmod -R o-rwx "$final_path"
