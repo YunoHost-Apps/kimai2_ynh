@@ -119,10 +119,10 @@ then
 		# Download, check integrity, uncompress and patch the source from app.src
 		# Remove local.yaml as recommended for major version upgrade https://github.com/kimai/kimai/blob/main/UPGRADING.md
 		# As a full_replace (see https://www.kimai.org/documentation/updates.html) is performed keep .env file
-		ynh_setup_source --dest_dir="$final_path" --source_id="$database" --keep=".env var/invoices/ var/data/" --full_replace=1
+		ynh_setup_source --dest_dir="$final_path" --keep=".env var/invoices/ var/data/" --full_replace=1
 	else
 		# Download, check integrity, uncompress and patch the source from app.src
-		ynh_setup_source --dest_dir="$final_path" --source_id="$database" --keep="config/packages/local.yaml var/invoices/ var/data/"
+		ynh_setup_source --dest_dir="$final_path" --keep="config/packages/local.yaml var/invoices/ var/data/"
 	fi
 fi
 
