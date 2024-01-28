@@ -23,18 +23,6 @@ if [ "$database" == "sqlite" ]; then
     fi
 fi
 
-# #REMOVEME? if ! ynh_permission_exists --permission="teamlead"; then
-# #REMOVEME? 	ynh_permission_create --permission="teamlead"
-# fi
-
-# #REMOVEME? if ! ynh_permission_exists --permission="admin"; then
-# #REMOVEME? 	ynh_permission_create --permission="admin"
-# fi
-
-# #REMOVEME? if ! ynh_permission_exists --permission="super_admin"; then
-# #REMOVEME? 	ynh_permission_create --permission="super_admin" --allowed="$admin"
-# fi
-
 if [ -z "${registration:-}" ]; then
     registration=0
     ynh_app_setting_set --app="$app" --key=registration --value="$registration"
