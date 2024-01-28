@@ -64,9 +64,9 @@ ram.runtime = "50M" # FIXME: replace with an **estimate** minimum ram requiremen
     [resources.permissions]
     main.url = "/"
     # Non-web, LDAP groups
-    teamlead.allowed = "nobody"
+    teamlead.allowed = ""
     admin.allowed = "admins"
-    super_admin.allowed = "nobody"
+    super_admin.allowed = ""
 
     [resources.apt]
     packages = [
