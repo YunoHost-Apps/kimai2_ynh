@@ -19,6 +19,8 @@ ynh_app_setting_set --app="$app" --key=database --value="$database"
 random_key=$(ynh_string_random --length=32)
 ynh_app_setting_set --app="$app" --key=random_key --value="$random_key"
 
+ynh_permission_update -p "super_admins" --add "$admin"
+
 #=================================================
 # DOWNLOAD, CHECK AND UNPACK SOURCE
 #=================================================
