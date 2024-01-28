@@ -1,0 +1,84 @@
+#:schema https://raw.githubusercontent.com/YunoHost/apps/master/schemas/manifest.v2.schema.json
+
+packaging_format = 2
+
+id = "kimai2"
+name = "Kimai2"
+description.en = "Multi-user application for time-tracking with support for mobile devices"
+description.fr = "Application multi-utilisateurs de suivi du temps compatible avec les appareils mobiles"
+description.de = "Eine web-basierte Mehrbenutzer-Zeiterfassung mit Rechnungsdruck mit Unterstützung für mobile Endgeräte"
+description.cs = "Víceuživatelská webová aplikace pro sledování času s podporou mobilních zařízení"
+
+version = "2.0.33~ynh2"
+
+maintainers = [""]
+
+[upstream]
+license = "MIT"
+website = "https://www.kimai.org"
+demo = "https://www.kimai.org/demo/"
+admindoc = "https://www.kimai.org/documentation/"
+code = "https://github.com/kevinpapst/kimai2"
+cpe = "cpe:2.3:a:kimai:kimai_2"
+
+[integration]
+yunohost = ">= 11.2"
+architectures = "all"
+multi_instance = true
+ldap = true
+sso = false
+disk = "50M" # FIXME: replace with an **estimate** minimum disk requirement. e.g. 20M, 400M, 1G, ...
+ram.build = "50M" # FIXME: replace with an **estimate** minimum ram requirement. e.g. 50M, 400M, 1G, ...
+ram.runtime = "50M" # FIXME: replace with an **estimate** minimum ram requirement. e.g. 50M, 400M, 1G, ...
+
+[install]
+    [install.domain]
+    type = "domain"
+
+    [install.init_main_permission]
+    type = "group"
+    default = "visitors"
+
+    [install.admin]
+    type = "user"
+
+    [install.registration]
+    ask.en = "Are new users allowed to register?"
+    ask.fr = "Est-ce que de nouveaux utilisateurs peuvent s'y inscrire ?"
+    ask.de = "Sollen sich neue Benutzer selber registrieren können ?"
+    ask.cs = "Mohou se noví uživatelé registrovat?"
+    type = "boolean"
+    default = false
+
+[resources]
+    [resources.sources.main]
+    url = "https://github.com/kevinpapst/kimai2/archive/2.0.33.tar.gz"
+    sha256 = "9cad2555eb115711e100ca129c8152f3ec19ebfde6334a1ec5b7b2009b011959"
+
+    autoupdate.strategy = "latest_github_tag"
+
+    [resources.system_user]
+
+    [resources.install_dir]
+
+    [resources.permissions]
+    main.url = "/"
+
+    [resources.apt]
+    packages = [
+        "php8.1-gd",
+        "php8.1-intl",
+        "php8.1-json",
+        "php8.1-mbstring",
+        "php8.1-pdo",
+        "php8.1-zip",
+        "php8.1-xml",
+        "php8.1-xsl",
+        "php8.1-ldap",
+        "php8.1-mysql",
+        "php8.1-sqlite3",
+        "mariadb-server",
+    ]
+
+    [resources.database]
+    type = "mysql"
