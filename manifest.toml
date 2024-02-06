@@ -69,7 +69,7 @@ ram.runtime = "80M"
     # Non-web, LDAP groups
     teamlead.allowed = ""
     admin.allowed = "admins"
-    super_admin.allowed = ""
+    super_admin.allowed = "admins"
 
     [resources.apt]
     packages = [
