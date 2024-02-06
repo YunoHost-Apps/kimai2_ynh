@@ -66,6 +66,10 @@ ram.runtime = "80M"
 
     [resources.permissions]
     main.url = "/"
+    api.url = "/api"
+    api.show_tile = false
+    api.allowed = "visitors"
+    api.auth_header = false
     # Non-web, LDAP groups
     teamlead.allowed = ""
     admin.allowed = "admins"
