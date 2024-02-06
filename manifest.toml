@@ -25,8 +25,11 @@ cpe = "cpe:2.3:a:kimai:kimai_2"
 yunohost = ">= 11.2"
 architectures = "all"
 multi_instance = true
+
 ldap = true
+
 sso = false
+
 disk = "50M"
 ram.build = "500M"
 ram.runtime = "80M"
@@ -63,10 +66,14 @@ ram.runtime = "80M"
 
     [resources.permissions]
     main.url = "/"
+    api.url = "/api"
+    api.show_tile = false
+    api.allowed = "visitors"
+    api.auth_header = false
     # Non-web, LDAP groups
     teamlead.allowed = ""
     admin.allowed = "admins"
-    super_admin.allowed = ""
+    super_admin.allowed = "admins"
 
     [resources.apt]
     packages = [
