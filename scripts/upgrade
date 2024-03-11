@@ -42,7 +42,7 @@ if ynh_compare_current_package_version --comparison le --version 1.30.0~ynh1; th
     ynh_setup_source --dest_dir="$install_dir" --keep=".env var/invoices/ var/data/" --full_replace=1
 else
     # Download, check integrity, uncompress and patch the source from app.src
-    ynh_setup_source --dest_dir="$install_dir" --keep="config/packages/local.yaml var/invoices/ var/data/"
+    ynh_setup_source --dest_dir="$install_dir" --full_replace=1 --keep="config/packages/local.yaml var/invoices/ var/data/"
 fi
 
 chmod 750 "$install_dir"
