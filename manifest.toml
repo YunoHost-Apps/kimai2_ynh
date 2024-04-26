@@ -11,7 +11,7 @@ description.cs = "Víceuživatelská webová aplikace pro sledování času s po
 
 version = "2.15.0~ynh1"
 
-maintainers = [""]
+maintainers = []
 
 [upstream]
 license = "MIT"
