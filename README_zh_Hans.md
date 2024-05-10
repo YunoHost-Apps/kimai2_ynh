@@ -3,7 +3,7 @@
 请勿手动编辑。
 -->
 
-# YunoHost 的 Kimai2
+# YunoHost 上的 Kimai2
 
 [![集成程度](https://dash.yunohost.org/integration/kimai2.svg)](https://dash.yunohost.org/appci/app/kimai2) ![工作状态](https://ci-apps.yunohost.org/ci/badges/kimai2.status.svg) ![维护状态](https://ci-apps.yunohost.org/ci/badges/kimai2.maintain.svg)
 
@@ -19,7 +19,7 @@
 Kimai v2 has nothing in common with its predecessor Kimai v1 besides the basic ideas of time-tracking and the current development team. It is based on a lot of great frameworks. Special thanks to Symfony v4, Doctrine, AdminThemeBundle (based on AdminLTE).
 
 
-**分发版本：** 2.15.0~ynh1
+**分发版本：** 2.16.1~ynh1
 
 **演示：** <https://www.kimai.org/demo/>
 
