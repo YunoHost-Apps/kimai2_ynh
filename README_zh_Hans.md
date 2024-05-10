@@ -3,7 +3,7 @@
 请勿手动编辑。
 -->
 
-# YunoHost 的 Kimai2
+# YunoHost 上的 Kimai2
 
 [![集成程度](https://dash.yunohost.org/integration/kimai2.svg)](https://dash.yunohost.org/appci/app/kimai2) ![工作状态](https://ci-apps.yunohost.org/ci/badges/kimai2.status.svg) ![维护状态](https://ci-apps.yunohost.org/ci/badges/kimai2.maintain.svg)
 
