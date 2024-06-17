@@ -9,7 +9,7 @@ description.fr = "Application multi-utilisateurs de suivi du temps compatible av
 description.de = "Eine web-basierte Mehrbenutzer-Zeiterfassung mit Rechnungsdruck mit Unterstützung für mobile Endgeräte"
 description.cs = "Víceuživatelská webová aplikace pro sledování času s podporou mobilních zařízení"
 
-version = "2.17.0~ynh1"
+version = "2.18.0~ynh1"
 
 maintainers = []
 
@@ -55,8 +55,8 @@ ram.runtime = "80M"
 
 [resources]
     [resources.sources.main]
-    url = "https://github.com/kevinpapst/kimai2/archive/refs/tags/2.17.0.tar.gz"
-    sha256 = "354a308c513f0bf0296b5acd15733a14940657f7ee0c460c721ce7e3a168cd52"
+    url = "https://github.com/kevinpapst/kimai2/archive/refs/tags/2.18.0.tar.gz"
+    sha256 = "e6a0982470665c6b08c25117b0da621f1ad0ce5cc9a3f07c4e63361a38b9cd56"
 
     autoupdate.strategy = "latest_github_tag"
 
@@ -77,17 +77,17 @@ ram.runtime = "80M"
 
     [resources.apt]
     packages = [
-        "php8.1-gd",
-        "php8.1-intl",
-        "php8.1-json",
-        "php8.1-mbstring",
-        "php8.1-pdo",
-        "php8.1-zip",
-        "php8.1-xml",
-        "php8.1-xsl",
-        "php8.1-ldap",
-        "php8.1-mysql",
-        "php8.1-sqlite3",
+        "php8.2-gd",
+        "php8.2-intl",
+        "php8.2-json",
+        "php8.2-mbstring",
+        "php8.2-pdo",
+        "php8.2-zip",
+        "php8.2-xml",
+        "php8.2-xsl",
+        "php8.2-ldap",
+        "php8.2-mysql",
+        "php8.2-sqlite3",
         "mariadb-server",
     ]
 
