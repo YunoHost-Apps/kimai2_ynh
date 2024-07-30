@@ -9,7 +9,7 @@ description.fr = "Application multi-utilisateurs de suivi du temps compatible av
 description.de = "Eine web-basierte Mehrbenutzer-Zeiterfassung mit Rechnungsdruck mit Unterstützung für mobile Endgeräte"
 description.cs = "Víceuživatelská webová aplikace pro sledování času s podporou mobilních zařízení"
 
-version = "2.19.1~ynh1"
+version = "2.19.1~ynh2"
 
 maintainers = []
 
@@ -77,17 +77,17 @@ ram.runtime = "80M"
 
     [resources.apt]
     packages = [
-        "php8.2-gd",
-        "php8.2-intl",
-        "php8.2-json",
-        "php8.2-mbstring",
-        "php8.2-pdo",
-        "php8.2-zip",
-        "php8.2-xml",
-        "php8.2-xsl",
-        "php8.2-ldap",
-        "php8.2-mysql",
-        "php8.2-sqlite3",
+        "php8.3-gd",
+        "php8.3-intl",
+        "php8.3-json",
+        "php8.3-mbstring",
+        "php8.3-pdo",
+        "php8.3-zip",
+        "php8.3-xml",
+        "php8.3-xsl",
+        "php8.3-ldap",
+        "php8.3-mysql",
+        "php8.3-sqlite3",
         "mariadb-server",
     ]
 

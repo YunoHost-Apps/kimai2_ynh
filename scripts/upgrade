@@ -14,15 +14,6 @@ source /usr/share/yunohost/helpers
 #=================================================
 ynh_script_progression --message="Ensuring downward compatibility..." --weight=1
 
-if [ "$database" == "sqlite" ]; then
-    ynh_script_progression --message="Sqlite is not supported by Kimai2 anymore..."
-    ynh_script_progression --message="Kimai2 will be upgraded to last available version : 1.13"
-    if ynh_compare_current_package_version --comparison ge --version 1.17.1~ynh1; then
-        ynh_script_progression --message="Kimai2 sqlite version is already to the last available version, no upgrade will be made"
-        ynh_die  --message="" 0
-    fi
-fi
-
 if [ -z "${registration:-}" ]; then
     registration=0
     ynh_app_setting_set --app="$app" --key=registration --value="$registration"
