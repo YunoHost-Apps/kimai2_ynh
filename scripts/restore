@@ -27,10 +27,9 @@ setfacl -R -m g:"www-data":rwX -m u:"$app":rwX "$install_dir/var/"
 #=================================================
 # RESTORE THE MYSQL DATABASE
 #=================================================
-if [ "$database" = "mysql" ]; then
-    ynh_script_progression --message="Restoring the MySQL database..." --weight=1
-    ynh_mysql_connect_as --user="$db_user" --password="$db_pwd" --database="$db_name" < ./db.sql
-fi
+ynh_script_progression --message="Restoring the MySQL database..." --weight=1
+
+ynh_mysql_connect_as --user="$db_user" --password="$db_pwd" --database="$db_name" < ./db.sql
 
 #=================================================
 # RESTORE SYSTEM CONFIGURATIONS
