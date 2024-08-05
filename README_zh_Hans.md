@@ -19,7 +19,7 @@
 Kimai v2 has nothing in common with its predecessor Kimai v1 besides the basic ideas of time-tracking and the current development team. It is based on a lot of great frameworks. Special thanks to Symfony v4, Doctrine, AdminThemeBundle (based on AdminLTE).
 
 
-**分发版本：** 2.19.1~ynh2
+**分发版本：** 2.20.1~ynh1
 
 **演示：** <https://www.kimai.org/demo/>
 
