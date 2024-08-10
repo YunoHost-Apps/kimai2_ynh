@@ -82,12 +82,12 @@ ram.runtime = "80M"
         "php8.3-json",
         "php8.3-mbstring",
         "php8.3-pdo",
-        "php8.3-zip",
+        "php8.3-tokenizer",
         "php8.3-xml",
+        "php8.3-zip",
         "php8.3-xsl",
         "php8.3-ldap",
         "php8.3-mysql",
-        "php8.3-sqlite3",
         "mariadb-server",
     ]
 
