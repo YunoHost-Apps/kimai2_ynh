@@ -28,12 +28,11 @@ if ynh_compare_current_package_version --comparison le --version 1.30.0~ynh1; th
     ynh_script_progression --message="Doing a hard cache flush for major Kimai 2 update from version 1.x to 2.x"
 
     # Download, check integrity, uncompress and patch the source from app.src
-    # Remove local.yaml as recommended for major version upgrade https://github.com/kimai/kimai/blob/main/UPGRADING.md
-    # As a full_replace (see https://www.kimai.org/documentation/updates.html) is performed keep .env file
-    ynh_setup_source --dest_dir="$install_dir" --keep=".env var/invoices/ var/data/" --full_replace=1
+    # Remove var/cache/* and var/plugins/* as recommended for major version upgrade https://github.com/kimai/kimai/blob/main/UPGRADING.md
+    ynh_setup_source --dest_dir="$install_dir" --full_replace=1 --keep=".env var/data/ var/invoices/ var/log/"
 else
     # Download, check integrity, uncompress and patch the source from app.src
-    ynh_setup_source --dest_dir="$install_dir" --full_replace=1 --keep="config/packages/local.yaml var/invoices/ var/data/"
+    ynh_setup_source --dest_dir="$install_dir" --full_replace=1 --keep=".env var/cache/ var/data/ var/invoices/ var/log/ var/plugins/ "
 fi
 
 chmod 750 "$install_dir"
