@@ -10,7 +10,7 @@ description.de = "Eine web-basierte Mehrbenutzer-Zeiterfassung mit Rechnungsdruc
 description.cs = "Víceuživatelská webová aplikace pro sledování času s podporou mobilních zařízení"
 
 
-version = "2.20.1~ynh1"
+version = "2.21.0~ynh1"
 
 
 maintainers = []
@@ -57,8 +57,8 @@ ram.runtime = "80M"
 
 [resources]
     [resources.sources.main]
-    url = "https://github.com/kevinpapst/kimai2/archive/refs/tags/2.20.1.tar.gz"
-    sha256 = "4bdeafaed831061c6981cb8059a9458564cde6ea8a49e359edbb3b41ebbdbbb3"
+    url = "https://github.com/kevinpapst/kimai2/archive/refs/tags/2.21.0.tar.gz"
+    sha256 = "f6da56211d392d5749d3e56d242f529d03b2fc1b803d33d642b5e0097281b05f"
 
     autoupdate.strategy = "latest_github_tag"
 
