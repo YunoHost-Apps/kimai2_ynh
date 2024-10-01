@@ -8,11 +8,7 @@ source /usr/share/yunohost/helpers
 #=================================================
 ynh_script_progression "Ensuring downward compatibility..."
 
-# FIXMEhelpers2.1: maybe replace with: ynh_app_setting_set_default --key=registration --value=0
-if [ -z "${registration:-}" ]; then
-    registration=0
-    ynh_app_setting_set --key=registration --value="$registration"
-fi
+ynh_app_setting_set_default --key=registration --value=0
 
 #=================================================
 # DOWNLOAD, CHECK AND UNPACK SOURCE
@@ -30,9 +26,6 @@ else
     ynh_setup_source --dest_dir="$install_dir" --full_replace --keep=".env var/cache/ var/data/ var/invoices/ var/log/ var/plugins/ "
 fi
 
-#REMOVEME? Assuming the install dir is setup using ynh_setup_source, the proper chmod/chowns are now already applied and it shouldn't be necessary to tweak perms | chmod 750 "$install_dir"
-#REMOVEME? Assuming the install dir is setup using ynh_setup_source, the proper chmod/chowns are now already applied and it shouldn't be necessary to tweak perms | chmod -R o-rwx "$install_dir"
-#REMOVEME? Assuming the install dir is setup using ynh_setup_source, the proper chmod/chowns are now already applied and it shouldn't be necessary to tweak perms | chown -R "$app:www-data" "$install_dir"
 setfacl -dR -m g:"www-data":rwX -m u:"$app":rwX "$install_dir/var/"
 setfacl -R -m g:"www-data":rwX -m u:"$app":rwX "$install_dir/var/"
 
@@ -45,14 +38,7 @@ registration=$(boolstr "$registration")
 
 ynh_config_add --template="local.yaml" --destination="$install_dir/config/packages/local.yaml"
 
-#REMOVEME? Assuming the file is setup using ynh_config_add, the proper chmod/chowns are now already applied and it shouldn't be necessary to tweak perms | chmod 400 "$install_dir/config/packages/local.yaml"
-#REMOVEME? Assuming the file is setup using ynh_config_add, the proper chmod/chowns are now already applied and it shouldn't be necessary to tweak perms | chown "$app:$app" "$install_dir/config/packages/local.yaml"
-
-# Configure environement
 ynh_config_add --template="dot_env" --destination="$install_dir/.env"
-
-#REMOVEME? Assuming the file is setup using ynh_config_add, the proper chmod/chowns are now already applied and it shouldn't be necessary to tweak perms | chmod 400 "$install_dir/.env"
-#REMOVEME? Assuming the file is setup using ynh_config_add, the proper chmod/chowns are now already applied and it shouldn't be necessary to tweak perms | chown "$app:$app" "$install_dir/.env"
 
 #=================================================
 # BUILD KIMAI2
@@ -63,9 +49,10 @@ ynh_composer_install
 ynh_composer_exec install --no-dev  --optimize-autoloader --no-interaction
 ynh_composer_exec require laminas/laminas-ldap --optimize-autoloader
 
-#REMOVEME? Assuming the install dir is setup using ynh_setup_source, the proper chmod/chowns are now already applied and it shouldn't be necessary to tweak perms | chmod 750 "$install_dir"
-#REMOVEME? Assuming the install dir is setup using ynh_setup_source, the proper chmod/chowns are now already applied and it shouldn't be necessary to tweak perms | chmod -R o-rwx "$install_dir"
-#REMOVEME? Assuming the install dir is setup using ynh_setup_source, the proper chmod/chowns are now already applied and it shouldn't be necessary to tweak perms | chown -R "$app:www-data" "$install_dir"
+chmod 750 "$install_dir"
+chmod -R o-rwx "$install_dir"
+chown -R "$app:www-data" "$install_dir"
+
 setfacl -dR -m g:"www-data":rwX -m u:"$app":rwX "$install_dir/var/"
 setfacl -R -m g:"www-data":rwX -m u:"$app":rwX "$install_dir/var/"
 
@@ -83,10 +70,8 @@ popd
 #=================================================
 ynh_script_progression "Upgrading system configurations related to $app..."
 
-# Create a dedicated PHP-FPM config
 ynh_config_add_phpfpm
 
-# Create a dedicated NGINX config
 ynh_config_add_nginx
 
 #=================================================
