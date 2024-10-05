@@ -19,7 +19,7 @@ No se debe editar a mano.
 Kimai v2 has nothing in common with its predecessor Kimai v1 besides the basic ideas of time-tracking and the current development team. It is based on a lot of great frameworks. Special thanks to Symfony v4, Doctrine, AdminThemeBundle (based on AdminLTE).
 
 
-**Versión actual:** 2.21.0~ynh1
+**Versión actual:** 2.23.0~ynh1
 
 **Demo:** <https://www.kimai.org/demo/>
 
@@ -37,7 +37,7 @@ Kimai v2 has nothing in common with its predecessor Kimai v1 besides the basic i
 
 ## Información para desarrolladores
 
-Por favor enviar sus correcciones a la [`branch testing`](https://github.com/YunoHost-Apps/kimai2_ynh/tree/testing
+Por favor enviar sus correcciones a la [rama `testing`](https://github.com/YunoHost-Apps/kimai2_ynh/tree/testing).
 
 Para probar la rama `testing`, sigue asÍ:
 
