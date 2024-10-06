@@ -1,100 +1,81 @@
 #!/bin/bash
 
-#=================================================
-# GENERIC START
-#=================================================
-# IMPORT GENERIC HELPERS
-#=================================================
-
 source _common.sh
 source /usr/share/yunohost/helpers
 
 #=================================================
 # ENSURE DOWNWARD COMPATIBILITY
 #=================================================
-ynh_script_progression --message="Ensuring downward compatibility..." --weight=1
+ynh_script_progression "Ensuring downward compatibility..."
 
-if [ -z "${registration:-}" ]; then
-    registration=0
-    ynh_app_setting_set --app="$app" --key=registration --value="$registration"
-fi
+ynh_app_setting_set_default --key=registration --value=0
 
 #=================================================
 # DOWNLOAD, CHECK AND UNPACK SOURCE
 #=================================================
-ynh_script_progression --message="Upgrading source files..." --weight=1
+ynh_script_progression "Upgrading source files..."
 
-if ynh_compare_current_package_version --comparison le --version 1.30.0~ynh1; then
-    ynh_script_progression --message="Doing a hard cache flush for major Kimai 2 update from version 1.x to 2.x"
+if ynh_app_upgrading_from_version_before_or_equal_to 1.30.0~ynh1; then
+    ynh_script_progression "Doing a hard cache flush for major Kimai 2 update from version 1.x to 2.x"
 
     # Download, check integrity, uncompress and patch the source from app.src
     # Remove var/cache/* and var/plugins/* as recommended for major version upgrade https://github.com/kimai/kimai/blob/main/UPGRADING.md
-    ynh_setup_source --dest_dir="$install_dir" --full_replace=1 --keep=".env var/data/ var/invoices/ var/log/"
+    ynh_setup_source --dest_dir="$install_dir" --full_replace --keep=".env var/data/ var/invoices/ var/log/"
 else
     # Download, check integrity, uncompress and patch the source from app.src
-    ynh_setup_source --dest_dir="$install_dir" --full_replace=1 --keep=".env var/cache/ var/data/ var/invoices/ var/log/ var/plugins/ "
+    ynh_setup_source --dest_dir="$install_dir" --full_replace --keep=".env var/cache/ var/data/ var/invoices/ var/log/ var/plugins/ "
 fi
 
-chmod 750 "$install_dir"
-chmod -R o-rwx "$install_dir"
-chown -R "$app:www-data" "$install_dir"
 setfacl -dR -m g:"www-data":rwX -m u:"$app":rwX "$install_dir/var/"
 setfacl -R -m g:"www-data":rwX -m u:"$app":rwX "$install_dir/var/"
 
 #=================================================
 # UPDATE A CONFIG FILE
 #=================================================
-ynh_script_progression --message="Updating a configuration file..." --weight=1
+ynh_script_progression "Updating configuration..."
 
 registration=$(boolstr "$registration")
 
-ynh_add_config --template="local.yaml" --destination="$install_dir/config/packages/local.yaml"
+ynh_config_add --template="local.yaml" --destination="$install_dir/config/packages/local.yaml"
 
-chmod 400 "$install_dir/config/packages/local.yaml"
-chown "$app:$app" "$install_dir/config/packages/local.yaml"
-
-# Configure environement
-ynh_add_config --template="dot_env" --destination="$install_dir/.env"
-
-chmod 400 "$install_dir/.env"
-chown "$app:$app" "$install_dir/.env"
+ynh_config_add --template="dot_env" --destination="$install_dir/.env"
 
 #=================================================
 # BUILD KIMAI2
 #=================================================
-ynh_script_progression --message="Building $app..." --weight=1
+ynh_script_progression "Building $app..."
 
-ynh_install_composer --phpversion="$phpversion" --workdir="$install_dir" --install_args="--optimize-autoloader --no-interaction"
-ynh_composer_exec --phpversion="$phpversion" --workdir="$install_dir" --commands="require laminas/laminas-ldap --optimize-autoloader"
+ynh_composer_install
+ynh_composer_exec install --no-dev  --optimize-autoloader --no-interaction
+ynh_composer_exec require laminas/laminas-ldap --optimize-autoloader
 
 chmod 750 "$install_dir"
 chmod -R o-rwx "$install_dir"
 chown -R "$app:www-data" "$install_dir"
+
 setfacl -dR -m g:"www-data":rwX -m u:"$app":rwX "$install_dir/var/"
 setfacl -R -m g:"www-data":rwX -m u:"$app":rwX "$install_dir/var/"
 
 #=================================================
 # INSTALL KIMAI2
 #=================================================
-ynh_script_progression --message="Installing $app..." --weight=1
+ynh_script_progression "Installing $app..."
 
 pushd "$install_dir"
-    ynh_exec_as "$app" "php$phpversion" bin/console kimai:update -n
+    ynh_exec_as_app "php$php_version" bin/console kimai:update -n
 popd
 
 #=================================================
 # REAPPLY SYSTEM CONFIGURATIONS
 #=================================================
-ynh_script_progression --message="Upgrading system configurations related to $app..." --weight=1
+ynh_script_progression "Upgrading system configurations related to $app..."
 
-# Create a dedicated PHP-FPM config
-ynh_add_fpm_config
+ynh_config_add_phpfpm
 
-# Create a dedicated NGINX config
-ynh_add_nginx_config
+ynh_config_add_nginx
 
 #=================================================
 # END OF SCRIPT
 #=================================================
 
-ynh_script_progression --message="Upgrade of $app completed" --last
+ynh_script_progression "Upgrade of $app completed"
