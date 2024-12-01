@@ -5,7 +5,9 @@ EZ editatu eskuz.
 
 # Kimai2 YunoHost-erako
 
-[![Integrazio maila](https://dash.yunohost.org/integration/kimai2.svg)](https://ci-apps.yunohost.org/ci/apps/kimai2/) ![Funtzionamendu egoera](https://ci-apps.yunohost.org/ci/badges/kimai2.status.svg) ![Mantentze egoera](https://ci-apps.yunohost.org/ci/badges/kimai2.maintain.svg)
+[![Integrazio maila](https://apps.yunohost.org/badge/integration/kimai2)](https://ci-apps.yunohost.org/ci/apps/kimai2/)
+![Funtzionamendu egoera](https://apps.yunohost.org/badge/state/kimai2)
+![Mantentze egoera](https://apps.yunohost.org/badge/maintained/kimai2)
 
 [![Instalatu Kimai2 YunoHost-ekin](https://install-app.yunohost.org/install-with-yunohost.svg)](https://install-app.yunohost.org/?app=kimai2)
 
@@ -19,7 +21,7 @@ EZ editatu eskuz.
 Kimai v2 has nothing in common with its predecessor Kimai v1 besides the basic ideas of time-tracking and the current development team. It is based on a lot of great frameworks. Special thanks to Symfony v4, Doctrine, AdminThemeBundle (based on AdminLTE).
 
 
-**Paketatutako bertsioa:** 2.23.0~ynh2
+**Paketatutako bertsioa:** 2.25.0~ynh1
 
 **Demoa:** <https://www.kimai.org/demo/>
 
