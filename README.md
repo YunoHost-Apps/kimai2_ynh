@@ -4,7 +4,7 @@ It shall NOT be edited by hand.
 -->
 
 <h1>
-  <img src="https://raw.githubusercontent.com/YunoHost/apps/master/logos/kimai2.png" width="32px" alt="Logo of Kimai2">
+  <img src="https://raw.githubusercontent.com/YunoHost/apps/main/logos/kimai2.png" width="32px" alt="Logo of Kimai2">
   Kimai2, packaged for YunoHost
 </h1>
 
@@ -12,7 +12,7 @@ Multi-user application for time-tracking with support for mobile devices
 
 [![🌐 Official app website](https://img.shields.io/badge/Official_app_website-darkgreen?style=for-the-badge)](https://www.kimai.org)
 [![App Demo](https://img.shields.io/badge/App_Demo-blue?style=for-the-badge)](https://www.kimai.org/demo/)
-![Version: 2.32.0~ynh1](https://img.shields.io/badge/Version-2.32.0~ynh1-rgba(0,150,0,1)?style=for-the-badge)
+[![Version: 2.33.0~ynh1](https://img.shields.io/badge/Version-2.33.0~ynh1-rgba(0,150,0,1)?style=for-the-badge)](https://ci-apps.yunohost.org/ci/apps/kimai2/)
 
 <div align="center">
 <a href="https://apps.yunohost.org/app/kimai2"><img height="100px" src="https://github.com/YunoHost/yunohost-artwork/raw/refs/heads/main/badges/neopossum-badges/badge_more_info_on_the_appstore.svg"/></a>
