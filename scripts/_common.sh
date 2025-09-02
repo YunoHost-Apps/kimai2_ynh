@@ -4,7 +4,7 @@
 # COMMON VARIABLES AND CUSTOM HELPERS
 #=================================================
 
-composer_version=2.3.3
+#REMOVEME? composer_version=2.3.3
 
 boolstr() {
     BOOLSTR=( false true )
