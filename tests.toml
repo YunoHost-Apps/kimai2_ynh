@@ -17,3 +17,7 @@ test_format = 1.0
     # -------------------------------
 
     test_upgrade_from.8f44ac8fd4276c402c3cf68e373a6a3ff51e25b5.name = "Upgrade from 1.30"
+
+[default.curl_tests]
+
+    home.path = "/en/homepage"
