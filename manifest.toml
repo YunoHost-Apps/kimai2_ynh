@@ -54,10 +54,10 @@ ram.runtime = "80M"
     default = false
 
 [resources]
+
     [resources.sources.main]
     url = "https://github.com/kevinpapst/kimai2/archive/refs/tags/2.45.0.tar.gz"
     sha256 = "2f5d2f1e3e69981a209408bfb2ae14d87aaad98e4f0ba33629487899c7ab4c63"
-
     autoupdate.strategy = "latest_github_tag"
 
     [resources.system_user]
@@ -78,17 +78,17 @@ ram.runtime = "80M"
 
     [resources.apt]
     packages = [
-        "php8.3-gd",
-        "php8.3-intl",
-        "php8.3-json",
-        "php8.3-mbstring",
-        "php8.3-pdo",
-        "php8.3-tokenizer",
-        "php8.3-xml",
-        "php8.3-zip",
-        "php8.3-xsl",
-        "php8.3-ldap",
-        "php8.3-mysql",
+        "php8.4-gd",
+        "php8.4-intl",
+        "php8.4-json",
+        "php8.4-mbstring",
+        "php8.4-pdo",
+        "php8.4-tokenizer",
+        "php8.4-xml",
+        "php8.4-zip",
+        "php8.4-xsl",
+        "php8.4-ldap",
+        "php8.4-mysql",
         "mariadb-server",
     ]
 
@@ -96,4 +96,4 @@ ram.runtime = "80M"
     type = "mysql"
 
     [resources.composer]
-    version = "2.8.12"
+    version = "2.9.3"
