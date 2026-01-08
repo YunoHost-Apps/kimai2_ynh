@@ -22,7 +22,7 @@ code = "https://github.com/kevinpapst/kimai2"
 cpe = "cpe:2.3:a:kimai:kimai_2"
 
 [integration]
-yunohost = ">= 12.1.17"
+yunohost = ">= 12.1.38"
 helpers_version = "2.1"
 architectures = "all"
 multi_instance = true
@@ -80,7 +80,6 @@ ram.runtime = "200M"
     packages = [
         "php8.4-gd",
         "php8.4-intl",
-        "php8.4-json",
         "php8.4-mbstring",
         "php8.4-pdo",
         "php8.4-tokenizer",
