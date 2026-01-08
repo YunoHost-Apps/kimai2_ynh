@@ -78,16 +78,16 @@ ram.runtime = "200M"
 
     [resources.apt]
     packages = [
-        "php8.4-gd",
-        "php8.4-intl",
-        "php8.4-mbstring",
-        "php8.4-pdo",
-        "php8.4-tokenizer",
-        "php8.4-xml",
-        "php8.4-zip",
-        "php8.4-xsl",
-        "php8.4-ldap",
-        "php8.4-mysql",
+        "php8.5-gd",
+        "php8.5-intl",
+        "php8.5-mbstring",
+        "php8.5-pdo",
+        "php8.5-tokenizer",
+        "php8.5-xml",
+        "php8.5-zip",
+        "php8.5-xsl",
+        "php8.5-ldap",
+        "php8.5-mysql",
         "mariadb-server",
     ]
 
