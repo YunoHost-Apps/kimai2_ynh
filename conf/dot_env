@@ -40,7 +40,7 @@ APP_SECRET=__RANDOM_KEY__
 #================================================================================
 # Running behind reverse proxies? Try these:
 TRUSTED_PROXIES=127.0.0.1
-TRUSTED_HOSTS=localhost,__DOMAIN__
+TRUSTED_HOSTS=localhost|__DOMAIN__
 
 #================================================================================
 # unlikely, that you need to change this one
