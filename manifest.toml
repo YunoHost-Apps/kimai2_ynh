@@ -9,7 +9,7 @@ description.fr = "Application multi-utilisateurs de suivi du temps compatible av
 description.de = "Eine web-basierte Mehrbenutzer-Zeiterfassung mit Rechnungsdruck mit Unterstützung für mobile Endgeräte"
 description.cs = "Víceuživatelská webová aplikace pro sledování času s podporou mobilních zařízení"
 
-version = "2.41.0~ynh1"
+version = "2.46.0~ynh1"
 
 maintainers = []
 
@@ -22,7 +22,7 @@ code = "https://github.com/kevinpapst/kimai2"
 cpe = "cpe:2.3:a:kimai:kimai_2"
 
 [integration]
-yunohost = ">= 12.1.17"
+yunohost = ">= 12.1.38"
 helpers_version = "2.1"
 architectures = "all"
 multi_instance = true
@@ -30,9 +30,9 @@ multi_instance = true
 ldap = true
 sso = false
 
-disk = "50M"
+disk = "3000M"
 ram.build = "500M"
-ram.runtime = "80M"
+ram.runtime = "200M"
 
 [install]
     [install.domain]
@@ -54,10 +54,10 @@ ram.runtime = "80M"
     default = false
 
 [resources]
-    [resources.sources.main]
-    url = "https://github.com/kevinpapst/kimai2/archive/refs/tags/2.41.0.tar.gz"
-    sha256 = "7c8a9ac15f3a4c251d1785a2ddfefc0f0aa48a77c159b2ecde652b0c8408d865"
 
+    [resources.sources.main]
+    url = "https://github.com/kevinpapst/kimai2/archive/refs/tags/2.46.0.tar.gz"
+    sha256 = "0bf6a196c6c5d6891e97bacbbd87167c1208d0d07d32ff18b660e954400c4b6d"
     autoupdate.strategy = "latest_github_tag"
 
     [resources.system_user]
@@ -80,7 +80,6 @@ ram.runtime = "80M"
     packages = [
         "php8.4-gd",
         "php8.4-intl",
-        "php8.4-json",
         "php8.4-mbstring",
         "php8.4-pdo",
         "php8.4-tokenizer",
