@@ -9,7 +9,7 @@ description.fr = "Application multi-utilisateurs de suivi du temps compatible av
 description.de = "Eine web-basierte Mehrbenutzer-Zeiterfassung mit Rechnungsdruck mit Unterstützung für mobile Endgeräte"
 description.cs = "Víceuživatelská webová aplikace pro sledování času s podporou mobilních zařízení"
 
-version = "2.47.0~ynh1"
+version = "2.48.0~ynh1"
 
 maintainers = []
 
@@ -56,8 +56,8 @@ ram.runtime = "200M"
 [resources]
 
     [resources.sources.main]
-    url = "https://github.com/kevinpapst/kimai2/archive/refs/tags/2.47.0.tar.gz"
-    sha256 = "6cae8b7dd59e41e76f699cf1b4136afc466fdeaf12337887f7d851b7e2b1b441"
+    url = "https://github.com/kevinpapst/kimai2/archive/refs/tags/2.48.0.tar.gz"
+    sha256 = "ac5b5629bf7f24f4b5d390a78f98ebe7d6bb22855096a2a4700113e4d10893a8"
     autoupdate.strategy = "latest_github_tag"
 
     [resources.system_user]
