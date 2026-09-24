@@ -22,7 +22,7 @@ code = "https://github.com/kevinpapst/kimai2"
 cpe = "cpe:2.3:a:kimai:kimai_2"
 
 [integration]
-yunohost = ">= 12.1.38"
+yunohost = ">= 12.1.40"
 helpers_version = "2.1"
 architectures = "all"
 multi_instance = true
@@ -95,4 +95,4 @@ ram.runtime = "200M"
     type = "mysql"
 
     [resources.composer]
-    version = "2.9.3"
+    version = "2.10.3"
